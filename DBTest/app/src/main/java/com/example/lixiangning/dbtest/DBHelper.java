@@ -21,7 +21,7 @@ public class DBHelper {
     private static Connection getConnection(){
 
         String driver_class = "com.mysql.cj.jdbc.Driver";
-        String driver_url = "jdbc:mysql://localhost:3306/myCloset?serverTimezone=UTC&verifyServerCertificate=false&useSSL=false";
+        String driver_url = "jdbc:mysql://172.29.95.53:3306/myCloset?serverTimezone=UTC&verifyServerCertificate=false&useSSL=false";
         String database_user = "root";
         String database_password = "xn1230o.";
         try {
