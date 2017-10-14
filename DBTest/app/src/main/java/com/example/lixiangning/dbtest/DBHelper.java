@@ -62,6 +62,8 @@ public class DBHelper {
             pstmt.setString(9,clothes.getLikeTimes() + "");
 
             i = pstmt.executeUpdate();
+
+            System.out.println("Insert the cloth: " + clothes.getClothID() + ".");
             pstmt.close();
             conn.close();
         } catch (SQLException e) {
@@ -70,31 +72,43 @@ public class DBHelper {
         return i;
     }
 
-//    public static int update(User student) {
-//        Connection conn = getConnection();
-//        int i = 0;
-//        String sql = "update user set user_count='" + student.getCout_us() + "' where iduser='" + student.getId() + "'";
-//        PreparedStatement pstmt;
-//        try {
-//            pstmt = (PreparedStatement) conn.prepareStatement(sql);
-//            i = pstmt.executeUpdate();
-//            System.out.println("resutl: " + i);
-//            pstmt.close();
-//            conn.close();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return i;
-//    }
+    public static int update(Clothes clothes) {
+        Connection conn = getConnection();
+        int i = 0;
+        String sql = "update clothes set clothImg='" + clothes.getClothImg() + "', clothCategory='" + clothes.getClothCategory() +
+                "', clothColor='" + clothes.getClothColor() +
+                "', clothTexture='" + clothes.getClothTexture() +
+                "', clothTags='" + clothes.getDBClothTages() +
+                "', addDate='" + clothes.getDBAddDate() +
+                "', checkDate='" + clothes.getDBCheckDate() +
+                "', checkTimes='" + clothes.getCheckTimes() +
+                "', likeTimes='" + clothes.getLikeTimes() + "' where clothID='" + clothes.getClothID() + "'";
+
+        PreparedStatement pstmt;
+
+        try {
+            pstmt = (PreparedStatement) conn.prepareStatement(sql);
+            i = pstmt.executeUpdate();
+
+            System.out.println("Update the cloth: " + clothes.getClothID() + ".");
+            pstmt.close();
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return i;
+    }
 
     public static Integer getAll() {
         Connection conn = getConnection();
         String sql = "select * from clothes";
         PreparedStatement pstmt;
+
         try {
             pstmt = (PreparedStatement)conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
             int col = rs.getMetaData().getColumnCount();
+
             System.out.println("============================");
             while (rs.next()) {
                 for (int i = 1; i <= col; i++) {
@@ -106,34 +120,61 @@ public class DBHelper {
                 System.out.println("");
             }
             System.out.println("============================");
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-//    public static int delete(String name) {
-//        Connection conn = getConnection();
-//        int i = 0;
-//        String sql = "delete from user where iduser='" + name + "'";
-//        PreparedStatement pstmt;
-//        try {
-//            pstmt = (PreparedStatement) conn.prepareStatement(sql);
-//            i = pstmt.executeUpdate();
-//            System.out.println("resutl: " + i);
-//            pstmt.close();
-//            conn.close();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return i;
-//    }
+    public static Integer getCount(String category) {
+        Connection conn = getConnection();
+        String sql = "SELECT count(clothID) FROM clothes WHERE clothCategory='" + category + "'";
+        PreparedStatement pstmt;
+
+        int count = 0;
+
+        try {
+            pstmt = (PreparedStatement)conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next())
+            {
+                count = rs.getInt(1);
+            }
+
+            System.out.println("Number of " + category + ": " + count);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+
+    public static int delete(Clothes clothes) {
+        Connection conn = getConnection();
+        int i = 0;
+        String sql = "delete from clothes where clothID='" + clothes.getClothID() + "'";
+        PreparedStatement pstmt;
+        try {
+            pstmt = (PreparedStatement) conn.prepareStatement(sql);
+            i = pstmt.executeUpdate();
+
+            System.out.println("Delete the cloth: " + clothes.getClothID() + ".");
+            pstmt.close();
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return i;
+    }
+
+
 
     public static void main(String[] args) {
 
         DBHelper.getAll();
+
         int num = DBHelper.insert(new Clothes("img11","category11","color11","texture11","tag1, tag2, tag3","2015-10-11","2017-09-02",23,19));
-        System.out.println(num);
         DBHelper.getAll();
 
     }
