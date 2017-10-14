@@ -15,24 +15,26 @@ public class Clothes {
     String clothCategory;
     String clothColor;
     String clothTexture;
-    ArrayList<String> clothTages;
+    ArrayList<String> clothTags;
     Date addDate;
     Date checkDate;
     int checkTimes;
     int likeTimes;
 
-    public Clothes(int clothID, String clothImg, String clothCategory, String clothColor, String clothTexture,
-                   String clothTages, String addDate, String checkDate, int checkTimes, int likeTimes) {
+    public Clothes(String clothImg, String clothCategory, String clothColor, String clothTexture,
+                   String clothTags, String addDate, String checkDate, int checkTimes, int likeTimes) {
 
-        this.clothID = clothID;
         this.clothImg = clothImg;
         this.clothCategory = clothCategory;
         this.clothColor = clothColor;
         this.clothTexture = clothTexture;
-        String[] tagsList = clothTages.split(",");
-        for(int i = 0; i < tagsList.length; i++) {
-            this.clothTages.add(tagsList[i]);
+
+        this.clothTags = new ArrayList<String>() ;
+        String[] strTags = clothTags.split(", ");
+        for(int i = 0; i < strTags.length; i++) {
+            this.clothTags.add(strTags[i]);
         }
+
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         try {
             this.addDate = sdf.parse(addDate);
@@ -42,7 +44,65 @@ public class Clothes {
         }
         this.checkTimes = checkTimes;
         this.likeTimes = likeTimes;
-
     }
+
+    public void setClothID(int clothID) {
+        this.clothID = clothID;
+    }
+    public int getClothID() {
+      return this.clothID;
+    }
+
+
+    public String getClothImg() {
+        return this.clothImg;
+    }
+    public String getClothCategory() {
+        return this.clothCategory;
+    }
+    public String getClothColor() {
+        return this.clothColor;
+    }
+    public String getClothTexture() {
+        return this.clothTexture;
+    }
+    public ArrayList<String> getClothTages() {
+        return this.clothTags;
+    }
+    public Date getAddDate() {
+        return this.addDate;
+    }
+    public Date getCheckDate() {
+        return this.checkDate;
+    }
+    public int getCheckTimes() {
+        return this.checkTimes;
+    }
+    public int getLikeTimes() {
+        return this.likeTimes;
+    }
+
+
+
+    public String getDBClothTages() {
+        String tags = "";
+        for(int i = 0; i < this.clothTags.size(); i++) {
+            tags = tags + this.clothTags.get(i) + ", ";
+        }
+        return tags;
+    }
+    public String getDBAddDate() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String strAdd = sdf.format(this.addDate);
+        return strAdd;
+    }
+    public String getDBCheckDate() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String strCheck = sdf.format(this.checkDate);
+        return strCheck;
+    }
+
+
+
 
 }
