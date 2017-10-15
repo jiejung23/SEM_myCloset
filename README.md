@@ -17,9 +17,9 @@ MySQL Download: https://dev.mysql.com/downloads/mysql/
 MySQL Workbench Download: https://dev.mysql.com/downloads/workbench/
 
 
-Database: myCloset
+Database Name: myCloset
 
-Tables: clothes
+Table Name: clothes
 
 Import .sql file:
 
