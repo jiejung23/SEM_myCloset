@@ -11,8 +11,11 @@ Sprint 1:
 - Show number of clothes in different categories
 - Integrate OpenCV into Android Studio
 
+
 MySQL Download: https://dev.mysql.com/downloads/mysql/
+
 MySQL Workbench Download: https://dev.mysql.com/downloads/workbench/
+
 
 Database: myCloset
 Tables: clothes
