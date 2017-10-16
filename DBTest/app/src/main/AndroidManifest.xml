@@ -9,12 +9,31 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity" />
+
+        <activity
+            android:name=".LeftNavActivity"
+            android:label="@string/title_activity_left_nav"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".AddClothesActivity"
+            android:label="@string/title_activity_add_clothes"
+            android:theme="@style/ActionBar">
+
+        </activity>
+
+        <activity
+            android:name=".ClothesListActivity"
+            android:label="@string/title_activity_all_list"
+            android:theme="@style/ActionBar">
+
         </activity>
     </application>
 
