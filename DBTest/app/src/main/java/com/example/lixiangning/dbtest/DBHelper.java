@@ -1,5 +1,7 @@
 package com.example.lixiangning.dbtest;
 
+import android.util.Log;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -11,171 +13,438 @@ import java.sql.SQLException;
  */
 
 public class DBHelper {
+    private static final String TAG = "tag------";
     private static Connection con;
 
     public DBHelper() {
-        this.con = getConnection();
+//        this.con = getConnection();
     }
 
 
-    private static Connection getConnection(){
+//    private Connection getConnection(){
+//
+//        final Thread thread = new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                // 反复尝试连接，直到连接成功后退出循环
+//                while (!Thread.interrupted()) {
+//                    try {
+//                        Thread.sleep(100);  // 每隔0.1秒尝试连接
+//                    } catch (InterruptedException e) {
+//                        Log.e(TAG, e.toString());
+//                    }
+//
+//                    try {
+//                        Class.forName("com.mysql.jdbc.Driver");
+//                        Log.v(TAG, "加载JDBC驱动成功");
+//                    } catch (ClassNotFoundException e) {
+//                        Log.e(TAG, "加载JDBC驱动失败");
+//                        return;
+//                    }
+//
+//                    // 2.设置好IP/端口/数据库名/用户名/密码等必要的连接信息
+//                    String ip = "192.168.7.23";
+//                    int port = 3306;
+//                    String dbName = "myCloset";
+//                    String url = "jdbc:mysql://" + ip + ":" + port
+//                            + "/" + dbName; // 构建连接mysql的字符串
+//                    String user = "root";
+//                    String password = "xn1230o.";
+//
+//                    // 3.连接JDBC
+//                    try {
+//                        Connection conn = DriverManager.getConnection(url, user, password);
+//                        Log.i(TAG, "远程连接成功!");
+//                        conn.close();
+//                        return;
+//                    } catch (SQLException e) {
+//                        Log.e(TAG, "远程连接失败!");
+//                    }
+//                }
+//            }
+//        });
+//        thread.start();
+//
+//        return con;
+//    }
 
-        String driver_class = "com.mysql.cj.jdbc.Driver";
-//        String driver_url = "jdbc:mysql://172.29.95.53:3306/myCloset?serverTimezone=UTC&verifyServerCertificate=false&useSSL=false";
-        String driver_url = "jdbc:mysql://localhost:3306/myCloset?serverTimezone=UTC&verifyServerCertificate=false&useSSL=false";
-        String database_user = "root";
-        String database_password = "xn1230o.";
-        try {
+    public void insert(Clothes clothes) {
 
-            Class.forName(driver_class);
-            con = DriverManager.getConnection(driver_url, database_user, database_password);
+        final Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                // 反复尝试连接，直到连接成功后退出循环
+                while (!Thread.interrupted()) {
+                    try {
+                        Thread.sleep(100);  // 每隔0.1秒尝试连接
+                    } catch (InterruptedException e) {
+                        Log.e(TAG, e.toString());
+                    }
 
-        } catch (ClassNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return con;
-    }
+                    try {
+                        Class.forName("com.mysql.jdbc.Driver");
+                        Log.v(TAG, "加载JDBC驱动成功");
+                    } catch (ClassNotFoundException e) {
+                        Log.e(TAG, "加载JDBC驱动失败");
+                        return;
+                    }
 
-    public static int insert(Clothes clothes) {
-        Connection conn =  getConnection();
-        int i = 0;
-        String sql = "insert into clothes(clothImg, clothCategory, clothColor, clothTexture, clothTags, addDate, checkDate, checkTimes, likeTimes) values(?,?,?,?,?,?,?,?,?)";
-        PreparedStatement pstmt;
-        try {
-            pstmt = (PreparedStatement) conn.prepareStatement(sql);
+                    // 2.设置好IP/端口/数据库名/用户名/密码等必要的连接信息
+                    String ip = "192.168.7.23";
+                    int port = 3306;
+                    String dbName = "myCloset";
+                    String url = "jdbc:mysql://" + ip + ":" + port
+                            + "/" + dbName; // 构建连接mysql的字符串
+                    String user = "root";
+                    String password = "xn1230o.";
 
-            pstmt.setString(1,clothes.getClothImg() + "");
-            pstmt.setString(2,clothes.getClothCategory() + "");
-            pstmt.setString(3,clothes.getClothColor() + "");
-            pstmt.setString(4,clothes.getClothTexture() + "");
-            pstmt.setString(5,clothes.getDBClothTages() + "");
-            pstmt.setString(6,clothes.getDBAddDate() + "");
-            pstmt.setString(7,clothes.getDBCheckDate() + "");
-            pstmt.setString(8,clothes.getCheckTimes() + "");
-            pstmt.setString(9,clothes.getLikeTimes() + "");
-
-            i = pstmt.executeUpdate();
-
-            System.out.println("Insert the cloth: " + clothes.getClothID() + ".");
-            pstmt.close();
-            conn.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return i;
-    }
-
-    public static int update(Clothes clothes) {
-        Connection conn = getConnection();
-        int i = 0;
-        String sql = "update clothes set clothImg='" + clothes.getClothImg() + "', clothCategory='" + clothes.getClothCategory() +
-                "', clothColor='" + clothes.getClothColor() +
-                "', clothTexture='" + clothes.getClothTexture() +
-                "', clothTags='" + clothes.getDBClothTages() +
-                "', addDate='" + clothes.getDBAddDate() +
-                "', checkDate='" + clothes.getDBCheckDate() +
-                "', checkTimes='" + clothes.getCheckTimes() +
-                "', likeTimes='" + clothes.getLikeTimes() + "' where clothID='" + clothes.getClothID() + "'";
-
-        PreparedStatement pstmt;
-
-        try {
-            pstmt = (PreparedStatement) conn.prepareStatement(sql);
-            i = pstmt.executeUpdate();
-
-            System.out.println("Update the cloth: " + clothes.getClothID() + ".");
-            pstmt.close();
-            conn.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return i;
-    }
-
-    public static Integer getAll() {
-        Connection conn = getConnection();
-        String sql = "select * from clothes";
-        PreparedStatement pstmt;
-
-        try {
-            pstmt = (PreparedStatement)conn.prepareStatement(sql);
-            ResultSet rs = pstmt.executeQuery();
-            int col = rs.getMetaData().getColumnCount();
-
-            System.out.println("============================");
-            while (rs.next()) {
-                for (int i = 1; i <= col; i++) {
-                    System.out.print(rs.getString(i) + "\t");
-                    if ((i == 2) && (rs.getString(i).length() < 8)) {
-                        System.out.print("\t");
+                    // 3.连接JDBC
+                    con = null;
+                    try {
+                        con = DriverManager.getConnection(url, user, password);
+                        Log.i(TAG, "远程连接成功!");
+                        break;
+                    } catch (SQLException e) {
+                        Log.e(TAG, "远程连接失败!");
                     }
                 }
-                System.out.println("");
+
+
+                    if (con != null) {
+                        int i = 0;
+                        String sql = "insert into clothes(clothImg, clothCategory, clothColor, clothTexture, clothTags, addDate, checkDate, checkTimes, likeTimes) values(?,?,?,?,?,?,?,?,?)";
+                        PreparedStatement pstmt;
+                        try {
+                            pstmt = (PreparedStatement) con.prepareStatement(sql);
+
+                            pstmt.setString(1, clothes.getClothImg() + "");
+                            pstmt.setString(2, clothes.getClothCategory() + "");
+                            pstmt.setString(3, clothes.getClothColor() + "");
+                            pstmt.setString(4, clothes.getClothTexture() + "");
+                            pstmt.setString(5, clothes.getDBClothTages() + "");
+                            pstmt.setString(6, clothes.getDBAddDate() + "");
+                            pstmt.setString(7, clothes.getDBCheckDate() + "");
+                            pstmt.setString(8, clothes.getCheckTimes() + "");
+                            pstmt.setString(9, clothes.getLikeTimes() + "");
+
+                            i = pstmt.executeUpdate();
+
+                            Log.i(TAG, "Insert the cloth: " + clothes.getClothID() + ".");
+                            pstmt.close();
+                            con.close();
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+
+                        try {
+                            con.close();
+                        } catch (SQLException e) {
+                            Log.e(TAG, "关闭连接失败");
+                        }
+                    }
+                }
+        });
+        thread.start();
+
+    }
+
+    public void update(Clothes clothes) {
+        final Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                // 反复尝试连接，直到连接成功后退出循环
+                while (!Thread.interrupted()) {
+                    try {
+                        Thread.sleep(100);  // 每隔0.1秒尝试连接
+                    } catch (InterruptedException e) {
+                        Log.e(TAG, e.toString());
+                    }
+
+                    try {
+                        Class.forName("com.mysql.jdbc.Driver");
+                        Log.v(TAG, "加载JDBC驱动成功");
+                    } catch (ClassNotFoundException e) {
+                        Log.e(TAG, "加载JDBC驱动失败");
+                        return;
+                    }
+
+                    // 2.设置好IP/端口/数据库名/用户名/密码等必要的连接信息
+                    String ip = "192.168.7.23";
+                    int port = 3306;
+                    String dbName = "myCloset";
+                    String url = "jdbc:mysql://" + ip + ":" + port
+                            + "/" + dbName; // 构建连接mysql的字符串
+                    String user = "root";
+                    String password = "xn1230o.";
+
+                    // 3.连接JDBC
+                    con = null;
+                    try {
+                        con = DriverManager.getConnection(url, user, password);
+                        Log.i(TAG, "远程连接成功!");
+                        break;
+                    } catch (SQLException e) {
+                        Log.e(TAG, "远程连接失败!");
+                    }
+                }
+
+                if (con != null) {
+                    int i = 0;
+                    String sql = "update clothes set clothImg='" + clothes.getClothImg() + "', clothCategory='" + clothes.getClothCategory() +
+                            "', clothColor='" + clothes.getClothColor() +
+                            "', clothTexture='" + clothes.getClothTexture() +
+                            "', clothTags='" + clothes.getDBClothTages() +
+                            "', addDate='" + clothes.getDBAddDate() +
+                            "', checkDate='" + clothes.getDBCheckDate() +
+                            "', checkTimes='" + clothes.getCheckTimes() +
+                            "', likeTimes='" + clothes.getLikeTimes() + "' where clothID='" + clothes.getClothID() + "'";
+
+                    PreparedStatement pstmt;
+
+                    try {
+                        pstmt = (PreparedStatement) con.prepareStatement(sql);
+                        i = pstmt.executeUpdate();
+
+                        Log.i(TAG, "Update the cloth: " + clothes.getClothID() + ".");
+                        pstmt.close();
+                        con.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+
+                    try {
+                        con.close();
+                    } catch (SQLException e) {
+                        Log.e(TAG, "关闭连接失败");
+                    }
+                }
             }
-            System.out.println("============================");
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
+        });
+        thread.start();
     }
 
-    public static Integer getCount(String category) {
-        Connection conn = getConnection();
-        String sql = "SELECT count(clothID) FROM clothes WHERE clothCategory='" + category + "'";
-        PreparedStatement pstmt;
+    public void getAll() {
+        final Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                // 反复尝试连接，直到连接成功后退出循环
+                while (!Thread.interrupted()) {
+                    try {
+                        Thread.sleep(100);  // 每隔0.1秒尝试连接
+                    } catch (InterruptedException e) {
+                        Log.e(TAG, e.toString());
+                    }
 
-        int count = 0;
+                    try {
+                        Class.forName("com.mysql.jdbc.Driver");
+                        Log.v(TAG, "加载JDBC驱动成功");
+                    } catch (ClassNotFoundException e) {
+                        Log.e(TAG, "加载JDBC驱动失败");
+                        return;
+                    }
 
-        try {
-            pstmt = (PreparedStatement)conn.prepareStatement(sql);
-            ResultSet rs = pstmt.executeQuery();
-            if (rs.next())
-            {
-                count = rs.getInt(1);
+                    // 2.设置好IP/端口/数据库名/用户名/密码等必要的连接信息
+                    String ip = "192.168.7.23";
+                    int port = 3306;
+                    String dbName = "myCloset";
+                    String url = "jdbc:mysql://" + ip + ":" + port
+                            + "/" + dbName; // 构建连接mysql的字符串
+                    String user = "root";
+                    String password = "xn1230o.";
+
+                    // 3.连接JDBC
+                    con = null;
+                    try {
+                        con = DriverManager.getConnection(url, user, password);
+                        Log.i(TAG, "远程连接成功!");
+                        break;
+                    } catch (SQLException e) {
+                        Log.e(TAG, "远程连接失败!");
+                    }
+                }
+
+
+                if (con != null) {
+                    String sql = "select * from clothes";
+                    PreparedStatement pstmt;
+
+                    try {
+                        pstmt = (PreparedStatement)con.prepareStatement(sql);
+                        ResultSet rs = pstmt.executeQuery();
+                        int col = rs.getMetaData().getColumnCount();
+
+                        System.out.println("============================");
+                        while (rs.next()) {
+                            for (int i = 1; i <= col; i++) {
+                                System.out.print(rs.getString(i) + "\t");
+                                if ((i == 2) && (rs.getString(i).length() < 8)) {
+                                    System.out.print("\t");
+                                }
+                            }
+                            System.out.println("");
+                        }
+                        System.out.println("============================");
+
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+
+                    try {
+                        con.close();
+                    } catch (SQLException e) {
+                        Log.e(TAG, "关闭连接失败");
+                    }
+                }
             }
-
-            System.out.println("Number of " + category + ": " + count);
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return count;
-    }
-
-    public static int delete(Clothes clothes) {
-        Connection conn = getConnection();
-        int i = 0;
-        String sql = "delete from clothes where clothID='" + clothes.getClothID() + "'";
-        PreparedStatement pstmt;
-        try {
-            pstmt = (PreparedStatement) conn.prepareStatement(sql);
-            i = pstmt.executeUpdate();
-
-            System.out.println("Delete the cloth: " + clothes.getClothID() + ".");
-            pstmt.close();
-            conn.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return i;
-    }
-
-
-
-    public static void main(String[] args) {
-
-        DBHelper.getAll();
-
-        int num = DBHelper.insert(new Clothes("img11","category11","color11","texture11","tag1, tag2, tag3","2015-10-11","2017-09-02",23,19));
-        DBHelper.getAll();
+        });
+        thread.start();
 
     }
+
+    public Integer getCount(String category) {
+        final int[] count = {0};
+
+        final Thread thread = new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+
+                // 反复尝试连接，直到连接成功后退出循环
+                while (!Thread.interrupted()) {
+                    try {
+                        Thread.sleep(100);  // 每隔0.1秒尝试连接
+                    } catch (InterruptedException e) {
+                        Log.e(TAG, e.toString());
+                    }
+
+                    try {
+                        Class.forName("com.mysql.jdbc.Driver");
+                        Log.v(TAG, "加载JDBC驱动成功");
+                    } catch (ClassNotFoundException e) {
+                        Log.e(TAG, "加载JDBC驱动失败");
+                        return;
+                    }
+
+                    // 2.设置好IP/端口/数据库名/用户名/密码等必要的连接信息
+                    String ip = "192.168.7.23";
+                    int port = 3306;
+                    String dbName = "myCloset";
+                    String url = "jdbc:mysql://" + ip + ":" + port
+                            + "/" + dbName; // 构建连接mysql的字符串
+                    String user = "root";
+                    String password = "xn1230o.";
+
+                    // 3.连接JDBC
+                    con = null;
+                    try {
+                        con = DriverManager.getConnection(url, user, password);
+                        Log.i(TAG, "远程连接成功!");
+                        break;
+                    } catch (SQLException e) {
+                        Log.e(TAG, "远程连接失败!");
+                    }
+                }
+
+
+                if (con != null) {
+                    String sql = "SELECT count(clothID) FROM clothes WHERE clothCategory='" + category + "'";
+                    PreparedStatement pstmt;
+
+                    try {
+                        pstmt = (PreparedStatement)con.prepareStatement(sql);
+                        ResultSet rs = pstmt.executeQuery();
+                        if (rs.next())
+                        {
+                            count[0] = rs.getInt(1);
+                        }
+
+                        Log.i(TAG, "Number of " + category + ": " + count[0]);
+
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+
+                    try {
+
+                        con.close();
+                    } catch (SQLException e) {
+                        Log.e(TAG, "关闭连接失败");
+                    }
+
+                }
+            }
+        });
+        thread.start();
+        return count[0];
+
+    }
+
+    public void delete(Clothes clothes) {
+        final Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                // 反复尝试连接，直到连接成功后退出循环
+                while (!Thread.interrupted()) {
+                    try {
+                        Thread.sleep(100);  // 每隔0.1秒尝试连接
+                    } catch (InterruptedException e) {
+                        Log.e(TAG, e.toString());
+                    }
+
+                    try {
+                        Class.forName("com.mysql.jdbc.Driver");
+                        Log.v(TAG, "加载JDBC驱动成功");
+                    } catch (ClassNotFoundException e) {
+                        Log.e(TAG, "加载JDBC驱动失败");
+                        return;
+                    }
+
+                    // 2.设置好IP/端口/数据库名/用户名/密码等必要的连接信息
+                    String ip = "192.168.7.23";
+                    int port = 3306;
+                    String dbName = "myCloset";
+                    String url = "jdbc:mysql://" + ip + ":" + port
+                            + "/" + dbName; // 构建连接mysql的字符串
+                    String user = "root";
+                    String password = "xn1230o.";
+
+                    // 3.连接JDBC
+                    con = null;
+                    try {
+                        con = DriverManager.getConnection(url, user, password);
+                        Log.i(TAG, "远程连接成功!");
+                        break;
+                    } catch (SQLException e) {
+                        Log.e(TAG, "远程连接失败!");
+                    }
+                }
+
+                if (con != null) {
+                    int i = 0;
+                    String sql = "delete from clothes where clothID='" + clothes.getClothID() + "'";
+                    PreparedStatement pstmt;
+                    try {
+                        pstmt = (PreparedStatement) con.prepareStatement(sql);
+                        i = pstmt.executeUpdate();
+
+                        System.out.println("Delete the cloth: " + clothes.getClothID() + ".");
+                        pstmt.close();
+                        con.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+
+                    try {
+                        con.close();
+                    } catch (SQLException e) {
+                        Log.e(TAG, "关闭连接失败");
+                    }
+                }
+            }
+        });
+        thread.start();
+
+    }
+
+
 }
