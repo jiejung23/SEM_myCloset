@@ -1,5 +1,6 @@
 package com.example.lixiangning.dbtest;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,6 +24,8 @@ public class AddClothesActivity extends AppCompatActivity {
     private Spinner spin_category;
     private String clothCategory;
     private String clothColor;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,14 +108,19 @@ public class AddClothesActivity extends AppCompatActivity {
                 dbHelper.insert(clothes);
 
                 Toast.makeText(AddClothesActivity.this, "Add clothes successfully.", Toast.LENGTH_SHORT).show();
+
+//                ClothesListActivity.instance.refresh();
+
+                ClothesListActivity.instance.refresh();
+
                 finish();
             }
         });
 
 
-
-
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -124,4 +132,6 @@ public class AddClothesActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+
 }
