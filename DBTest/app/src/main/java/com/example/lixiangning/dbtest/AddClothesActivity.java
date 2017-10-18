@@ -107,11 +107,13 @@ public class AddClothesActivity extends AppCompatActivity {
                 DBHelper dbHelper = new DBHelper();
                 dbHelper.insert(clothes);
 
+                ClothesListActivity.instance.refresh();
+
                 Toast.makeText(AddClothesActivity.this, "Add clothes successfully.", Toast.LENGTH_SHORT).show();
 
 //                ClothesListActivity.instance.refresh();
 
-                ClothesListActivity.instance.refresh();
+
 
                 finish();
             }

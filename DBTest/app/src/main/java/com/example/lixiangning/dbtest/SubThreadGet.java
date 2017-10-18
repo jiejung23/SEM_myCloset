@@ -48,7 +48,8 @@ public class SubThreadGet extends Thread {
             }
 
             // 2.设置好IP/端口/数据库名/用户名/密码等必要的连接信息
-            String ip = "192.168.7.23";
+//            String ip = "192.168.7.23";
+            String ip = "172.29.95.53";
             int port = 3306;
             String dbName = "myCloset";
             String url = "jdbc:mysql://" + ip + ":" + port

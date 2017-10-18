@@ -89,13 +89,15 @@ public class ClothesListActivity extends AppCompatActivity {
 
         for(int i = 0; i < clothList.getvalue().size(); i++) {
             ArrayList<String> thisCloth = clothList.getvalue().get(i);
-            gridList.add(new ClothImageGrid(thisCloth.get(0), thisCloth.get(1), thisCloth.get(2)));
+//            gridList.add(new ClothImageGrid(thisCloth.get(0), thisCloth.get(1), thisCloth.get(2)));
+            gridList.add(new ClothImageGrid(R.mipmap.ic_launcher_round, thisCloth.get(0), thisCloth.get(1), thisCloth.get(2)));
         }
 
         mAdapter = new ClothGridAdapter<ClothImageGrid>(gridList, R.layout.grid_cloth_text) {
             @Override
             public void bindView(ViewHolder holder, ClothImageGrid obj) {
-                holder.setText(R.id.grid_text_id, obj.getClothGridID());
+                holder.setImageResource(R.id.grid_text_img, obj.getClothImageGrid());
+//                holder.setText(R.id.grid_text_id, obj.getClothGridID());
                 holder.setText(R.id.grid_text_category, obj.getClothGridCategory());
                 holder.setText(R.id.grid_text_color, obj.getClothGridColor());
             }
@@ -121,7 +123,7 @@ public class ClothesListActivity extends AppCompatActivity {
 
         for(int i = 0; i < clothList.getvalue().size(); i++) {
             ArrayList<String> thisCloth = clothList.getvalue().get(i);
-            gridList.add(new ClothImageGrid(thisCloth.get(0), thisCloth.get(1), thisCloth.get(2)));
+            gridList.add(new ClothImageGrid(R.mipmap.ic_launcher_round, thisCloth.get(0), thisCloth.get(1), thisCloth.get(2)));
         }
 
         mAdapter.notifyDataSetChanged();
