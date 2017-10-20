@@ -23,7 +23,7 @@ Table Name: clothes
 
 
 
->>> Remote connection: 
+------ Remote connection: 
 
 mysql -u root -proot
 
@@ -33,7 +33,7 @@ mysql -u root -proot
 
 
 
->>> Import .sql file:
+------ Import .sql file:
 
 $ mysql -u root -p
 
@@ -45,7 +45,7 @@ $ mysql -u root -p
 
 
 
->>> Export .sql file:
+------ Export .sql file:
 
 $ cd (the folder you want to put the file in)
 
@@ -57,7 +57,7 @@ $ mysqldump -u root -p myCloset>sql_mycloset.sql
 
 
 
->>> Install MySQL:
+------ Install MySQL:
 
 1. Start MySQL in your computer
 
