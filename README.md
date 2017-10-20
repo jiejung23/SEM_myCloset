@@ -12,16 +12,26 @@ Sprint 1:
 - Integrate OpenCV into Android Studio
 
 
-MySQL Download: https://dev.mysql.com/downloads/mysql/
+· MySQL Download: https://dev.mysql.com/downloads/mysql/
 
-MySQL Workbench Download: https://dev.mysql.com/downloads/workbench/
+· MySQL Workbench Download: https://dev.mysql.com/downloads/workbench/
 
 
-Database Name: myCloset
+· Database Name: myCloset
 
-Table Name: clothes
+· Table Name: clothes
 
-Import .sql file:
+
+· Remote connection: 
+
+mysql -u root -proot
+
+> GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'youpassword' WITH GRANT OPTION;
+
+> FLUSH PRIVILEGES;
+
+
+· Import .sql file:
 
 $ mysql -u root -p
 
@@ -32,7 +42,7 @@ $ mysql -u root -p
 > source (path of sql_mycloset.sql);
 
 
-Export .sql file:
+· Export .sql file:
 
 $ cd (the folder you want to put the file in)
 
@@ -42,3 +52,17 @@ $ mysqldump -u root -p myCloset>sql_mycloset.sql
 
 // You can mysqldump path using $ find  / -name mysql -print
 
+
+· Install MySQL:
+
+1. Start MySQL in your computer
+
+2. Set username and password
+
+3. Open MySQL Workbench, create a new connection, add a new Schema named 'myCloset'
+
+4. Import .sql file. You should download it from Database folder first.
+
+5. Let your MySQL accessible to remote users
+
+6. Run the project
