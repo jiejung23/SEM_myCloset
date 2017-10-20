@@ -127,8 +127,8 @@ public class AddClothesActivity extends AppCompatActivity {
             }
         });
 
-
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

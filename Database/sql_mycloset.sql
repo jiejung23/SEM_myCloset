@@ -1,4 +1,4 @@
--- MySQL dump 10.13  Distrib 5.7.17, for macos10.12 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.19, for macos10.12 (x86_64)
 --
 -- Host: localhost    Database: myCloset
 -- ------------------------------------------------------
@@ -34,7 +34,7 @@ CREATE TABLE `clothes` (
   `checkTimes` int(11) DEFAULT NULL,
   `likeTimes` int(11) DEFAULT NULL,
   PRIMARY KEY (`clothID`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=186 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -43,7 +43,7 @@ CREATE TABLE `clothes` (
 
 LOCK TABLES `clothes` WRITE;
 /*!40000 ALTER TABLE `clothes` DISABLE KEYS */;
-INSERT INTO `clothes` VALUES (1,'img','category','color','texture','tags','add','check',100,100),(2,'img','category','color','texture','tags','add','check',99,99),(3,'img','category','color','texture','tags','add','check',99,99),(4,'img11','category11','color11','texture11','tag1, tag2, tag3, ','2015-10-11','2017-09-02',23,19);
+INSERT INTO `clothes` VALUES (159,'','Tops','White','',', ','2017-10-19','2017-10-19',0,0),(180,'','Tops','White','',', ','2017-10-19','2017-10-19',0,0),(181,'','Tops','White','',', ','2017-10-19','2017-10-19',0,0),(182,'','Tops','White','',', ','2017-10-19','2017-10-19',0,0),(183,'','Tops','White','',', ','2017-10-19','2017-10-19',0,0),(184,'','Tops','Grey','',', ','2017-10-19','2017-10-19',0,0),(185,'','Skirts','Brown','',', ','2017-10-19','2017-10-19',0,0);
 /*!40000 ALTER TABLE `clothes` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -56,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-10-14 17:15:53
+-- Dump completed on 2017-10-20  0:19:47

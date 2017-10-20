@@ -74,6 +74,7 @@ public class ClothesListActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+
     /**
      * Initiate grid view
      */
@@ -114,9 +115,12 @@ public class ClothesListActivity extends AppCompatActivity {
                         Toast.makeText(ClothesListActivity.this, "Cloth ID: " + c.getClothGridID(), Toast.LENGTH_SHORT).show();
                     }
                 });
+
             }
         });
+
     }
+
 
     /**
      * Refresh grid list
