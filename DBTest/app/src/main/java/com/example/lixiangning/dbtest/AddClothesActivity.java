@@ -87,7 +87,10 @@ public class AddClothesActivity extends AppCompatActivity {
             }
         });
 
+
         Button btn_add = (Button)findViewById(R.id.btn_addClothes);
+
+        //add cloth to database
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -104,25 +107,28 @@ public class AddClothesActivity extends AppCompatActivity {
                 int likeTimes = 0;
 
                 Clothes clothes = new Clothes(clothImg, category, color, clothTexture, clothTags, addDate, checkDate, checkTimes, likeTimes);
-                DBHelper dbHelper = new DBHelper();
-                dbHelper.insert(clothes);
 
-                ClothesListActivity.instance.refresh();
+                DBHelper dbHelper = new DBHelper(AddClothesActivity.this);
 
-                Toast.makeText(AddClothesActivity.this, "Add clothes successfully.", Toast.LENGTH_SHORT).show();
+                //wait for insert thread finish
+                dbHelper.insert(clothes, new DBHelper.InsertCallback() {
+                    @Override
+                    public void onFinished() {
 
-//                ClothesListActivity.instance.refresh();
+                        //refresh clothes grid list
+                        ClothesListActivity.instance.refresh();
 
+                        Toast.makeText(AddClothesActivity.this, "Add clothes successfully.", Toast.LENGTH_SHORT).show();
 
+                        finish();
+                    }
+                });
 
-                finish();
             }
         });
 
 
     }
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

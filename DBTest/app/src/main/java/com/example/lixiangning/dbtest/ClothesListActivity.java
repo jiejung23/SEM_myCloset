@@ -35,25 +35,26 @@ public class ClothesListActivity extends AppCompatActivity {
     public static ClothesListActivity instance = null;
 
     private static final String TAG = "tag------";
-    private static Connection con;
-    private MyArrayList clothList;
-    private BaseAdapter mAdapter;
-    private ArrayList<ClothImageGrid> gridList = new ArrayList<>();;
 
-    int flag = 0;
+
+    private ArrayList<ArrayList<String>> clothList; //clothes list from database
+    private BaseAdapter mAdapter; //grid view adapter
+    private ArrayList<ClothImageGrid> gridList = new ArrayList<>(); //grid view items
+    private DBHelper dbHelper; //database class
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_clothes_list);
 
+        dbHelper = new DBHelper(this);
         instance = this;
 
         ActionBar actionBar = this.getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_in_list);
-
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,10 +63,7 @@ public class ClothesListActivity extends AppCompatActivity {
             }
         });
 
-
-        setGridView();
-
-
+        setGridView(); //initiate grid view
 
     }
 
@@ -76,61 +74,79 @@ public class ClothesListActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-
+    /**
+     * Initiate grid view
+     */
     public void setGridView() {
+
         GridView grid_cloth = (GridView)findViewById(R.id.grid_clothes);
 
+        dbHelper.getAll(new DBHelper.GetAllCallback() {
 
-
-//        gridList.add(new ClothImageGrid(R.mipmap.ic_launcher));
-
-        DBHelper dbHelper = new DBHelper();
-        clothList = dbHelper.getAll();
-
-        for(int i = 0; i < clothList.getvalue().size(); i++) {
-            ArrayList<String> thisCloth = clothList.getvalue().get(i);
-//            gridList.add(new ClothImageGrid(thisCloth.get(0), thisCloth.get(1), thisCloth.get(2)));
-            gridList.add(new ClothImageGrid(R.mipmap.ic_launcher_round, thisCloth.get(0), thisCloth.get(1), thisCloth.get(2)));
-        }
-
-        mAdapter = new ClothGridAdapter<ClothImageGrid>(gridList, R.layout.grid_cloth_text) {
             @Override
-            public void bindView(ViewHolder holder, ClothImageGrid obj) {
-                holder.setImageResource(R.id.grid_text_img, obj.getClothImageGrid());
-//                holder.setText(R.id.grid_text_id, obj.getClothGridID());
-                holder.setText(R.id.grid_text_category, obj.getClothGridCategory());
-                holder.setText(R.id.grid_text_color, obj.getClothGridColor());
-            }
-        };
+            public void getAll(ArrayList<ArrayList<String>> data) {
 
-        grid_cloth.setAdapter(mAdapter);
+                clothList = data;
 
-        grid_cloth.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ClothImageGrid c = (ClothImageGrid) mAdapter.getItem(position);
-                Toast.makeText(ClothesListActivity.this, "Cloth ID: " + c.getClothGridID(), Toast.LENGTH_SHORT).show();
+                //add grid items
+                for(int i = 0; i < clothList.size(); i++) {
+                    ArrayList<String> thisCloth = clothList.get(i);
+                    gridList.add(new ClothImageGrid(R.mipmap.ic_launcher_round, thisCloth.get(0), thisCloth.get(1), thisCloth.get(2)));
+                }
+
+                //add grid adapter
+                mAdapter = new ClothGridAdapter<ClothImageGrid>(gridList, R.layout.grid_cloth_text) {
+                    @Override
+                    public void bindView(ViewHolder holder, ClothImageGrid obj) {
+                        holder.setImageResource(R.id.grid_text_img, obj.getClothImageGrid());
+                        holder.setText(R.id.grid_text_category, obj.getClothGridCategory());
+                        holder.setText(R.id.grid_text_color, obj.getClothGridColor());
+                    }
+                };
+
+                grid_cloth.setAdapter(mAdapter);
+
+                //grid item listener
+                grid_cloth.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        ClothImageGrid c = (ClothImageGrid) mAdapter.getItem(position);
+                        Toast.makeText(ClothesListActivity.this, "Cloth ID: " + c.getClothGridID(), Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }
 
-
-
+    /**
+     * Refresh grid list
+     */
     public void refresh() {
-        DBHelper dbHelper = new DBHelper();
-        clothList = dbHelper.getAll();
-        gridList.clear();
 
-        for(int i = 0; i < clothList.getvalue().size(); i++) {
-            ArrayList<String> thisCloth = clothList.getvalue().get(i);
-            gridList.add(new ClothImageGrid(R.mipmap.ic_launcher_round, thisCloth.get(0), thisCloth.get(1), thisCloth.get(2)));
-        }
+        dbHelper.getAll(new DBHelper.GetAllCallback() {
+            @Override
+            public void getAll(ArrayList<ArrayList<String>> data) {
+                clothList = data;
+                gridList.clear();
 
-        mAdapter.notifyDataSetChanged();
-//        setGridView();
+//                Log.e("test", "clothList list size: " + clothList.size());
+
+                for(int i = 0; i < clothList.size(); i++) {
+                    ArrayList<String> thisCloth = clothList.get(i);
+                    gridList.add(new ClothImageGrid(R.mipmap.ic_launcher_round, thisCloth.get(0), thisCloth.get(1), thisCloth.get(2)));
+                }
+
+                //update data with new grid list
+                mAdapter.notifyDataSetChanged();
+            }
+        });
+
     }
 
 
+    /**
+     * Action bar button listener
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
