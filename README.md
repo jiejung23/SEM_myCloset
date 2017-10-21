@@ -69,4 +69,6 @@ $ mysqldump -u root -p myCloset>sql_mycloset.sql
 
 5. Let your MySQL accessible to remote users
 
-6. Run the project
+6. Change the DBHelper Class. Change ip to your ip4 address. Change the username and password to your own ones. (Once you change a network, the ip4 will change, too)
+
+7. Run the project
