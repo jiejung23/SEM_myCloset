@@ -72,3 +72,6 @@ $ mysqldump -u root -p myCloset>sql_mycloset.sql
 6. Change the DBHelper Class. Change ip to your ip4 address. Change the username and password to your own ones. (Once you change a network, the ip4 will change, too)
 
 7. Run the project
+
+-------Best tutorial that teaches you how to setup OpenCV on your Android Studio
+https://www.youtube.com/watch?v=ObXROP8DU1U&t=438s
