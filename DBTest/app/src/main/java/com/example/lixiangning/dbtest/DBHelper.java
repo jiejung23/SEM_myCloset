@@ -41,7 +41,8 @@ public class DBHelper {
     public DBHelper(Context context) {
         mContext = context;
 
-        ip = "172.29.95.53";
+//        ip = "172.29.95.53";
+        ip = "192.168.7.23";
         port = 3306;
         dbName = "myCloset";
         url = "jdbc:mysql://" + ip + ":" + port + "/" + dbName;

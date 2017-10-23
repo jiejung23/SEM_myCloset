@@ -1,30 +1,64 @@
 package com.example.lixiangning.dbtest;
 
+import android.Manifest;
+import android.annotation.TargetApi;
+import android.content.ContentUris;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Environment;
+import android.provider.DocumentsContract;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.PagerSnapHelper;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class AddClothesActivity extends AppCompatActivity {
+public class AddClothesActivity extends AppCompatActivity implements CameraPopupWindow.OnItemClickListener {
 
     private Spinner spin_color;
     private Spinner spin_category;
     private String clothCategory;
     private String clothColor;
 
+    private CameraPopupWindow mPop;
+
+    private ImageView imgCamera;
+
+    Uri imageUri;
+    File imageFile;
+    final int TAKE_PHOTO = 1;
+    final int CHOOSE_PHOTO = 2;
+    final int REQUEST_TAKE_PHOTO_PERMISSION = 3;
+
+    final String TAG = "tag---------";
 
 
     @Override
@@ -87,6 +121,35 @@ public class AddClothesActivity extends AppCompatActivity {
             }
         });
 
+        imgCamera = (ImageView) findViewById(R.id.img_clothes);
+        mPop = new CameraPopupWindow(this);
+        mPop.setOnItemClickListener(this);
+
+
+
+
+        imgCamera.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                mPop.showAtLocation(AddClothesActivity.this.findViewById(R.id.add_main), Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
+
+                WindowManager.LayoutParams lp = getWindow().getAttributes();
+                lp.alpha = 0.7f;
+                getWindow().setAttributes(lp);
+
+                mPop.setOnDismissListener(new PopupWindow.OnDismissListener() {
+
+                    @Override
+                    public void onDismiss() {
+                        WindowManager.LayoutParams lp = getWindow().getAttributes();
+                        lp.alpha = 1f;
+                        getWindow().setAttributes(lp);
+                    }
+                });
+            }
+        });
+
 
         Button btn_add = (Button)findViewById(R.id.btn_addClothes);
 
@@ -130,6 +193,58 @@ public class AddClothesActivity extends AppCompatActivity {
     }
 
 
+    private void takePhoto() {
+        Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+        imageFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath()
+                + "/test/" + System.currentTimeMillis() + ".jpg");
+        imageFile.getParentFile().mkdirs();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            //Android > 7.0
+            Log.e(TAG, "Build.VERSION.SDK_INT >= Build.VERSION_CODES.N");
+            imageUri = FileProvider.getUriForFile(AddClothesActivity.this, "com.xn.customview.fileprovider", imageFile);
+            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            intent.setFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+        } else {
+            //Android < 7.0
+            imageUri = Uri.fromFile(imageFile);
+        }
+
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+        startActivityForResult(intent, TAKE_PHOTO);
+    }
+
+
+    private void choosePhoto() {
+        Intent intent = new Intent("android.intent.action.GET_CONTENT");
+        imageFile = new File(Environment.getExternalStorageDirectory(), "outputImage.jpg");
+        if (imageFile.exists()) {
+            imageFile.delete();
+        }
+        try {
+            imageFile.createNewFile();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            //Android > 7.0
+            Log.e(TAG, "Build.VERSION.SDK_INT >= Build.VERSION_CODES.N");
+            imageUri = FileProvider.getUriForFile(AddClothesActivity.this, "com.xn.customview.fileprovider", imageFile);
+            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            intent.setFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+        } else {
+            //Android < 7.0
+            imageUri = Uri.fromFile(imageFile);
+        }
+
+        intent.setType("image/*");
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+        startActivityForResult(intent, CHOOSE_PHOTO);
+
+    }
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -142,4 +257,106 @@ public class AddClothesActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void setOnItemClick(View v) {
+        switch(v.getId()){
+            case R.id.btn_camera:
+                if (ContextCompat.checkSelfPermission(AddClothesActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    //Ask for permission
+                    ActivityCompat.requestPermissions(AddClothesActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_TAKE_PHOTO_PERMISSION);
+                } else {
+                    takePhoto();
+                }
+                break;
+            case R.id.btn_album:
+                Toast.makeText(getApplicationContext(),"Choose from album", Toast.LENGTH_LONG).show();
+//                choosePhoto();
+                break;
+            case R.id.btn_cancel:
+                mPop.dismiss();
+                break;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == REQUEST_TAKE_PHOTO_PERMISSION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                takePhoto();
+            } else {
+                Toast.makeText(this, "CAMERA PERMISSION DENIED", Toast.LENGTH_SHORT).show();
+            }
+            return;
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case TAKE_PHOTO:
+                if (resultCode == RESULT_OK) {
+                    imgCamera.setImageURI(Uri.fromFile(imageFile));
+                    mPop.dismiss();
+                }
+                break;
+            case CHOOSE_PHOTO:
+                if(resultCode==RESULT_OK){
+                    handleImageOnKitkat(data);
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.KITKAT)
+    private void handleImageOnKitkat(Intent data) {
+        String imagePath = null;
+        Uri uri = data.getData();
+        if (DocumentsContract.isDocumentUri(this, uri)) {
+            String docId = DocumentsContract.getDocumentId(uri);
+            if ("com.android.providers.media.documents".equals(uri
+                    .getAuthority())) {
+                String id = docId.split(":")[1];
+                String selection = MediaStore.Images.Media._ID + "=" + id;
+                imagePath = getImagePath(
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI, selection);
+            } else if ("com.android.providers.downloads.documents".equals(uri
+                    .getAuthority())) {
+                Uri contentUri = ContentUris.withAppendedId(
+                        Uri.parse("content://downloads/public_downloads"),
+                        Long.valueOf(docId));
+                imagePath = getImagePath(contentUri, null);
+            }
+        } else if ("content".equalsIgnoreCase(uri.getScheme())) {
+            imagePath = getImagePath(uri, null);
+        }
+        displayImage(imagePath);
+        System.err.println(imagePath);
+    }
+
+    private String getImagePath(Uri uri, String selection) {
+        String path = null;
+        Cursor cursor = getContentResolver().query(uri, null, selection, null,
+                null);
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                path = cursor.getString(cursor
+                        .getColumnIndex(MediaStore.Images.Media.DATA));
+            }
+            cursor.close();
+        }
+        return path;
+    }
+
+    private void displayImage(String imagePath) {
+        if (imagePath != null) {
+            Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
+            imgCamera.setImageBitmap(bitmap);
+        } else {
+            Toast.makeText(this, "failed to get image", Toast.LENGTH_SHORT).show();
+        }
+    }
 }

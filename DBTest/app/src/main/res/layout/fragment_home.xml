@@ -30,7 +30,7 @@
             android:gravity="center_vertical"
             android:text="New Styles"
             android:textColor="@color/colorBlack75"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
     </LinearLayout>
 
@@ -81,7 +81,8 @@
         android:paddingBottom="16dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:paddingTop="16dp">
+        android:paddingTop="16dp"
+        android:layout_marginTop="0dp">
 
         <ImageView
             android:id="@+id/icon_home_de"
@@ -99,7 +100,7 @@
             android:gravity="center_vertical"
             android:text="Still Need It?"
             android:textColor="@color/colorBlack75"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
     </LinearLayout>
 
@@ -131,7 +132,7 @@
                 android:id="@+id/text_home_noti"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
+                android:textSize="20sp"
                 android:textColor="@color/colorBlack75"
                 android:text="Haven't check it for a long time." />
 
@@ -142,12 +143,12 @@
                 android:layout_marginTop="4dp"
                 android:text="Add Date: 04/23/2017" />
 
-            <TextView
-                android:id="@+id/text_home_de_2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Check Date: 06/20/2017" />
+            <!--<TextView-->
+                <!--android:id="@+id/text_home_de_2"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="4dp"-->
+                <!--android:text="Check Date: 06/20/2017" />-->
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -157,18 +158,22 @@
                 <Button
                     android:id="@+id/btn_joy"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="36dp"
                     android:layout_gravity="bottom"
                     android:background="#e0e0e0"
                     android:layout_marginRight="16dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
                     android:text="Spark JOY" />
 
                 <Button
                     android:id="@+id/btn_delete"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="36dp"
                     android:layout_gravity="bottom"
                     android:textColor="#fff"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
                     android:background="@color/colorPrimary"
                     android:text="I'm Done" />
             </LinearLayout>
@@ -191,7 +196,7 @@
             android:layout_height="120dp"
             android:adjustViewBounds="true"
             android:scaleType="fitXY"
-            app:srcCompat="@drawable/de2" />
+            app:srcCompat="@drawable/de3" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -204,7 +209,7 @@
                 android:id="@+id/text_home_noti2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
+                android:textSize="20sp"
                 android:textColor="@color/colorBlack75"
                 android:text="Haven't check it for a long time." />
 
@@ -215,12 +220,12 @@
                 android:layout_marginTop="4dp"
                 android:text="Add Date: 04/23/2017" />
 
-            <TextView
-                android:id="@+id/text_home_de2_2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Check Date: 06/20/2017" />
+            <!--<TextView-->
+                <!--android:id="@+id/text_home_de2_2"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="4dp"-->
+                <!--android:text="Check Date: 06/20/2017" />-->
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -230,18 +235,22 @@
                 <Button
                     android:id="@+id/btn_joy2"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="36dp"
                     android:layout_gravity="bottom"
                     android:background="#e0e0e0"
                     android:layout_marginRight="16dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
                     android:text="Spark JOY" />
 
                 <Button
                     android:id="@+id/btn_delete2"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="36dp"
                     android:layout_gravity="bottom"
                     android:textColor="#fff"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
                     android:background="@color/colorPrimary"
                     android:text="I'm Done" />
             </LinearLayout>
@@ -266,7 +275,7 @@
             android:layout_height="120dp"
             android:adjustViewBounds="true"
             android:scaleType="fitXY"
-            app:srcCompat="@drawable/de3" />
+            app:srcCompat="@drawable/de2" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -279,7 +288,7 @@
                 android:id="@+id/text_home_noti3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
+                android:textSize="20sp"
                 android:textColor="@color/colorBlack75"
                 android:text="Haven't check it for a long time." />
 
@@ -290,12 +299,12 @@
                 android:layout_marginTop="4dp"
                 android:text="Add Date: 04/23/2017" />
 
-            <TextView
-                android:id="@+id/text_home_de3_2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Check Date: 06/20/2017" />
+            <!--<TextView-->
+                <!--android:id="@+id/text_home_de3_2"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="4dp"-->
+                <!--android:text="Check Date: 06/20/2017" />-->
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -305,18 +314,22 @@
                 <Button
                     android:id="@+id/btn_joy3"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="36dp"
                     android:layout_gravity="bottom"
                     android:background="#e0e0e0"
                     android:layout_marginRight="16dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
                     android:text="Spark JOY" />
 
                 <Button
                     android:id="@+id/btn_delete3"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="36dp"
                     android:layout_gravity="bottom"
                     android:textColor="#fff"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
                     android:background="@color/colorPrimary"
                     android:text="I'm Done" />
             </LinearLayout>
