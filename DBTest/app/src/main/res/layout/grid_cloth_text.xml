@@ -20,9 +20,8 @@
             android:id="@+id/grid_text_img"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingTop="16dp"
-            android:paddingBottom="4dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
             app:srcCompat="@drawable/ic_add_white_24dp" />
 
         <!--<TextView-->
@@ -36,25 +35,25 @@
             <!--android:text=""-->
             <!--android:textSize="16dp" />-->
 
-        <TextView
-            android:id="@+id/grid_text_category"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingTop="4dp"
-            android:paddingBottom="2dp"
-            android:text=""
-            android:textSize="18sp" />
+        <!--<TextView-->
+            <!--android:id="@+id/grid_text_category"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:gravity="center"-->
+            <!--android:paddingTop="4dp"-->
+            <!--android:paddingBottom="2dp"-->
+            <!--android:text=""-->
+            <!--android:textSize="18sp" />-->
 
-        <TextView
-            android:id="@+id/grid_text_color"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingTop="2dp"
-            android:paddingBottom="16dp"
-            android:text=""
-            android:textSize="18sp" />
+        <!--<TextView-->
+            <!--android:id="@+id/grid_text_color"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:gravity="center"-->
+            <!--android:paddingTop="2dp"-->
+            <!--android:paddingBottom="16dp"-->
+            <!--android:text=""-->
+            <!--android:textSize="18sp" />-->
     </LinearLayout>
 
 </LinearLayout>

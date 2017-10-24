@@ -1,12 +1,16 @@
 package com.example.lixiangning.dbtest;
 
+import android.net.Uri;
+
+import java.io.File;
+
 /**
  * Created by lixiangning on 2017/10/17.
  */
 
 public class ClothImageGrid {
 
-    private int img_file;
+    private Uri img_file;
     private String cloth_id;
     private String cloth_categort;
     private String cloth_color;
@@ -15,7 +19,7 @@ public class ClothImageGrid {
 
     }
 
-    public ClothImageGrid(int file, String id, String cloth_categort, String cloth_color) {
+    public ClothImageGrid(Uri file, String id, String cloth_categort, String cloth_color) {
         this.img_file = file;
         this.cloth_id = id;
         this.cloth_categort = cloth_categort;
@@ -28,11 +32,11 @@ public class ClothImageGrid {
         this.cloth_color = cloth_color;
     }
 
-    public int getClothImageGrid() {
+    public Uri getClothImageGrid() {
         return this.img_file;
     }
 
-    public void setClothImageGrid(int file) {
+    public void setClothImageGrid(Uri file) {
         this.img_file = file;
     }
 

@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.lixiangning.dbtest">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -10,7 +13,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity" />
-
         <activity
             android:name=".LeftNavActivity"
             android:label="@string/title_activity_left_nav"
@@ -21,20 +23,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".AddClothesActivity"
             android:label="@string/title_activity_add_clothes"
-            android:theme="@style/ActionBar">
-
-        </activity>
-
+            android:theme="@style/ActionBar" />
         <activity
             android:name=".ClothesListActivity"
             android:label="@string/title_activity_all_list"
-            android:theme="@style/ActionBar">
-
-        </activity>
+            android:theme="@style/ActionBar" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -43,11 +39,13 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/filepaths"/>
+                android:resource="@xml/filepaths" />
         </provider>
-    </application>
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+        <activity android:name=".TopsListActivity" android:label="@string/title_activity_tops_list" />
+        <activity android:name=".PantsListActivity" android:label="@string/title_activity_pants_list" />
+        <activity android:name=".SkirtsListActivity" android:label="@string/title_activity_skirts_list" />
+
+    </application>
 
 </manifest>

@@ -8,6 +8,9 @@
     <string name="title_activity_left_nav">myCloset</string>
     <string name="title_activity_add_clothes">Add Clothes</string>
     <string name="title_activity_all_list">All Clothes</string>
+    <string name="title_activity_tops_list">Tops</string>
+    <string name="title_activity_pants_list">Pants</string>
+    <string name="title_activity_skirts_list">Skirts</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

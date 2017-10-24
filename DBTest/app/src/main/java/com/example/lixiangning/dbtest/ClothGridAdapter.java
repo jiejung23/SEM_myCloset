@@ -1,6 +1,7 @@
 package com.example.lixiangning.dbtest;
 
 import android.content.Context;
+import android.net.Uri;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -162,13 +164,9 @@ public abstract class ClothGridAdapter<T> extends BaseAdapter {
         /**
          * 设置图片
          */
-        public ViewHolder setImageResource(int id, int drawableRes) {
+        public ViewHolder setImageResource(int id, Uri uri) {
             View view = getView(id);
-            if (view instanceof ImageView) {
-                ((ImageView) view).setImageResource(drawableRes);
-            } else {
-                view.setBackgroundResource(drawableRes);
-            }
+            ((ImageView) view).setImageURI(uri);
             return this;
         }
 

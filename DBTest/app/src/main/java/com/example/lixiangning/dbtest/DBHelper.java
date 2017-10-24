@@ -26,8 +26,6 @@ public class DBHelper {
 
     private static Connection con; //database connection
 
-    private static int count; //count clothes in different categories
-
     private Context mContext; //activity context to main thread
 
     private String ip;
@@ -41,8 +39,8 @@ public class DBHelper {
     public DBHelper(Context context) {
         mContext = context;
 
-//        ip = "172.29.95.53";
-        ip = "192.168.7.23";
+        ip = "172.29.95.53"; //School
+//        ip = "192.168.7.23"; //home
         port = 3306;
         dbName = "myCloset";
         url = "jdbc:mysql://" + ip + ":" + port + "/" + dbName;
@@ -183,7 +181,7 @@ public class DBHelper {
 
                 // get all
                 if (con != null) {
-                    String sql = "select clothID, clothCategory, clothColor from clothes";
+                    String sql = "select clothID, clothImg, clothCategory, clothColor from clothes";
                     PreparedStatement pstmt;
 
                     try {
@@ -200,10 +198,12 @@ public class DBHelper {
                             ArrayList<String> temp = new ArrayList<>();
                             String id = rs.getInt(1)+"";
                             String img = rs.getString(2);
-                            String color = rs.getString(3);
-                            Log.i(TAG, "cloth: " + id + ", " + img + ", " + color);
+                            String category = rs.getString(3);
+                            String color = rs.getString(4);
+                            Log.i(TAG, "cloth: " + id + ", " + img + ", " + category + "," + color);
                             temp.add(id);
                             temp.add(img);
+                            temp.add(category);
                             temp.add(color);
                             oneList.add(temp);
                         }
@@ -227,6 +227,173 @@ public class DBHelper {
         });
 
         thread.start();
+    }
+
+
+    public void getCount(String category, CountCallback countCallback) {
+
+        //get all thread
+        final Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                // connect to database
+                while (!Thread.interrupted()) {
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        Log.e(TAG, e.toString());
+                    }
+
+                    if (con == null) {
+                        try {
+                            Class.forName("com.mysql.jdbc.Driver");
+                            Log.v(TAG, "Strat JDBC Successfully");
+                        } catch (ClassNotFoundException e) {
+                            Log.e(TAG, "Strat JDBC Unsuccessfully");
+                            return;
+                        }
+
+                        // connect to JDBC
+                        try {
+                            con = DriverManager.getConnection(url, user, password);
+
+                            con.setAutoCommit(true);
+
+                            Log.i(TAG, "Connect to JDBC Successfully!");
+                            break;
+
+                        } catch (SQLException e) {
+                            Log.e(TAG, "Connect to JDBC Unsuccessfully!");
+                        }
+
+                    } else {
+                        break;
+                    }
+                }
+
+                // get all
+                if (con != null) {
+
+                    String sql = "SELECT count(clothID) FROM clothes WHERE clothCategory='" + category + "'";
+                    PreparedStatement pstmt;
+
+
+                    try {
+                        pstmt = (PreparedStatement)con.prepareStatement(sql);
+                        ResultSet rs = pstmt.executeQuery();
+                        int count = 0;
+                        if (rs.next())
+                        {
+                            count = rs.getInt(1);
+                        }
+
+                        Log.i(TAG, "Number of " + category + ": " + count);
+
+                        if (countCallback != null) {
+                            int finalCount = count;
+                            ((Activity) mContext).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    countCallback.getCount(finalCount);
+                                }
+                            });
+                        }
+
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+        });
+
+        thread.start();
+
+
+    }
+
+
+    public void getAllCount(CountAllCallback countAllCallback) {
+
+        //get all thread
+        final Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                // connect to database
+                while (!Thread.interrupted()) {
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        Log.e(TAG, e.toString());
+                    }
+
+                    if (con == null) {
+                        try {
+                            Class.forName("com.mysql.jdbc.Driver");
+                            Log.v(TAG, "Strat JDBC Successfully");
+                        } catch (ClassNotFoundException e) {
+                            Log.e(TAG, "Strat JDBC Unsuccessfully");
+                            return;
+                        }
+
+                        // connect to JDBC
+                        try {
+                            con = DriverManager.getConnection(url, user, password);
+
+                            con.setAutoCommit(true);
+
+                            Log.i(TAG, "Connect to JDBC Successfully!");
+                            break;
+
+                        } catch (SQLException e) {
+                            Log.e(TAG, "Connect to JDBC Unsuccessfully!");
+                        }
+
+                    } else {
+                        break;
+                    }
+                }
+
+                // get all
+                if (con != null) {
+
+                    String sql = "SELECT count(clothID) FROM clothes";
+                    PreparedStatement pstmt;
+
+
+                    try {
+                        pstmt = (PreparedStatement)con.prepareStatement(sql);
+                        ResultSet rs = pstmt.executeQuery();
+                        int count = 0;
+                        if (rs.next())
+                        {
+                            count = rs.getInt(1);
+                        }
+
+
+                        if (countAllCallback != null) {
+                            int finalCount = count;
+                            ((Activity) mContext).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    countAllCallback.getAllCount(finalCount);
+                                }
+                            });
+                        }
+
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+        });
+
+        thread.start();
+
+
     }
 
 
@@ -303,78 +470,7 @@ public class DBHelper {
         thread.start();
     }
 
-    public Integer getCount(String category) {
 
-        final Thread thread = new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-
-                count = 0;
-
-                while (!Thread.interrupted()) {
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                        Log.e(TAG, e.toString());
-                    }
-
-                    if (con == null) {
-                        try {
-                            Class.forName("com.mysql.jdbc.Driver");
-                            Log.v(TAG, "Strat JDBC Successfully");
-                        } catch (ClassNotFoundException e) {
-                            Log.e(TAG, "Strat JDBC Unsuccessfully");
-                            return;
-                        }
-
-                        // connect to JDBC
-                        try {
-                            con = DriverManager.getConnection(url, user, password);
-
-                            con.setAutoCommit(true);
-
-                            Log.i(TAG, "Connect to JDBC Successfully!");
-                            break;
-
-                        } catch (SQLException e) {
-                            Log.e(TAG, "Connect to JDBC Unsuccessfully!");
-                        }
-
-                    } else {
-                        break;
-                    }
-                }
-
-
-                if (con != null) {
-                    String sql = "SELECT count(clothID) FROM clothes WHERE clothCategory='" + category + "'";
-                    PreparedStatement pstmt;
-
-                    try {
-                        pstmt = (PreparedStatement)con.prepareStatement(sql);
-                        ResultSet rs = pstmt.executeQuery();
-                        if (rs.next())
-                        {
-                            count = rs.getInt(1);
-                        }
-
-                        Log.i(TAG, "Number of " + category + ": " + count);
-
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-
-            } //run
-        });
-
-        thread.start();
-
-        return count;
-
-    }
 
     public void delete(Clothes clothes) {
         final Thread thread = new Thread(new Runnable() {
@@ -446,5 +542,13 @@ public class DBHelper {
 
     public interface InsertCallback {
         public void onFinished();
+    }
+
+    public interface CountCallback {
+        public void getCount(int number);
+    }
+
+    public interface CountAllCallback {
+        public void getAllCount(int number);
     }
 }

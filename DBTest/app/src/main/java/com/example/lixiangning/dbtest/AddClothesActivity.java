@@ -3,6 +3,7 @@ package com.example.lixiangning.dbtest;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.ContentUris;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -32,9 +33,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -51,9 +55,11 @@ public class AddClothesActivity extends AppCompatActivity implements CameraPopup
     private CameraPopupWindow mPop;
 
     private ImageView imgCamera;
+    private TextView notification;
 
-    Uri imageUri;
-    File imageFile;
+    Uri imageUri = null;
+    File imageFile = null;
+
     final int TAKE_PHOTO = 1;
     final int CHOOSE_PHOTO = 2;
     final int REQUEST_TAKE_PHOTO_PERMISSION = 3;
@@ -126,6 +132,7 @@ public class AddClothesActivity extends AppCompatActivity implements CameraPopup
         mPop.setOnItemClickListener(this);
 
 
+        notification = (TextView)findViewById(R.id.add_notification);
 
 
         imgCamera.setOnClickListener(new View.OnClickListener() {
@@ -157,7 +164,12 @@ public class AddClothesActivity extends AppCompatActivity implements CameraPopup
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String clothImg = "";
+                if(imageUri == null) {
+                    notification.setText("Please choose a picture.");
+                    return;
+                }
+                String clothImg = imageUri.toString();
+//                String clothImg = "";
                 String category = clothCategory;
                 String color = clothColor;
                 String clothTexture = "";
@@ -181,6 +193,8 @@ public class AddClothesActivity extends AppCompatActivity implements CameraPopup
                         //refresh clothes grid list
                         ClothesListActivity.instance.refresh();
 
+                        ClosetFragment.instance.refresh();
+
                         Toast.makeText(AddClothesActivity.this, "Add clothes successfully.", Toast.LENGTH_SHORT).show();
 
                         finish();
@@ -195,8 +209,7 @@ public class AddClothesActivity extends AppCompatActivity implements CameraPopup
 
     private void takePhoto() {
         Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-        imageFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath()
-                + "/test/" + System.currentTimeMillis() + ".jpg");
+        imageFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/test/" + System.currentTimeMillis() + ".jpg");
         imageFile.getParentFile().mkdirs();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -215,34 +228,41 @@ public class AddClothesActivity extends AppCompatActivity implements CameraPopup
     }
 
 
-    private void choosePhoto() {
-        Intent intent = new Intent("android.intent.action.GET_CONTENT");
-        imageFile = new File(Environment.getExternalStorageDirectory(), "outputImage.jpg");
-        if (imageFile.exists()) {
-            imageFile.delete();
-        }
-        try {
-            imageFile.createNewFile();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-        }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            //Android > 7.0
-            Log.e(TAG, "Build.VERSION.SDK_INT >= Build.VERSION_CODES.N");
-            imageUri = FileProvider.getUriForFile(AddClothesActivity.this, "com.xn.customview.fileprovider", imageFile);
-            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            intent.setFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-        } else {
-            //Android < 7.0
-            imageUri = Uri.fromFile(imageFile);
-        }
-
-        intent.setType("image/*");
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+    private void albumPhoto() {
+        Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, CHOOSE_PHOTO);
-
     }
+
+
+//    private void choosePhoto() {
+//        Intent intent = new Intent("android.intent.action.GET_CONTENT");
+//        imageFile = new File(Environment.getExternalStorageDirectory(), "outputImage.jpg");
+//        if (imageFile.exists()) {
+//            imageFile.delete();
+//        }
+//        try {
+//            imageFile.createNewFile();
+//        } catch (IOException e) {
+//            // TODO Auto-generated catch block
+//        }
+//
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//            //Android > 7.0
+//            Log.e(TAG, "Build.VERSION.SDK_INT >= Build.VERSION_CODES.N");
+//            imageUri = FileProvider.getUriForFile(AddClothesActivity.this, "com.xn.customview.fileprovider", imageFile);
+//            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//            intent.setFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+//        } else {
+//            //Android < 7.0
+//            imageUri = Uri.fromFile(imageFile);
+//        }
+//
+//        intent.setType("image/*");
+//        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+//        startActivityForResult(intent, CHOOSE_PHOTO);
+//
+//    }
 
 
     @Override
@@ -269,8 +289,9 @@ public class AddClothesActivity extends AppCompatActivity implements CameraPopup
                 }
                 break;
             case R.id.btn_album:
-                Toast.makeText(getApplicationContext(),"Choose from album", Toast.LENGTH_LONG).show();
+//                Toast.makeText(getApplicationContext(),"Choose from album", Toast.LENGTH_LONG).show();
 //                choosePhoto();
+                albumPhoto();
                 break;
             case R.id.btn_cancel:
                 mPop.dismiss();
@@ -299,11 +320,27 @@ public class AddClothesActivity extends AppCompatActivity implements CameraPopup
                 if (resultCode == RESULT_OK) {
                     imgCamera.setImageURI(Uri.fromFile(imageFile));
                     mPop.dismiss();
+                    notification.setText("");
                 }
                 break;
             case CHOOSE_PHOTO:
-                if(resultCode==RESULT_OK){
-                    handleImageOnKitkat(data);
+                if(resultCode == RESULT_OK){
+                    Uri selectedImage = data.getData();
+
+                    String[] filePathColumns = {MediaStore.Images.Media.DATA};
+                    Cursor c = getContentResolver().query(selectedImage, filePathColumns, null, null, null);
+                    c.moveToFirst();
+                    int columnIndex = c.getColumnIndex(filePathColumns[0]);
+                    String imagePath = c.getString(columnIndex);
+
+                    File file = new File(imagePath);
+                    imageFile = file;
+                    imageUri = FileProvider.getUriForFile(AddClothesActivity.this, "com.xn.customview.fileprovider", imageFile);
+
+                    showImage(imagePath);
+                    c.close();
+                    mPop.dismiss();
+                    notification.setText("");
                 }
                 break;
             default:
@@ -311,52 +348,82 @@ public class AddClothesActivity extends AppCompatActivity implements CameraPopup
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.KITKAT)
-    private void handleImageOnKitkat(Intent data) {
-        String imagePath = null;
-        Uri uri = data.getData();
-        if (DocumentsContract.isDocumentUri(this, uri)) {
-            String docId = DocumentsContract.getDocumentId(uri);
-            if ("com.android.providers.media.documents".equals(uri
-                    .getAuthority())) {
-                String id = docId.split(":")[1];
-                String selection = MediaStore.Images.Media._ID + "=" + id;
-                imagePath = getImagePath(
-                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI, selection);
-            } else if ("com.android.providers.downloads.documents".equals(uri
-                    .getAuthority())) {
-                Uri contentUri = ContentUris.withAppendedId(
-                        Uri.parse("content://downloads/public_downloads"),
-                        Long.valueOf(docId));
-                imagePath = getImagePath(contentUri, null);
-            }
-        } else if ("content".equalsIgnoreCase(uri.getScheme())) {
-            imagePath = getImagePath(uri, null);
-        }
-        displayImage(imagePath);
-        System.err.println(imagePath);
+    private void showImage(String imaPath){
+        Bitmap bm = BitmapFactory.decodeFile(imaPath);
+        imgCamera.setImageBitmap(bm);
     }
 
-    private String getImagePath(Uri uri, String selection) {
-        String path = null;
-        Cursor cursor = getContentResolver().query(uri, null, selection, null,
-                null);
-        if (cursor != null) {
-            if (cursor.moveToFirst()) {
-                path = cursor.getString(cursor
-                        .getColumnIndex(MediaStore.Images.Media.DATA));
-            }
-            cursor.close();
-        }
-        return path;
-    }
+//    @TargetApi(Build.VERSION_CODES.KITKAT)
+//    private void handleImageOnKitkat(Intent data) {
+//        String imagePath = null;
+//        Uri uri = data.getData();
+//        if (DocumentsContract.isDocumentUri(this, uri)) {
+//            String docId = DocumentsContract.getDocumentId(uri);
+//            if ("com.android.providers.media.documents".equals(uri
+//                    .getAuthority())) {
+//                String id = docId.split(":")[1];
+//                String selection = MediaStore.Images.Media._ID + "=" + id;
+//                imagePath = getImagePath(
+//                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI, selection);
+//            } else if ("com.android.providers.downloads.documents".equals(uri
+//                    .getAuthority())) {
+//                Uri contentUri = ContentUris.withAppendedId(
+//                        Uri.parse("content://downloads/public_downloads"),
+//                        Long.valueOf(docId));
+//                imagePath = getImagePath(contentUri, null);
+//            }
+//        } else if ("content".equalsIgnoreCase(uri.getScheme())) {
+//            imagePath = getImagePath(uri, null);
+//        }
+//        displayImage(imagePath);
+//        System.err.println(imagePath);
+//    }
 
-    private void displayImage(String imagePath) {
-        if (imagePath != null) {
-            Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
-            imgCamera.setImageBitmap(bitmap);
-        } else {
-            Toast.makeText(this, "failed to get image", Toast.LENGTH_SHORT).show();
-        }
-    }
+
+//    private String getImagePath(Uri uri, String selection) {
+//        String path = null;
+//        Cursor cursor = getContentResolver().query(uri, null, selection, null,
+//                null);
+//        if (cursor != null) {
+//            if (cursor.moveToFirst()) {
+//                path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+//            }
+//            cursor.close();
+//        }
+//        return path;
+//    }
+
+//    private void displayImage(String imagePath) {
+//        if (imagePath != null) {
+//            Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
+//            imgCamera.setImageBitmap(bitmap);
+//        } else {
+//            Toast.makeText(this, "failed to get image", Toast.LENGTH_SHORT).show();
+//        }
+//    }
+
+
+//    private void getDefaultImg() {
+//        imageFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/test/default000.jpg");
+//        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.default_img);
+//        FileOutputStream fos = null;
+//        try {
+//            fos = openFileOutput("default000.jpg", Context.MODE_PRIVATE);
+//            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        } finally {
+//            if (fos != null) {
+//                try {
+//                    fos.flush();
+//                    fos.close();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+//
+//        imageUri = FileProvider.getUriForFile(AddClothesActivity.this, "com.xn.customview.fileprovider", imageFile);
+//
+//    }
 }

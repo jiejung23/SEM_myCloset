@@ -1,8 +1,13 @@
 package com.example.lixiangning.dbtest;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -15,8 +20,10 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -41,6 +48,8 @@ public class ClothesListActivity extends AppCompatActivity {
     private BaseAdapter mAdapter; //grid view adapter
     private ArrayList<ClothImageGrid> gridList = new ArrayList<>(); //grid view items
     private DBHelper dbHelper; //database class
+
+
 
 
     @Override
@@ -92,7 +101,16 @@ public class ClothesListActivity extends AppCompatActivity {
                 //add grid items
                 for(int i = 0; i < clothList.size(); i++) {
                     ArrayList<String> thisCloth = clothList.get(i);
-                    gridList.add(new ClothImageGrid(R.mipmap.ic_launcher_round, thisCloth.get(0), thisCloth.get(1), thisCloth.get(2)));
+
+                    Uri imgUri = Uri.parse((String)thisCloth.get(1));
+//                    String[] proj = { MediaStore.Images.Media.DATA };
+//                    Cursor actualimagecursor = managedQuery(imgUri,proj,null,null,null);
+//                    int actual_image_column_index = actualimagecursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+//                    actualimagecursor.moveToFirst();
+//                    String img_path = actualimagecursor.getString(actual_image_column_index);
+//                    File file = new File(img_path);
+
+                    gridList.add(new ClothImageGrid(imgUri, thisCloth.get(0), thisCloth.get(2), thisCloth.get(3)));
                 }
 
                 //add grid adapter
@@ -100,8 +118,8 @@ public class ClothesListActivity extends AppCompatActivity {
                     @Override
                     public void bindView(ViewHolder holder, ClothImageGrid obj) {
                         holder.setImageResource(R.id.grid_text_img, obj.getClothImageGrid());
-                        holder.setText(R.id.grid_text_category, obj.getClothGridCategory());
-                        holder.setText(R.id.grid_text_color, obj.getClothGridColor());
+//                        holder.setText(R.id.grid_text_category, obj.getClothGridCategory());
+//                        holder.setText(R.id.grid_text_color, obj.getClothGridColor());
                     }
                 };
 
@@ -112,7 +130,9 @@ public class ClothesListActivity extends AppCompatActivity {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         ClothImageGrid c = (ClothImageGrid) mAdapter.getItem(position);
-                        Toast.makeText(ClothesListActivity.this, "Cloth ID: " + c.getClothGridID(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ClothesListActivity.this, "Cloth ID: " + c.getClothGridID() +
+                                "\nCloth Catagory: " + c.getClothGridCategory() + "\nCloth Color: " + c.getClothGridColor(),
+                                Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -120,6 +140,7 @@ public class ClothesListActivity extends AppCompatActivity {
         });
 
     }
+
 
 
     /**
@@ -137,7 +158,8 @@ public class ClothesListActivity extends AppCompatActivity {
 
                 for(int i = 0; i < clothList.size(); i++) {
                     ArrayList<String> thisCloth = clothList.get(i);
-                    gridList.add(new ClothImageGrid(R.mipmap.ic_launcher_round, thisCloth.get(0), thisCloth.get(1), thisCloth.get(2)));
+                    Uri imgUri = Uri.parse((String)thisCloth.get(1));
+                    gridList.add(new ClothImageGrid(imgUri, thisCloth.get(0), thisCloth.get(2), thisCloth.get(3)));
                 }
 
                 //update data with new grid list

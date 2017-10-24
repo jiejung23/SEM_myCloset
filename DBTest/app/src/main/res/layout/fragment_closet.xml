@@ -42,7 +42,7 @@
                         android:layout_marginLeft="8dp"
                         android:layout_marginRight="16dp"
                         android:layout_weight="1"
-                        android:text="100"
+                        android:text=""
                         android:textAlignment="textEnd"
                         android:textSize="18sp" />
 
@@ -81,7 +81,7 @@
                         android:layout_marginLeft="8dp"
                         android:layout_marginRight="16dp"
                         android:layout_weight="1"
-                        android:text="100"
+                        android:text=""
                         android:textAlignment="textEnd"
                         android:textSize="18sp" />
 
@@ -162,7 +162,7 @@
                         android:layout_marginLeft="8dp"
                         android:layout_marginRight="16dp"
                         android:layout_weight="1"
-                        android:text="100"
+                        android:text=""
                         android:textAlignment="textEnd"
                         android:textSize="18sp" />
 
