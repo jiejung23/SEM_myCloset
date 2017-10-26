@@ -43,6 +43,10 @@ public class ClothesListActivity extends AppCompatActivity {
 
     private static final String TAG = "tag------";
 
+    private int clothId = 0;
+
+    private String category;
+
 
     private ArrayList<ArrayList<String>> clothList; //clothes list from database
     private BaseAdapter mAdapter; //grid view adapter
@@ -72,6 +76,10 @@ public class ClothesListActivity extends AppCompatActivity {
             }
         });
 
+        category = ClosetFragment.instance.getCategory();
+
+        ClothesListActivity.this.setTitle(category);
+
         setGridView(); //initiate grid view
 
     }
@@ -91,18 +99,20 @@ public class ClothesListActivity extends AppCompatActivity {
 
         GridView grid_cloth = (GridView)findViewById(R.id.grid_clothes);
 
-        dbHelper.getAll(new DBHelper.GetAllCallback() {
+        if(category.equals("All Clothes")) {
 
-            @Override
-            public void getAll(ArrayList<ArrayList<String>> data) {
+            dbHelper.getAll(new DBHelper.GetAllCallback() {
 
-                clothList = data;
+                @Override
+                public void getAll(ArrayList<ArrayList<String>> data) {
 
-                //add grid items
-                for(int i = 0; i < clothList.size(); i++) {
-                    ArrayList<String> thisCloth = clothList.get(i);
+                    clothList = data;
 
-                    Uri imgUri = Uri.parse((String)thisCloth.get(1));
+                    //add grid items
+                    for(int i = 0; i < clothList.size(); i++) {
+                        ArrayList<String> thisCloth = clothList.get(i);
+
+                        Uri imgUri = Uri.parse((String)thisCloth.get(1));
 //                    String[] proj = { MediaStore.Images.Media.DATA };
 //                    Cursor actualimagecursor = managedQuery(imgUri,proj,null,null,null);
 //                    int actual_image_column_index = actualimagecursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
@@ -110,35 +120,88 @@ public class ClothesListActivity extends AppCompatActivity {
 //                    String img_path = actualimagecursor.getString(actual_image_column_index);
 //                    File file = new File(img_path);
 
-                    gridList.add(new ClothImageGrid(imgUri, thisCloth.get(0), thisCloth.get(2), thisCloth.get(3)));
-                }
+                        gridList.add(new ClothImageGrid(imgUri, thisCloth.get(0), thisCloth.get(2), thisCloth.get(3)));
+                    }
 
-                //add grid adapter
-                mAdapter = new ClothGridAdapter<ClothImageGrid>(gridList, R.layout.grid_cloth_text) {
-                    @Override
-                    public void bindView(ViewHolder holder, ClothImageGrid obj) {
-                        holder.setImageResource(R.id.grid_text_img, obj.getClothImageGrid());
+                    //add grid adapter
+                    mAdapter = new ClothGridAdapter<ClothImageGrid>(gridList, R.layout.grid_cloth_text) {
+                        @Override
+                        public void bindView(ViewHolder holder, ClothImageGrid obj) {
+                            holder.setImageResource(R.id.grid_text_img, obj.getClothImageGrid());
 //                        holder.setText(R.id.grid_text_category, obj.getClothGridCategory());
 //                        holder.setText(R.id.grid_text_color, obj.getClothGridColor());
+                        }
+                    };
+
+                    grid_cloth.setAdapter(mAdapter);
+
+                    //grid item listener
+                    grid_cloth.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            ClothImageGrid c = (ClothImageGrid) mAdapter.getItem(position);
+
+                            clothId = Integer.parseInt(c.getClothGridID());
+
+                            Intent intent = new Intent(ClothesListActivity.this, ClothDetailActivity.class);
+                            startActivity(intent);
+
+                        }
+                    });
+
+                }
+            });
+        }
+
+        else {
+            dbHelper.getCategoryAll(category, new DBHelper.GetCategoryCallback() {
+
+                @Override
+                public void getCategoryAll(ArrayList<ArrayList<String>> data) {
+
+                    clothList = data;
+
+                    //add grid items
+                    for(int i = 0; i < clothList.size(); i++) {
+                        ArrayList<String> thisCloth = clothList.get(i);
+                        Uri imgUri = Uri.parse((String)thisCloth.get(1));
+                        gridList.add(new ClothImageGrid(imgUri, thisCloth.get(0), thisCloth.get(2), thisCloth.get(3)));
                     }
-                };
 
-                grid_cloth.setAdapter(mAdapter);
+                    //add grid adapter
+                    mAdapter = new ClothGridAdapter<ClothImageGrid>(gridList, R.layout.grid_cloth_text) {
+                        @Override
+                        public void bindView(ViewHolder holder, ClothImageGrid obj) {
+                            holder.setImageResource(R.id.grid_text_img, obj.getClothImageGrid());
+                        }
+                    };
 
-                //grid item listener
-                grid_cloth.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        ClothImageGrid c = (ClothImageGrid) mAdapter.getItem(position);
-                        Toast.makeText(ClothesListActivity.this, "Cloth ID: " + c.getClothGridID() +
-                                "\nCloth Catagory: " + c.getClothGridCategory() + "\nCloth Color: " + c.getClothGridColor(),
-                                Toast.LENGTH_SHORT).show();
-                    }
-                });
+                    grid_cloth.setAdapter(mAdapter);
 
-            }
-        });
+                    //grid item listener
+                    grid_cloth.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            ClothImageGrid c = (ClothImageGrid) mAdapter.getItem(position);
 
+                            clothId = Integer.parseInt(c.getClothGridID());
+
+                            Intent intent = new Intent(ClothesListActivity.this, ClothDetailActivity.class);
+                            startActivity(intent);
+
+                        }
+                    });
+
+                }
+            });
+        }
+
+
+
+    }
+
+    public int getClothId() {
+        return clothId;
     }
 
 
@@ -148,24 +211,45 @@ public class ClothesListActivity extends AppCompatActivity {
      */
     public void refresh() {
 
-        dbHelper.getAll(new DBHelper.GetAllCallback() {
-            @Override
-            public void getAll(ArrayList<ArrayList<String>> data) {
-                clothList = data;
-                gridList.clear();
+        if(category.equals("all")) {
+            dbHelper.getAll(new DBHelper.GetAllCallback() {
+                @Override
+                public void getAll(ArrayList<ArrayList<String>> data) {
+                    clothList = data;
+                    gridList.clear();
 
 //                Log.e("test", "clothList list size: " + clothList.size());
 
-                for(int i = 0; i < clothList.size(); i++) {
-                    ArrayList<String> thisCloth = clothList.get(i);
-                    Uri imgUri = Uri.parse((String)thisCloth.get(1));
-                    gridList.add(new ClothImageGrid(imgUri, thisCloth.get(0), thisCloth.get(2), thisCloth.get(3)));
-                }
+                    for(int i = 0; i < clothList.size(); i++) {
+                        ArrayList<String> thisCloth = clothList.get(i);
+                        Uri imgUri = Uri.parse((String)thisCloth.get(1));
+                        gridList.add(new ClothImageGrid(imgUri, thisCloth.get(0), thisCloth.get(2), thisCloth.get(3)));
+                    }
 
-                //update data with new grid list
-                mAdapter.notifyDataSetChanged();
-            }
-        });
+                    //update data with new grid list
+                    mAdapter.notifyDataSetChanged();
+                }
+            });
+        }
+        else {
+            dbHelper.getCategoryAll(category, new DBHelper.GetCategoryCallback() {
+                @Override
+                public void getCategoryAll(ArrayList<ArrayList<String>> data) {
+                    clothList = data;
+                    gridList.clear();
+
+                    for(int i = 0; i < clothList.size(); i++) {
+                        ArrayList<String> thisCloth = clothList.get(i);
+                        Uri imgUri = Uri.parse((String)thisCloth.get(1));
+                        gridList.add(new ClothImageGrid(imgUri, thisCloth.get(0), thisCloth.get(2), thisCloth.get(3)));
+                    }
+
+                    //update data with new grid list
+                    mAdapter.notifyDataSetChanged();
+                }
+            });
+        }
+
 
     }
 
@@ -178,6 +262,7 @@ public class ClothesListActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 this.finish();
+                this.overridePendingTransition(R.anim.no_slide, R.anim.slide_out_right);
                 return false;
             case R.id.action_refresh:
                 refresh();

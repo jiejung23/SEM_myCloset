@@ -39,8 +39,8 @@ public class DBHelper {
     public DBHelper(Context context) {
         mContext = context;
 
-        ip = "172.29.95.53"; //School
-//        ip = "192.168.7.23"; //home
+//        ip = "172.29.95.53"; //School
+        ip = "192.168.7.23"; //home
         port = 3306;
         dbName = "myCloset";
         url = "jdbc:mysql://" + ip + ":" + port + "/" + dbName;
@@ -136,6 +136,7 @@ public class DBHelper {
         thread.start();
 
     }
+
 
     public void getAll(GetAllCallback getAllCallback) {
 
@@ -397,8 +398,94 @@ public class DBHelper {
     }
 
 
+    public void getOne(int cloth_id, GetOneCallback getOneCallback) {
 
-    public void update(Clothes clothes) {
+        //get all thread
+        final Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                // connect to database
+                while (!Thread.interrupted()) {
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        Log.e(TAG, e.toString());
+                    }
+
+                    if (con == null) {
+                        try {
+                            Class.forName("com.mysql.jdbc.Driver");
+                            Log.v(TAG, "Strat JDBC Successfully");
+                        } catch (ClassNotFoundException e) {
+                            Log.e(TAG, "Strat JDBC Unsuccessfully");
+                            return;
+                        }
+
+                        // connect to JDBC
+                        try {
+                            con = DriverManager.getConnection(url, user, password);
+
+                            con.setAutoCommit(true);
+
+                            Log.i(TAG, "Connect to JDBC Successfully!");
+                            break;
+
+                        } catch (SQLException e) {
+                            Log.e(TAG, "Connect to JDBC Unsuccessfully!");
+                        }
+
+                    } else {
+                        break;
+                    }
+                }
+
+                // get all
+                if (con != null) {
+                    String sql = "select clothImg, clothCategory, clothColor, addDate from clothes where clothId=" + cloth_id;
+                    PreparedStatement pstmt;
+
+                    try {
+                        ArrayList<String> oneCloth = new ArrayList<>();
+                        pstmt = (PreparedStatement)con.prepareStatement(sql);
+
+                        ResultSet rs = pstmt.executeQuery();
+
+//                        Log.i("TAG---------", rs.getString(1));
+                        while(rs.next()) {
+                            String img = rs.getString(1);
+                            String category = rs.getString(2);
+                            String color = rs.getString(3);
+                            String add = rs.getString(4);
+                            oneCloth.add(img);
+                            oneCloth.add(category);
+                            oneCloth.add(color);
+                            oneCloth.add(add);
+                        }
+
+                        //return to main thread
+                        ((Activity)mContext).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                //insert finish or not
+                                if (getOneCallback != null) {
+                                    getOneCallback.getOne(oneCloth);
+                                }
+                            }
+                        });
+
+
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        thread.start();
+    }
+
+
+    public void update(String sql, UpdateCallback callback) {
 
         final Thread thread = new Thread(new Runnable() {
             @Override
@@ -442,14 +529,6 @@ public class DBHelper {
 
                 if (con != null) {
                     int i = 0;
-                    String sql = "update clothes set clothImg='" + clothes.getClothImg() + "', clothCategory='" + clothes.getClothCategory() +
-                            "', clothColor='" + clothes.getClothColor() +
-                            "', clothTexture='" + clothes.getClothTexture() +
-                            "', clothTags='" + clothes.getDBClothTages() +
-                            "', addDate='" + clothes.getDBAddDate() +
-                            "', checkDate='" + clothes.getDBCheckDate() +
-                            "', checkTimes='" + clothes.getCheckTimes() +
-                            "', likeTimes='" + clothes.getLikeTimes() + "' where clothID='" + clothes.getClothID() + "'";
 
                     PreparedStatement pstmt;
 
@@ -457,8 +536,20 @@ public class DBHelper {
                         pstmt = (PreparedStatement) con.prepareStatement(sql);
                         i = pstmt.executeUpdate();
 
-                        Log.i(TAG, "Update the cloth: " + clothes.getClothID() + ".");
                         pstmt.close();
+
+                        //return to main thread
+                        ((Activity)mContext).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                //insert finish or not
+                                if (callback != null) {
+                                    callback.onFinished();
+                                }
+                            }
+                        });
+
+
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
@@ -470,6 +561,98 @@ public class DBHelper {
         thread.start();
     }
 
+
+    public void getCategoryAll(String category, GetCategoryCallback getCategoryCallback) {
+
+        //get all thread
+        final Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                // connect to database
+                while (!Thread.interrupted()) {
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        Log.e(TAG, e.toString());
+                    }
+
+                    if (con == null) {
+                        try {
+                            Class.forName("com.mysql.jdbc.Driver");
+                            Log.v(TAG, "Strat JDBC Successfully");
+                        } catch (ClassNotFoundException e) {
+                            Log.e(TAG, "Strat JDBC Unsuccessfully");
+                            return;
+                        }
+
+                        // connect to JDBC
+                        try {
+                            con = DriverManager.getConnection(url, user, password);
+
+                            con.setAutoCommit(true);
+
+                            Log.i(TAG, "Connect to JDBC Successfully!");
+                            break;
+
+                        } catch (SQLException e) {
+                            Log.e(TAG, "Connect to JDBC Unsuccessfully!");
+                        }
+
+                    } else {
+                        break;
+                    }
+                }
+
+                // get all
+                if (con != null) {
+                    String sql = "select clothID, clothImg, clothCategory, clothColor from clothes where clothCategory='" + category + "'";
+                    PreparedStatement pstmt;
+
+                    try {
+                        final ArrayList<ArrayList<String>> oneList = new ArrayList<>();
+                        pstmt = (PreparedStatement)con.prepareStatement(sql);
+
+                        ResultSet rs = pstmt.executeQuery();
+
+//                        int col = rs.getMetaData().getColumnCount();
+//                        Log.i(TAG, "col: " + col);
+//                        Log.i(TAG, "1111");
+
+                        while (rs.next()) {
+                            ArrayList<String> temp = new ArrayList<>();
+                            String id = rs.getInt(1)+"";
+                            String img = rs.getString(2);
+                            String category = rs.getString(3);
+                            String color = rs.getString(4);
+                            Log.i(TAG, "cloth: " + id + ", " + img + ", " + category + "," + color);
+                            temp.add(id);
+                            temp.add(img);
+                            temp.add(category);
+                            temp.add(color);
+                            oneList.add(temp);
+                        }
+
+//                        Log.e("ddd", "all clohtes size = " + oneList.size());
+
+                        if (getCategoryCallback != null) {
+                            ((Activity) mContext).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    getCategoryCallback.getCategoryAll(oneList);
+                                }
+                            });
+                        }
+
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+
+        thread.start();
+    }
 
 
     public void delete(Clothes clothes) {
@@ -540,7 +723,15 @@ public class DBHelper {
         public void getAll(ArrayList<ArrayList<String>> data);
     }
 
+    public interface GetCategoryCallback {
+        public void getCategoryAll(ArrayList<ArrayList<String>> data);
+    }
+
     public interface InsertCallback {
+        public void onFinished();
+    }
+
+    public interface UpdateCallback {
         public void onFinished();
     }
 
@@ -550,5 +741,9 @@ public class DBHelper {
 
     public interface CountAllCallback {
         public void getAllCount(int number);
+    }
+
+    public interface GetOneCallback {
+        public void getOne(ArrayList<String> data);
     }
 }

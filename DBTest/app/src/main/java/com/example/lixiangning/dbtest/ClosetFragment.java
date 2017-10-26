@@ -32,6 +32,8 @@ public class ClosetFragment extends Fragment {
 
     int allNumber = 0;
 
+    private String category;
+
     private View view;
 
     private DBHelper dbHelper; //database class
@@ -47,8 +49,11 @@ public class ClosetFragment extends Fragment {
         imgAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                category = "All Clothes";
                 Intent intent = new Intent(getActivity(), ClothesListActivity.class);
                 startActivity(intent);
+
+                getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
         });
 
@@ -56,8 +61,10 @@ public class ClosetFragment extends Fragment {
         imgTops.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), TopsListActivity.class);
+                category = "Tops";
+                Intent intent = new Intent(getActivity(), ClothesListActivity.class);
                 startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
         });
 
@@ -65,8 +72,10 @@ public class ClosetFragment extends Fragment {
         imgPants.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), PantsListActivity.class);
+                category = "Pants";
+                Intent intent = new Intent(getActivity(), ClothesListActivity.class);
                 startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
         });
 
@@ -74,8 +83,10 @@ public class ClosetFragment extends Fragment {
         imgSkirts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), SkirtsListActivity.class);
+                category = "Skirts";
+                Intent intent = new Intent(getActivity(), ClothesListActivity.class);
                 startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
         });
 
@@ -179,6 +190,11 @@ public class ClosetFragment extends Fragment {
 
         allCount.setText(allNumber + "");
 
+    }
+
+
+    public String getCategory() {
+        return category;
     }
 
 

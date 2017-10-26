@@ -38,6 +38,7 @@ public class SpinnerAdapter extends BaseAdapter {
     public long getItemId(int position) {
         return position;
     }
+
     /**
      * 下面是重要代码
      */
