@@ -48,6 +48,9 @@
         </provider>
 
         <activity android:name=".ClothDetailActivity" />
+        <activity
+            android:name=".CropActivity"
+            android:label="@string/title_activity_crop" />
     </application>
 
 </manifest>

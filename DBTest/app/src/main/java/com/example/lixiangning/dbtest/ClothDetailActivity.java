@@ -1,5 +1,6 @@
 package com.example.lixiangning.dbtest;
 
+import android.graphics.Color;
 import android.net.Uri;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -45,6 +46,8 @@ public class ClothDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_cloth_detail);
         ActionBar actionBar = this.getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+
+        btn_save = (Button)findViewById(R.id.btn_detail_addClothes);
 
         ClothDetailActivity.this.setTitle("Details");
 
@@ -97,6 +100,8 @@ public class ClothDetailActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 clothColor = colors.get(position).getColorName();
+                ColorList thisColor = colors.get(position);
+                btn_save.setBackgroundColor(Color.parseColor(thisColor.getColorValue()));
                 parent.setVisibility(View.VISIBLE);
             }
 
@@ -108,7 +113,7 @@ public class ClothDetailActivity extends AppCompatActivity {
 
         dbHelper = new DBHelper(ClothDetailActivity.this);
 
-        btn_save = (Button)findViewById(R.id.btn_detail_addClothes);
+
 
         dbHelper.getOne(clothId, new DBHelper.GetOneCallback() {
             @Override
@@ -132,6 +137,8 @@ public class ClothDetailActivity extends AppCompatActivity {
                 }
                 spin_category.setSelection(clothCategoryPosition);
                 spin_color.setSelection(clothColorPosition);
+                ColorList thisColor = colors.get(clothColorPosition);
+                btn_save.setBackgroundColor(Color.parseColor(thisColor.getColorValue()));
 
                 btn_save.setOnClickListener(new View.OnClickListener() {
                     @Override

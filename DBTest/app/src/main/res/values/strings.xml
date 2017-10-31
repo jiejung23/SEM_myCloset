@@ -12,6 +12,8 @@
     <string name="title_activity_pants_list">Pants</string>
     <string name="title_activity_skirts_list">Skirts</string>
 
+    <string name="title_activity_crop">Crop Photo</string>
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 

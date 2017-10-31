@@ -211,7 +211,7 @@ public class ClothesListActivity extends AppCompatActivity {
      */
     public void refresh() {
 
-        if(category.equals("all")) {
+        if(category.equals("All Clothes")) {
             dbHelper.getAll(new DBHelper.GetAllCallback() {
                 @Override
                 public void getAll(ArrayList<ArrayList<String>> data) {

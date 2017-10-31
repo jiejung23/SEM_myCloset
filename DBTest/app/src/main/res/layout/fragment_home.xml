@@ -174,7 +174,7 @@
                     android:textColor="#fff"
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
-                    android:background="@color/colorPrimary"
+                    android:background="@color/colorAccent"
                     android:text="I'm Done" />
             </LinearLayout>
 
@@ -251,7 +251,7 @@
                     android:textColor="#fff"
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
-                    android:background="@color/colorPrimary"
+                    android:background="@color/colorAccent"
                     android:text="I'm Done" />
             </LinearLayout>
 
@@ -330,7 +330,7 @@
                     android:textColor="#fff"
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
-                    android:background="@color/colorPrimary"
+                    android:background="@color/colorAccent"
                     android:text="I'm Done" />
             </LinearLayout>
 

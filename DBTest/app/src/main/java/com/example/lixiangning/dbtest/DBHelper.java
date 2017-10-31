@@ -94,20 +94,26 @@ public class DBHelper {
                 // insert
                 if (con != null) {
                     int i = 0;
-                    String sql = "insert into clothes(clothImg, clothCategory, clothColor, clothTexture, clothTags, addDate, checkDate, checkTimes, likeTimes) values(?,?,?,?,?,?,?,?,?)";
+                    String sql = "insert into clothes(" + "" +
+                            "clothImg, clothCategory, clothColor, clothTexture, clothTags, addDate, checkDate, checkTimes, likeTimes) " + "" +
+                            "values('" + clothes.getClothImg() + "','" + clothes.getClothCategory() + "','"
+                            + clothes.getClothColor() + "','" + clothes.getClothTexture() + "','"
+                            + clothes.getDBClothTages() + "','" + clothes.getDBAddDate() + "','"
+                            + clothes.getDBCheckDate() + "'," + clothes.getCheckTimes() + ","
+                            + clothes.getLikeTimes() + ")";
                     PreparedStatement pstmt;
                     try {
                         pstmt = (PreparedStatement) con.prepareStatement(sql);
 
-                        pstmt.setString(1, clothes.getClothImg() + "");
-                        pstmt.setString(2, clothes.getClothCategory() + "");
-                        pstmt.setString(3, clothes.getClothColor() + "");
-                        pstmt.setString(4, clothes.getClothTexture() + "");
-                        pstmt.setString(5, clothes.getDBClothTages() + "");
-                        pstmt.setString(6, clothes.getDBAddDate() + "");
-                        pstmt.setString(7, clothes.getDBCheckDate() + "");
-                        pstmt.setString(8, clothes.getCheckTimes() + "");
-                        pstmt.setString(9, clothes.getLikeTimes() + "");
+//                        pstmt.setString(1, clothes.getClothImg());
+//                        pstmt.setString(2, clothes.getClothCategory());
+//                        pstmt.setString(3, clothes.getClothColor());
+//                        pstmt.setString(4, clothes.getClothTexture());
+//                        pstmt.setString(5, clothes.getDBClothTages());
+//                        pstmt.setString(6, clothes.getDBAddDate());
+//                        pstmt.setString(7, clothes.getDBCheckDate());
+//                        pstmt.setString(8, clothes.getCheckTimes() + "");
+//                        pstmt.setString(9, clothes.getLikeTimes() + "");
 
                         i = pstmt.executeUpdate();
 
