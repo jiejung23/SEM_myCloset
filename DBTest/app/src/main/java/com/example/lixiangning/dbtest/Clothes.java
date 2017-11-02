@@ -14,6 +14,10 @@ public class Clothes {
     String clothImg;
     String clothCategory;
     String clothColor;
+    String clothColorLabel;
+    int clothR;
+    int clothG;
+    int clothB;
     String clothTexture;
     ArrayList<String> clothTags;
     Date addDate;
@@ -21,12 +25,17 @@ public class Clothes {
     int checkTimes;
     int likeTimes;
 
-    public Clothes(String clothImg, String clothCategory, String clothColor, String clothTexture,
-                   String clothTags, String addDate, String checkDate, int checkTimes, int likeTimes) {
+    public Clothes(String clothImg, String clothCategory, String clothColor, String clothColorLabel,
+                   int clothR, int clothG, int clothB, String clothTexture, String clothTags,
+                   String addDate, String checkDate, int checkTimes, int likeTimes) {
 
         this.clothImg = clothImg;
         this.clothCategory = clothCategory;
         this.clothColor = clothColor;
+        this.clothColorLabel = clothColorLabel;
+        this.clothR = clothR;
+        this.clothG = clothG;
+        this.clothB = clothB;
         this.clothTexture = clothTexture;
 
         this.clothTags = new ArrayList<String>() ;
@@ -62,6 +71,18 @@ public class Clothes {
     }
     public String getClothColor() {
         return this.clothColor;
+    }
+    public String getClothColorLabel() {
+        return this.clothColorLabel;
+    }
+    public int getClothR() {
+        return this.clothR;
+    }
+    public int getClothG() {
+        return this.clothG;
+    }
+    public int getClothB() {
+        return this.clothB;
     }
     public String getClothTexture() {
         return this.clothTexture;

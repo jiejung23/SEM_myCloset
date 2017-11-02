@@ -54,7 +54,7 @@ public class SpinnerAdapter extends BaseAdapter {
             textColorValue.setBackgroundColor(Color.parseColor(mList.get(position).getColorValue()));
 
             textColorName.setText(mList.get(position).getColorName());
-        }
+    }
         return convertView;
     }
 }

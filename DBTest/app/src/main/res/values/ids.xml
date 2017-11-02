@@ -2,4 +2,6 @@
 <resources>
     <item name="text_colorName" type="id"></item>
     <item name="text_colorValue" type="id"></item>
+    <item name="visible" type="id"/>
+    <item name="masked" type="id"/>
 </resources>

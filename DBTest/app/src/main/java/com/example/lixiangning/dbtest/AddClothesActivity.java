@@ -27,13 +27,19 @@ import android.support.v7.widget.PagerSnapHelper;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,16 +61,32 @@ import java.util.Map;
 
 public class AddClothesActivity extends AppCompatActivity implements CameraPopupWindow.OnItemClickListener {
 
-    private Spinner spin_color;
     private Spinner spin_category;
     private String clothCategory;
     private String clothColor;
+    private String clothColorLabel;
+    private int rValue = 0;
+    private int gValue = 0;
+    private int bValue = 0;
+
+    private float hue = (float)0.0;
+    private float saturation = (float)0.0;
+    private float brightness = (float)0.0;
+
+    private int colorClicked = 0;
 
     private CameraPopupWindow mPop;
 
+    private LinearLayout add_main;
+    private LinearLayout color_picker;
     private ImageView imgCamera;
     private TextView notification;
     private Button btn_add;
+    private TextView text_choose_color;
+    private EditText text_tag;
+    private SeekBar seekR;
+    private SeekBar seekG;
+    private SeekBar seekB;
 
     Uri imageUri = null;
     File imageFile = null;
@@ -85,69 +107,160 @@ public class AddClothesActivity extends AppCompatActivity implements CameraPopup
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_clothes);
 
-
         ActionBar actionBar = this.getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        spin_color  = (Spinner) findViewById(R.id.spin_color);
+        add_main = (LinearLayout) findViewById(R.id.add_main);
+        color_picker = (LinearLayout) findViewById(R.id.color_picker);
+        btn_add = (Button)findViewById(R.id.btn_addClothes);
+        text_tag = (EditText) findViewById(R.id.editText_tages);
+        notification = (TextView)findViewById(R.id.add_notification);
+        seekR = (SeekBar) findViewById(R.id.seekBar_R);
+        seekG = (SeekBar) findViewById(R.id.seekBar_G);
+        seekB = (SeekBar) findViewById(R.id.seekBar_B);
+        text_choose_color = (TextView) findViewById(R.id.text_choose_color);
         spin_category = (Spinner) findViewById(R.id.spin_category);
+        imgCamera = (ImageView) findViewById(R.id.img_clothes);
 
-        List<ColorList> categories = new ArrayList<ColorList>();
-        categories.add(new ColorList("Tops", "#01000000"));
-        categories.add(new ColorList("Skirts", "#01000000"));
-        categories.add(new ColorList("Pants", "#01000000"));
-        SpinnerAdapter categoryAdapter = new SpinnerAdapter(this, categories);
+        seekR.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            /**
+             * 拖动条停止拖动的时候调用
+             */
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+            /**
+             * 拖动条开始拖动的时候调用
+             */
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+            /**
+             * 拖动条进度改变的时候调用
+             */
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                hue = (float)progress * 359 / 100;
+                float[] hsbArray = {hue, 1-saturation, 1-brightness};
+                float[] rgbArray = hsb2rgb(hsbArray);
+                rValue = (int)rgbArray[0];
+                gValue = (int)rgbArray[1];
+                bValue = (int)rgbArray[2];
+                btn_add.setBackgroundColor(Color.rgb(rValue, gValue, bValue));
+                text_choose_color.setBackgroundColor(Color.rgb(rValue, gValue, bValue));
+            }
+        });
+
+        seekG.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            /**
+             * 拖动条停止拖动的时候调用
+             */
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+            /**
+             * 拖动条开始拖动的时候调用
+             */
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+            /**
+             * 拖动条进度改变的时候调用
+             */
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                saturation = (float)progress / 100;
+                float[] hsbArray = {hue, 1-saturation, 1-brightness};
+                float[] rgbArray = hsb2rgb(hsbArray);
+                rValue = (int)rgbArray[0];
+                gValue = (int)rgbArray[1];
+                bValue = (int)rgbArray[2];
+                btn_add.setBackgroundColor(Color.rgb(rValue, gValue, bValue));
+                text_choose_color.setBackgroundColor(Color.rgb(rValue, gValue, bValue));
+            }
+        });
+
+        seekB.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            /**
+             * 拖动条停止拖动的时候调用
+             */
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+            /**
+             * 拖动条开始拖动的时候调用
+             */
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+            /**
+             * 拖动条进度改变的时候调用
+             */
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                brightness = (float)progress / 100;
+                float[] hsbArray = {hue, 1-saturation, 1-brightness};
+                float[] rgbArray = hsb2rgb(hsbArray);
+                rValue = (int)rgbArray[0];
+                gValue = (int)rgbArray[1];
+                bValue = (int)rgbArray[2];
+                btn_add.setBackgroundColor(Color.rgb(rValue, gValue, bValue));
+                text_choose_color.setBackgroundColor(Color.rgb(rValue, gValue, bValue));
+            }
+        });
+
+
+        add_main.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View arg0, MotionEvent arg1) {
+                add_main.requestFocus();
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(text_tag.getWindowToken(), 0);
+                return false;
+            }
+        });
+
+
+        List<CategoryList> categories = new ArrayList<CategoryList>();
+        categories.add(new CategoryList("Tops"));
+        categories.add(new CategoryList("Skirts"));
+        categories.add(new CategoryList("Pants"));
+        CategorySpinnerAdapter categoryAdapter = new CategorySpinnerAdapter(this, categories);
         spin_category.setAdapter(categoryAdapter);
-
-        List<ColorList> colors = new ArrayList<ColorList>();
-        colors.add(new ColorList("White", "#ffffff"));
-        colors.add(new ColorList("Black", "#000000"));
-        colors.add(new ColorList("Grey", "#9e9e9e" ));
-        colors.add(new ColorList("Brown", "#795548"));
-        colors.add(new ColorList("Blue", "#2196f3"));
-        colors.add(new ColorList("Green", "#4caf50"));
-        colors.add(new ColorList("Purple", "#9c27b0"));
-        colors.add(new ColorList("Yellow", "#ffeb3b"));
-        colors.add(new ColorList("Pink", "#e91e63"));
-        colors.add(new ColorList("Red", "#f44336"));
-        colors.add(new ColorList("Orange", "#ff9800"));
-        colors.add(new ColorList("Other", "#ffffff"));
-        SpinnerAdapter colorAdapter = new SpinnerAdapter(this, colors);
-        spin_color.setAdapter(colorAdapter);
 
         spin_category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                clothCategory = categories.get(position).getColorName();
+                clothCategory = categories.get(position).getCategoryName();
                 parent.setVisibility(View.VISIBLE);
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 clothCategory = "";
             }
         });
 
-        spin_color.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                clothColor = colors.get(position).getColorName();
-                parent.setVisibility(View.VISIBLE);
-            }
 
+        //color onClickListener
+        text_choose_color.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                clothColor = "";
+            public void onClick(View view) {
+                if(colorClicked == 0) {
+                    color_picker.setVisibility(View.VISIBLE);
+                    text_choose_color.setText("Done");
+                    colorClicked = 1;
+                } else {
+                    color_picker.setVisibility(View.GONE);
+                    text_choose_color.setText("Click to change color");
+                    colorClicked = 0;
+                }
             }
         });
 
-        imgCamera = (ImageView) findViewById(R.id.img_clothes);
+
         mPop = new CameraPopupWindow(this);
         mPop.setOnItemClickListener(this);
-
-
-        notification = (TextView)findViewById(R.id.add_notification);
-
 
         imgCamera.setOnClickListener(new View.OnClickListener() {
 
@@ -171,21 +284,22 @@ public class AddClothesActivity extends AppCompatActivity implements CameraPopup
             }
         });
 
-
-        btn_add = (Button)findViewById(R.id.btn_addClothes);
-
         //add cloth to database
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(imageUri == null) {
+                    notification.setVisibility(View.VISIBLE);
                     notification.setText("Please choose a picture.");
                     return;
                 }
                 String clothImg = imageUri.toString();
-//                String clothImg = "";
                 String category = clothCategory;
-                String color = clothColor;
+                String color = clothColor = "";
+                String colorLabel = clothColorLabel = "";
+                int colorR = rValue;
+                int colorG = gValue;
+                int colorB = bValue;
                 String clothTexture = "";
                 String clothTags = "";
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -195,7 +309,11 @@ public class AddClothesActivity extends AppCompatActivity implements CameraPopup
                 int checkTimes = 0;
                 int likeTimes = 0;
 
-                Clothes clothes = new Clothes(clothImg, category, color, clothTexture, clothTags, addDate, checkDate, checkTimes, likeTimes);
+                //Map to color name
+                MapRGBToColor map = new MapRGBToColor(colorR, colorG, colorB);
+                int nameIndex = map.getColorName();
+
+                Clothes clothes = new Clothes(clothImg, category, color, colorLabel, colorR, colorG, colorB, clothTexture, clothTags, addDate, checkDate, checkTimes, likeTimes);
 
                 DBHelper dbHelper = new DBHelper(AddClothesActivity.this);
 
@@ -232,7 +350,6 @@ public class AddClothesActivity extends AppCompatActivity implements CameraPopup
         }
     }
 
-
     @Override
     public void setOnItemClick(View v) {
         switch(v.getId()){
@@ -252,7 +369,6 @@ public class AddClothesActivity extends AppCompatActivity implements CameraPopup
                 break;
         }
     }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -378,7 +494,7 @@ public class AddClothesActivity extends AppCompatActivity implements CameraPopup
 
 
     private void albumPhoto() {
-        Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, CHOOSE_PHOTO);
     }
 
@@ -480,21 +596,45 @@ public class AddClothesActivity extends AppCompatActivity implements CameraPopup
         int len = str.length();
         String rgb = str.substring(1, len-1);
         String[] rgbArray = rgb.split(", ");
-        int rValue = Integer.parseInt(rgbArray[0]);
-        int gValue = Integer.parseInt(rgbArray[1]);
-        int bValue = Integer.parseInt(rgbArray[2]);
+        rValue = Integer.parseInt(rgbArray[0]);
+        gValue = Integer.parseInt(rgbArray[1]);
+        bValue = Integer.parseInt(rgbArray[2]);
 
         btn_add.setBackgroundColor(Color.rgb(rValue, gValue, bValue));
 
-        if(rValue==117 && gValue==117 && bValue==117) {
-            spin_color.setSelection(2);
-        } else if(rValue==198 && gValue==16 && bValue==15) {
-            spin_color.setSelection(9);
-        } else if(rValue==8 && gValue==8 && bValue==8) {
-            spin_color.setSelection(1);
-        } else if(rValue==15 && gValue==163 && bValue==15) {
-            spin_color.setSelection(5);
+//        MapRGBToColor mapRGBToColor = new MapRGBToColor(rValue, gValue, bValue);
+//        int pos = mapRGBToColor.getColorName();
+//        spin_color.setSelection(pos);
+
+        text_choose_color.setBackgroundColor(Color.rgb(rValue, gValue, bValue));
+
+        clothColorLabel = "";
+
+        clothColor = "";
+
+    }
+
+
+    public float[] hsb2rgb(float[] hsb) {
+        float[] rgb= new float[3];
+        //先令饱和度和亮度为100%，调节色相h
+        for(int offset=240,i=0;i<3;i++,offset-=120) {
+            //算出色相h的值和三个区域中心点(即0°，120°和240°)相差多少，然后根据坐标图按分段函数算出rgb。但因为色环展开后，红色区域的中心点是0°同时也是360°，不好算，索性将三个区域的中心点都向右平移到240°再计算比较方便
+            float x=Math.abs((hsb[0]+offset)%360-240);
+            //如果相差小于60°则为255
+            if(x<=60) rgb[i]=255;
+                //如果相差在60°和120°之间，
+            else if(60<x && x<120) rgb[i]=((1-(x-60)/60)*255);
+                //如果相差大于120°则为0
+            else rgb[i]=0;
         }
+        //在调节饱和度s
+        for(int i=0;i<3;i++)
+            rgb[i]+=(255-rgb[i])*(1-hsb[1]);
+        //最后调节亮度b
+        for(int i=0;i<3;i++)
+            rgb[i]*=hsb[2];
+        return rgb;
     }
 
 //    @TargetApi(Build.VERSION_CODES.KITKAT)

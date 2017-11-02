@@ -95,9 +95,11 @@ public class DBHelper {
                 if (con != null) {
                     int i = 0;
                     String sql = "insert into clothes(" + "" +
-                            "clothImg, clothCategory, clothColor, clothTexture, clothTags, addDate, checkDate, checkTimes, likeTimes) " + "" +
+                            "clothImg, clothCategory, clothColor, clothColorLabel, clothR, clothG, clothB, clothTexture, clothTags, addDate, checkDate, checkTimes, likeTimes) " + "" +
                             "values('" + clothes.getClothImg() + "','" + clothes.getClothCategory() + "','"
-                            + clothes.getClothColor() + "','" + clothes.getClothTexture() + "','"
+                            + clothes.getClothColor() + "','" + clothes.getClothColorLabel() + "','"
+                            + clothes.getClothR() + "','" + clothes.getClothG() + "','"
+                            + clothes.getClothB() + "','" + clothes.getClothTexture() + "','"
                             + clothes.getDBClothTages() + "','" + clothes.getDBAddDate() + "','"
                             + clothes.getDBCheckDate() + "'," + clothes.getCheckTimes() + ","
                             + clothes.getLikeTimes() + ")";
@@ -448,7 +450,7 @@ public class DBHelper {
 
                 // get all
                 if (con != null) {
-                    String sql = "select clothImg, clothCategory, clothColor, addDate from clothes where clothId=" + cloth_id;
+                    String sql = "select clothImg, clothCategory, clothColor, clothColorLabel, clothR, clothG, clothB, addDate from clothes where clothId=" + cloth_id;
                     PreparedStatement pstmt;
 
                     try {
@@ -462,10 +464,18 @@ public class DBHelper {
                             String img = rs.getString(1);
                             String category = rs.getString(2);
                             String color = rs.getString(3);
-                            String add = rs.getString(4);
+                            String colorLabel = rs.getString(4);
+                            String colorR = rs.getInt(5) + "";
+                            String colorG = rs.getInt(6) + "";
+                            String colorB = rs.getInt(7) + "";
+                            String add = rs.getString(8);
                             oneCloth.add(img);
                             oneCloth.add(category);
                             oneCloth.add(color);
+                            oneCloth.add(colorLabel);
+                            oneCloth.add(colorR);
+                            oneCloth.add(colorG);
+                            oneCloth.add(colorB);
                             oneCloth.add(add);
                         }
 

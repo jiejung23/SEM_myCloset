@@ -205,7 +205,6 @@ public class ClothesListActivity extends AppCompatActivity {
     }
 
 
-
     /**
      * Refresh grid list
      */
