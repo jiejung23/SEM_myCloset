@@ -264,9 +264,9 @@ public class ClothDetailActivity extends AppCompatActivity {
                         int colorG = gValue;
                         int colorB = bValue;
 
-                        //Map to color name
-                        MapRGBToColor map = new MapRGBToColor(colorR, colorG, colorB);
-                        int nameIndex = map.getColorName();
+//                        //Map to color name
+//                        MapRGBToColor map = new MapRGBToColor(colorR, colorG, colorB);
+//                        int nameIndex = map.getColorName();
 
                         String sql = "update clothes set clothImg='" + clothImg +
                                 "', clothCategory='" + category +

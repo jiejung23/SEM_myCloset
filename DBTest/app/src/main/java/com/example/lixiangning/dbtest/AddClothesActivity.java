@@ -309,9 +309,9 @@ public class AddClothesActivity extends AppCompatActivity implements CameraPopup
                 int checkTimes = 0;
                 int likeTimes = 0;
 
-                //Map to color name
-                MapRGBToColor map = new MapRGBToColor(colorR, colorG, colorB);
-                int nameIndex = map.getColorName();
+//                //Map to color name
+//                MapRGBToColor map = new MapRGBToColor(colorR, colorG, colorB);
+//                int nameIndex = map.getColorName();
 
                 Clothes clothes = new Clothes(clothImg, category, color, colorLabel, colorR, colorG, colorB, clothTexture, clothTags, addDate, checkDate, checkTimes, likeTimes);
 
@@ -322,8 +322,10 @@ public class AddClothesActivity extends AppCompatActivity implements CameraPopup
                     @Override
                     public void onFinished() {
 
-                        //refresh clothes grid list
-                        ClothesListActivity.instance.refresh();
+                        if(ClothesListActivity.instance != null) {
+                            //refresh clothes grid list
+                            ClothesListActivity.instance.refresh();
+                        }
 
                         ClosetFragment.instance.refresh();
 
