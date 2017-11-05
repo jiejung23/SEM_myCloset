@@ -12,318 +12,387 @@ import java.util.Map;
 
 public class MapRGBToColor {
 
-    private double r, g, b;
-    double res;
-    private Map<Double, String> map;
+    private float h, s, b;
+    private String colorName = "";
 
-    public MapRGBToColor(int r, int g, int b) {
-        this.r = r;
-        this.g = g;
+    public MapRGBToColor(float h, float s, float b) {
+        this.h = h;
+        this.s = s;
         this.b = b;
-        map = new HashMap<>();
-
-    }
-
-    public void initRGBMap() {
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-67), 2) + Math.pow((b-54), 2)), "Red 500" );
-        map.put( (Math.pow((r-255), 2) + Math.pow((g-235), 2) + Math.pow((b-238), 2)), "Red 50" );
-        map.put( (Math.pow((r-255), 2) + Math.pow((g-205), 2) + Math.pow((b-210), 2)), "Red 100" );
-        map.put( (Math.pow((r-239), 2) + Math.pow((g-154), 2) + Math.pow((b-154), 2)), "Red 200" );
-        map.put( (Math.pow((r-229), 2) + Math.pow((g-115), 2) + Math.pow((b-115), 2)), "Red 300" );
-        map.put( (Math.pow((r-239), 2) + Math.pow((g-83), 2) + Math.pow((b-80), 2)), "Red 400" );
-        map.put( (Math.pow((r-229), 2) + Math.pow((g-57), 2) + Math.pow((b-53), 2)), "Red 600" );
-        map.put( (Math.pow((r-211), 2) + Math.pow((g-47), 2) + Math.pow((b-47), 2)), "Red 700" );
-        map.put( (Math.pow((r-198), 2) + Math.pow((g-40), 2) + Math.pow((b-40), 2)), "Red 800" );
-        map.put( (Math.pow((r-183), 2) + Math.pow((g-28), 2) + Math.pow((b-28), 2)), "Red 900" );
-        map.put( (Math.pow((r-255), 2) + Math.pow((g-138), 2) + Math.pow((b-128), 2)), "Red A100" );
-        map.put( (Math.pow((r-255), 2) + Math.pow((g-82), 2) + Math.pow((b-82), 2)), "Red A200" );
-        map.put( (Math.pow((r-255), 2) + Math.pow((g-23), 2) + Math.pow((b-68), 2)), "Red A400" );
-        map.put( (Math.pow((r-213), 2) + Math.pow((g-0), 2) + Math.pow((b-0), 2)), "Red A700" );
-
-        map.put( (Math.pow((r-233), 2) + Math.pow((g-30), 2) + Math.pow((b-99), 2)), "Pink 500" );
-        map.put( (Math.pow((r-252), 2) + Math.pow((g-228), 2) + Math.pow((b-236), 2)), "Pink 50" );
-        map.put( (Math.pow((r-248), 2) + Math.pow((g-187), 2) + Math.pow((b-208), 2)), "Pink 100" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-143), 2) + Math.pow((b-177), 2)), "Pink 200" );
-        map.put( (Math.pow((r-240), 2) + Math.pow((g-98), 2) + Math.pow((b-146), 2)), "Pink 300" );
-        map.put( (Math.pow((r-236), 2) + Math.pow((g-64), 2) + Math.pow((b-122), 2)), "Pink 400" );
-        map.put( (Math.pow((r-216), 2) + Math.pow((g-27), 2) + Math.pow((b-96), 2)), "Pink 600" );
-        map.put( (Math.pow((r-194), 2) + Math.pow((g-24), 2) + Math.pow((b-91), 2)), "Pink 700" );
-        map.put( (Math.pow((r-173), 2) + Math.pow((g-20), 2) + Math.pow((b-87), 2)), "Pink 800" );
-        map.put( (Math.pow((r-136), 2) + Math.pow((g-14), 2) + Math.pow((b-79), 2)), "Pink 900" );
-        map.put( (Math.pow((r-255), 2) + Math.pow((g-128), 2) + Math.pow((b-171), 2)), "Pink A100" );
-        map.put( (Math.pow((r-255), 2) + Math.pow((g-64), 2) + Math.pow((b-129), 2)), "Pink A200" );
-        map.put( (Math.pow((r-245), 2) + Math.pow((g-0), 2) + Math.pow((b-87), 2)), "Pink A400" );
-        map.put( (Math.pow((r-197), 2) + Math.pow((g-17), 2) + Math.pow((b-98), 2)), "Pink A700" );
-
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Purple 500" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Purple 50" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Purple 100" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Purple 200" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Purple 300" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Purple 400" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Purple 600" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Purple 700" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Purple 800" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Purple 900" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Purple A100" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Purple A200" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Purple A400" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Purple A700" );
-
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "DeepPurple 500" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "DeepPurple 50" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "DeepPurple 100" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "DeepPurple 200" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "DeepPurple 300" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "DeepPurple 400" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "DeepPurple 600" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "DeepPurple 700" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "DeepPurple 800" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "DeepPurple 900" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "DeepPurple A100" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "DeepPurple A200" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "DeepPurple A400" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "DeepPurple A700" );
-
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Indigo 500" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Indigo 50" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Indigo 100" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Indigo 200" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Indigo 300" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Indigo 400" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Indigo 600" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Indigo 700" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Indigo 800" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Indigo 900" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Indigo A100" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Indigo A200" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Indigo A400" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Indigo A700" );
-
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Blue 500" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Blue 50" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Blue 100" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Blue 200" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Blue 300" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Blue 400" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Blue 600" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Blue 700" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Blue 800" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Blue 900" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Blue A100" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Blue A200" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Blue A400" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Blue A700" );
-
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "LightBlue 500" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "LightBlue 50" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "LightBlue 100" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "LightBlue 200" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "LightBlue 300" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "LightBlue 400" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "LightBlue 600" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "LightBlue 700" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "LightBlue 800" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "LightBlue 900" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "LightBlue A100" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "LightBlue A200" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "LightBlue A400" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "LightBlue A700" );
-
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Cyan 500" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Cyan 50" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Cyan 100" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Cyan 200" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Cyan 300" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Cyan 400" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Cyan 600" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Cyan 700" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Cyan 800" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Cyan 900" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Cyan A100" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Cyan A200" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Cyan A400" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Cyan A700" );
-
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Teal 500" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Teal 50" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Teal 100" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Teal 200" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Teal 300" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Teal 400" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Teal 600" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Teal 700" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Teal 800" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Teal 900" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Teal A100" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Teal A200" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Teal A400" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Teal A700" );
-
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Green 500" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Green 50" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Green 100" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Green 200" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Green 300" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Green 400" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Green 600" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Green 700" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Green 800" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Green 900" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Green A100" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Green A200" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Green A400" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Green A700" );
-
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "LightGreen 500" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "LightGreen 50" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "LightGreen 100" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "LightGreen 200" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "LightGreen 300" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "LightGreen 400" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "LightGreen 600" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "LightGreen 700" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "LightGreen 800" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "LightGreen 900" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "LightGreen A100" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "LightGreen A200" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "LightGreen A400" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "LightGreen A700" );
-
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Lime 500" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Lime 50" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Lime 100" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Lime 200" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Lime 300" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Lime 400" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Lime 600" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Lime 700" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Lime 800" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Lime 900" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Lime A100" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Lime A200" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Lime A400" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Lime A700" );
-
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Yellow 500" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Yellow 50" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Yellow 100" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Yellow 200" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Yellow 300" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Yellow 400" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Yellow 600" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Yellow 700" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Yellow 800" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Yellow 900" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Yellow A100" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Yellow A200" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Yellow A400" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Yellow A700" );
-
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Amber 500" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Amber 50" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Amber 100" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Amber 200" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Amber 300" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Amber 400" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Amber 600" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Amber 700" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Amber 800" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Amber 900" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Amber A100" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Amber A200" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Amber A400" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Amber A700" );
-
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Orange 500" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Orange 50" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Orange 100" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Orange 200" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Orange 300" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Orange 400" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Orange 600" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Orange 700" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Orange 800" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Orange 900" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Orange A100" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Orange A200" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Orange A400" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Orange A700" );
-
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "DeepOrange 500" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "DeepOrange 50" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "DeepOrange 100" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "DeepOrange 200" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "DeepOrange 300" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "DeepOrange 400" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "DeepOrange 600" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "DeepOrange 700" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "DeepOrange 800" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "DeepOrange 900" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "DeepOrange A100" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "DeepOrange A200" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "DeepOrange A400" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "DeepOrange A700" );
-
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Grey 500" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Grey 50" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Grey 100" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Grey 200" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Grey 300" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Grey 400" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Grey 600" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Grey 700" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Grey 800" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Grey 900" );
-
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "BlueGrey 500" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "BlueGrey 50" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "BlueGrey 100" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "BlueGrey 200" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "BlueGrey 300" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "BlueGrey 400" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "BlueGrey 600" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "BlueGrey 700" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "BlueGrey 800" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "BlueGrey 900" );
-
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Brown 500" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Brown 50" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Brown 100" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Brown 200" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Brown 300" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Brown 400" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Brown 600" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Brown 700" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Brown 800" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Brown 900" );
-
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "Black" );
-        map.put( (Math.pow((r-244), 2) + Math.pow((g-244), 2) + Math.pow((b-244), 2)), "White" );
-
-    }
-
-
-    public void initHSBMap() {
-
     }
 
     public String getColorName() {
-        String color = "";
 
-        double min = Double.MAX_VALUE;
-
-        for (Map.Entry<Double, String> entry : map.entrySet()) {
-
-            if(entry.getKey() < min) {
-                min = entry.getKey();
-            }
-
+        if(b >= 0.9 && s <= 0.05) {
+            colorName = "white";
+        }
+        else if (b >= 0.6 && b < 0.9 && s < 0.08) {
+            colorName = "gray, light gray";
+        }
+        else if(b >= 0.4 && b < 0.6 && s < 0.15) {
+            colorName = "gray";
+        }
+        else if(b >= 0.2 && b < 0.4 && s < 0.15) {
+            colorName = "gray, dark gray";
+        }
+        else if(b < 0.2) {
+            colorName = "black";
         }
 
-        color = map.get(min);
 
-        return color;
+        else if(h <= 5 || h > 355) {
+            if(b >= 0.65 && s >= 0.75) {
+                colorName = "red";
+            } else if(b < 0.65 && b >= 0.2 && s >= 0.6) {
+                colorName = "red, dark red";
+            } else if((b >= 0.9 && s >= 0.05 && s < 0.75) || (s < 0.5 && s >= 0.25 && b >= 0.8)) {
+                colorName = "red, light red";
+            } else if((b >= 0.65 && b < 0.9 && s >= 0.5 && s < 0.75) || (b >= 0.2 && b < 0.9 && s >= 0.5 && s < 0.6)) {
+                colorName = "red, dark red";
+            } else if(b >= 0.15 && b < 0.5 && s >= 0.2 && s < 0.5){
+                colorName = "red, dark red, gray";
+            } else {
+                colorName = "red, gray";
+            }
+        }
+
+        else if(h <= 355 && h > 350) {
+            if(b >= 0.65 && s >= 0.75) {
+                colorName = "red";
+            } else if(b < 0.65 && b >= 0.2 && s >= 0.6) {
+                colorName = "red, dark red";
+            } else if(b >= 0.9 && s >= 0.05 && s < 0.75) {
+                colorName = "red, light red, pink, light pink";
+            } else if(s < 0.5 && s >= 0.25 && b >= 0.8) {
+                colorName = "red, light red, pink, light pink";
+            } else if((b >= 0.65 && b < 0.9 && s >= 0.5 && s < 0.75) || (b >= 0.2 && b < 0.9 && s >= 0.5 && s < 0.6)) {
+                colorName = "red, dark red";
+            } else if(b >= 0.15 && b < 0.5 && s >= 0.2 && s < 0.5){
+                colorName = "red, dark red, gray";
+            } else {
+                colorName = "red, gray";
+            }
+        }
+
+        else if(h <= 350 && h > 340) {
+            if(b >= 0.65 && s >= 0.75) {
+                colorName = "red, pink";
+            } else if(b < 0.65 && b >= 0.2 && s >= 0.6) {
+                colorName = "red, dark red, dark pink";
+            } else if(b >= 0.9 && s >= 0.05 && s < 0.75) {
+                colorName = "red, light red, pink, light pink";
+            } else if(s < 0.5 && s >= 0.25 && b >= 0.8) {
+                colorName = "red, light red, pink, light pink";
+            } else if((b >= 0.65 && b < 0.9 && s >= 0.5 && s < 0.75) || (b >= 0.2 && b < 0.9 && s >= 0.5 && s < 0.6)) {
+                colorName = "red, dark red, pink, dark pink";
+            } else if(b >= 0.15 && b < 0.5 && s >= 0.2 && s < 0.5){
+                colorName = "red, dark red, pink, dark pink, gray";
+            } else {
+                colorName = "red, pink, gray";
+            }
+        }
+
+        else if(h <= 340 && h > 325) {
+            if(b >= 0.65 && s >= 0.75) {
+                colorName = "pink";
+            } else if(b < 0.65 && b >= 0.2 && s >= 0.6) {
+                colorName = "pink, dark pink";
+            } else if((b >= 0.9 && s >= 0.05 && s < 0.75) || (s < 0.5 && s >= 0.25 && b >= 0.8)) {
+                colorName = "pink, light pink";
+            } else if((b >= 0.65 && b < 0.9 && s >= 0.5 && s < 0.75) || (b >= 0.2 && b < 0.9 && s >= 0.5 && s < 0.6)) {
+                colorName = "pink, dark pink";
+            } else if(b >= 0.15 && b < 0.5 && s >= 0.2 && s < 0.5){
+                colorName = "pink, dark pink, gray";
+            } else {
+                colorName = "pink, gray";
+            }
+        }
+
+        else if(h <= 325 && h > 305) {
+            if(b >= 0.65 && s >= 0.75) {
+                colorName = "pink";
+            } else if(b < 0.65 && b >= 0.2 && s >= 0.6) {
+                colorName = "pink, dark pink, purple, dark purple";
+            } else if((b >= 0.9 && s >= 0.05 && s < 0.75) || (s < 0.5 && s >= 0.25 && b >= 0.8)) {
+                colorName = "pink, light pink";
+            } else if((b >= 0.65 && b < 0.9 && s >= 0.5 && s < 0.75) || (b >= 0.2 && b < 0.9 && s >= 0.5 && s < 0.6)) {
+                colorName = "pink, dark pink, purple, dark purple";
+            } else if(b >= 0.15 && b < 0.5 && s >= 0.2 && s < 0.5){
+                colorName = "pink, dark pink, purple, dark purple, gray";
+            } else {
+                colorName = "pink, purple, gray";
+            }
+        }
+
+        else if(h <= 305 && h > 295) {
+            if(b >= 0.65 && s >= 0.75) {
+                colorName = "pink, purple";
+            } else if(b < 0.65 && b >= 0.2 && s >= 0.6) {
+                colorName = "pink, dark pink, purple, dark purple";
+            } else if((b >= 0.9 && s >= 0.05 && s < 0.75) || (s < 0.5 && s >= 0.25 && b >= 0.8)) {
+                colorName = "pink, light pink, purple, light purple";
+            } else if((b >= 0.65 && b < 0.9 && s >= 0.5 && s < 0.75) || (b >= 0.2 && b < 0.9 && s >= 0.5 && s < 0.6)) {
+                colorName = "pink, dark pink, purple, dark purple";
+            } else if(b >= 0.15 && b < 0.5 && s >= 0.2 && s < 0.5){
+                colorName = "pink, dark pink, purple, dark purple, gray";
+            } else {
+                colorName = "pink, purple, gray";
+            }
+        }
+
+        else if(h <= 295 && h > 260) {
+            if(b >= 0.65 && s >= 0.75) {
+                colorName = "purple";
+            } else if(b < 0.65 && b >= 0.2 && s >= 0.6) {
+                colorName = "purple, dark purple";
+            } else if((b >= 0.9 && s >= 0.05 && s < 0.75) || (s < 0.5 && s >= 0.25 && b >= 0.8)) {
+                colorName = "purple, light purple";
+            } else if((b >= 0.65 && b < 0.9 && s >= 0.5 && s < 0.75) || (b >= 0.2 && b < 0.9 && s >= 0.5 && s < 0.6)) {
+                colorName = "purple, dark purple";
+            } else if(b >= 0.15 && b < 0.5 && s >= 0.2 && s < 0.5){
+                colorName = "purple, dark purple, gray";
+            } else {
+                colorName = "purple, gray";
+            }
+        }
+
+        else if(h <= 260 && h > 245) {
+            if(b >= 0.65 && s >= 0.75) {
+                colorName = "indigo, blue,purple";
+            } else if(b < 0.65 && b >= 0.2 && s >= 0.6) {
+                colorName = "indigo, dark indigo, blue, dark blue, purple, dark purple";
+            } else if((b >= 0.9 && s >= 0.05 && s < 0.75) || (s < 0.5 && s >= 0.25 && b >= 0.8)) {
+                colorName = "indigo, light indigo, purple, light purple";
+            } else if((b >= 0.65 && b < 0.9 && s >= 0.5 && s < 0.75) || (b >= 0.2 && b < 0.9 && s >= 0.5 && s < 0.6)) {
+                colorName = "indigo, dark indigo, blue, dark blue, purple, dark purple";
+            } else if(b >= 0.15 && b < 0.5 && s >= 0.2 && s < 0.5){
+                colorName = "indigo, dark indigo, blue, dark blue, purple, dark purple, gray";
+            } else {
+                colorName = "indigo, blue, purple, gray";
+            }
+        }
+
+        else if(h <= 245 && h > 230) {
+            if(b >= 0.65 && s >= 0.75) {
+                colorName = "indigo, blue, dark blue";
+            } else if(b < 0.65 && b >= 0.2 && s >= 0.6) {
+                colorName = "indigo, dark indigo, blue,dark blue";
+            } else if((b >= 0.9 && s >= 0.05 && s < 0.75) || (s < 0.5 && s >= 0.25 && b >= 0.8)) {
+                colorName = "indigo, light indigo, blue, light blue";
+            } else if((b >= 0.65 && b < 0.9 && s >= 0.5 && s < 0.75) || (b >= 0.2 && b < 0.9 && s >= 0.5 && s < 0.6)) {
+                colorName = "indigo, dark indigo, blue, dark blue";
+            } else if(b >= 0.15 && b < 0.5 && s >= 0.2 && s < 0.5){
+                colorName = "indigo, dark indigo, blue, dark blue, gray";
+            } else {
+                colorName = "indigo, blue, gray";
+            }
+        }
+
+        else if(h <= 230 && h > 200) {
+            if(b >= 0.65 && s >= 0.75) {
+                colorName = "blue";
+            } else if(b < 0.65 && b >= 0.2 && s >= 0.6) {
+                colorName = "blue, dark blue";
+            } else if((b >= 0.9 && s >= 0.05 && s < 0.75) || (s < 0.5 && s >= 0.25 && b >= 0.8)) {
+                colorName = "blue, light blue";
+            } else if((b >= 0.65 && b < 0.9 && s >= 0.5 && s < 0.75) || (b >= 0.2 && b < 0.9 && s >= 0.5 && s < 0.6)) {
+                colorName = "blue, dark blue";
+            } else if(b >= 0.15 && b < 0.5 && s >= 0.2 && s < 0.5){
+                colorName = "blue, dark blue, gray";
+            } else {
+                colorName = "blue, gray";
+            }
+        }
+
+        else if(h <= 200 && h > 190) {
+            if(b >= 0.65 && s >= 0.75) {
+                colorName = "blue, cyan";
+            } else if(b < 0.65 && b >= 0.2 && s >= 0.6) {
+                colorName = "blue, dark blue, cyan, dark cyan";
+            } else if(b >= 0.9 && s >= 0.05 && s < 0.75) {
+                colorName = "blue, light blue";
+            } else if (s < 0.5 && s >= 0.25 && b >= 0.8) {
+                colorName = "blue, light blue, cyan, light cyan";
+            } else if((b >= 0.65 && b < 0.9 && s >= 0.5 && s < 0.75) || (b >= 0.2 && b < 0.9 && s >= 0.5 && s < 0.6)) {
+                colorName = "blue, dark blue, cyan, dark cyan";
+            } else if(b >= 0.15 && b < 0.5 && s >= 0.2 && s < 0.5){
+                colorName = "blue, dark blue, gray, cyan, dark cyan, blue gray";
+            } else {
+                colorName = "blue, cyan, gray, blue gray";
+            }
+        }
+
+        else if(h <= 190 && h > 180) {
+            if(b >= 0.65 && s >= 0.75) {
+                colorName = "cyan";
+            } else if(b < 0.65 && b >= 0.2 && s >= 0.6) {
+                colorName = "cyan, dark cyan";
+            } else if(b >= 0.9 && s >= 0.05 && s < 0.75) {
+                colorName = "cyan, light cyan";
+            } else if(s < 0.5 && s >= 0.25 && b >= 0.8) {
+                colorName = "cyan, light cyan";
+            } else if((b >= 0.65 && b < 0.9 && s >= 0.5 && s < 0.75) || (b >= 0.2 && b < 0.9 && s >= 0.5 && s < 0.6)) {
+                colorName = "cyan, dark cyan";
+            } else if(b >= 0.15 && b < 0.5 && s >= 0.2 && s < 0.5){
+                colorName = "cyan, dark cyan, gray";
+            } else {
+                colorName = "cyan, gray";
+            }
+        }
+
+        else if(h <= 180 && h > 165) {
+            if(b >= 0.65 && s >= 0.75) {
+                colorName = "teal, green";
+            } else if(b < 0.65 && b >= 0.2 && s >= 0.6) {
+                colorName = "teal, dark teal, green, dark green";
+            } else if(b >= 0.9 && s >= 0.05 && s < 0.75) {
+                colorName = "teal, light teal, green, light green";
+            } else if(s < 0.5 && s >= 0.25 && b >= 0.8) {
+                colorName = "teal, light teal, green, light green";
+            } else if((b >= 0.65 && b < 0.9 && s >= 0.5 && s < 0.75) || (b >= 0.2 && b < 0.9 && s >= 0.5 && s < 0.6)) {
+                colorName = "teal, dark teal, green, dark green";
+            } else if(b >= 0.15 && b < 0.5 && s >= 0.2 && s < 0.5){
+                colorName = "teal, dark teal, green, dark green, gray";
+            } else {
+                colorName = "teal, green, gray";
+            }
+        }
+
+        else if(h <= 165 && h > 75) {
+            if(b >= 0.65 && s >= 0.75) {
+                colorName = "green";
+            } else if(b < 0.65 && b >= 0.2 && s >= 0.6) {
+                colorName = "green, dark green";
+            } else if(b >= 0.9 && s >= 0.05 && s < 0.75) {
+                colorName = "green, light green";
+            } else if(s < 0.5 && s >= 0.25 && b >= 0.8) {
+                colorName = "green, light green";
+            } else if((b >= 0.65 && b < 0.9 && s >= 0.5 && s < 0.75) || (b >= 0.2 && b < 0.9 && s >= 0.5 && s < 0.6)) {
+                colorName = "green, dark green";
+            } else if(b >= 0.15 && b < 0.5 && s >= 0.2 && s < 0.5){
+                colorName = "green, dark green, gray";
+            } else {
+                colorName = "green, gray";
+            }
+        }
+
+        else if(h <= 75 && h > 65) {
+            if(b >= 0.65 && s >= 0.75) {
+                colorName = "lime, yellow, green";
+            } else if(b < 0.65 && b >= 0.2 && s >= 0.6) {
+                colorName = "lime, dark lime, green, dark green";
+            } else if(b >= 0.9 && s >= 0.05 && s < 0.75) {
+                colorName = "lime, light lime, yellow, light yellow";
+            } else if(s < 0.5 && s >= 0.25 && b >= 0.8) {
+                colorName = "lime, light lime, green, light green";
+            } else if((b >= 0.65 && b < 0.9 && s >= 0.5 && s < 0.75) || (b >= 0.2 && b < 0.9 && s >= 0.5 && s < 0.6)) {
+                colorName = "lime, dark lime, green, dark green";
+            } else if(b >= 0.15 && b < 0.5 && s >= 0.2 && s < 0.5){
+                colorName = "lime, dark lime, green, dark green, gray";
+            } else {
+                colorName = "lime, yellow,green, gray";
+            }
+        }
+
+        else if(h <= 65 && h > 50) {
+            if(b >= 0.65 && s >= 0.75) {
+                colorName = "yellow";
+            } else if(b < 0.65 && b >= 0.2 && s >= 0.6) {
+                colorName = "yellow, dark yellow, brown";
+            } else if(b >= 0.9 && s >= 0.05 && s < 0.75) {
+                colorName = "yellow, light yellow";
+            } else if(s < 0.5 && s >= 0.25 && b >= 0.8) {
+                colorName = "yellow, light yellow";
+            } else if((b >= 0.65 && b < 0.9 && s >= 0.5 && s < 0.75) || (b >= 0.2 && b < 0.9 && s >= 0.5 && s < 0.6)) {
+                colorName = "yellow, dark yellow";
+            } else if(b >= 0.15 && b < 0.5 && s >= 0.2 && s < 0.5){
+                colorName = "yellow, dark yellow, gray";
+            } else {
+                colorName = "yellow, gray";
+            }
+        }
+
+        else if(h <= 50 && h > 45) {
+            if(b >= 0.65 && s >= 0.75) {
+                colorName = "yellow, amber";
+            } else if(b < 0.65 && b >= 0.2 && s >= 0.6) {
+                colorName = "yellow, dark yellow, amber, dark amber, brown";
+            } else if(b >= 0.9 && s >= 0.5 && s < 0.75) {
+                colorName = "yellow, light yellow, amber, light amber";
+            } else if(s < 0.5 && s >= 0.25 && b >= 0.8) {
+                colorName = "yellow, light yellow, amber, light amber";
+            } else if((b >= 0.65 && b < 0.9 && s >= 0.5 && s < 0.75) || (b >= 0.2 && b < 0.9 && s >= 0.5 && s < 0.6)) {
+                colorName = "yellow, dark yellow, amber, dark amber";
+            } else if(b >= 0.15 && b < 0.5 && s >= 0.2 && s < 0.5){
+                colorName = "yellow, dark yellow, amber, dark amber, brown, gray";
+            } else if(s >= 0.3) {
+                colorName = "yellow, amber, brown";
+            } else {
+                colorName = "yellow, amber, gray";
+            }
+        }
+
+        else if(h <= 45 && h > 37) {
+            if(b >= 0.65 && s >= 0.75) {
+                colorName = "orange, amber";
+            } else if(b < 0.65 && b >= 0.2 && s >= 0.6) {
+                colorName = "orange, dark orange, amber, dark amber,brown";
+            } else if(b >= 0.9 && s >= 0.05 && s < 0.75) {
+                colorName = "orange, light orange, amber, light amber";
+            } else if(s < 0.5 && s >= 0.25 && b >= 0.8) {
+                colorName = "orange, light orange, amber, light amber";
+            } else if((b >= 0.65 && b < 0.9 && s >= 0.5 && s < 0.75) || (b >= 0.2 && b < 0.9 && s >= 0.5 && s < 0.6)) {
+                colorName = "orange, dark orange, amber, dark amber";
+            } else if(b >= 0.15 && b < 0.5 && s >= 0.2 && s < 0.5){
+                colorName = "orange, dark orange, gray, amber, dark amber, brown";
+            } else if(s >= 0.3) {
+                colorName = "orange, amber, brown";
+            } else {
+                colorName = "orange, amber, gray";
+            }
+        }
+
+        else if(h <= 37 && h > 10) {
+            if(b >= 0.65 && s >= 0.75) {
+                colorName = "orange";
+            } else if(b < 0.65 && b >= 0.2 && s >= 0.6) {
+                colorName = "orange, dark orange, brown";
+            } else if(b >= 0.9 && s >= 0.05 && s < 0.75) {
+                colorName = "orange, light orange";
+            } else if(s < 0.5 && s >= 0.25 && b >= 0.8) {
+                colorName = "orange, light orange,brown";
+            } else if((b >= 0.65 && b < 0.9 && s >= 0.5 && s < 0.75) || (b >= 0.2 && b < 0.9 && s >= 0.5 && s < 0.6)) {
+                colorName = "orange, dark orange";
+            } else if(b >= 0.15 && b < 0.5 && s >= 0.2 && s < 0.5){
+                colorName = "orange, dark orange, gray, brown";
+            } else if(s >= 0.3) {
+                colorName = "orange, brown";
+            } else {
+                colorName = "orange, gray";
+            }
+        }
+
+        else if(h <= 10 && h > 5) {
+            if(b >= 0.65 && s >= 0.75) {
+                colorName = "orange, red";
+            } else if(b < 0.65 && b >= 0.2 && s >= 0.6) {
+                colorName = "orange, dark orange, red, dark red, brown";
+            } else if(b >= 0.9 && s >= 0.05 && s < 0.75) {
+                colorName = "orange, light orange, red, light red";
+            } else if(s < 0.5 && s >= 0.25 && b >= 0.8) {
+                colorName = "orange, light orange, red, light red, brown";
+            } else if((b >= 0.65 && b < 0.9 && s >= 0.5 && s < 0.75) || (b >= 0.2 && b < 0.9 && s >= 0.5 && s < 0.6)) {
+                colorName = "orange, dark orange, red, dark red, brown";
+            } else if(b >= 0.15 && b < 0.5 && s >= 0.2 && s < 0.5){
+                colorName = "orange, dark orange, red, dark red, brown";
+            } else if(s >= 0.3) {
+                colorName = "orange, red, brown";
+            } else {
+                colorName = "orange, red, gray";
+            }
+        }
+
+        return colorName;
     }
 
 }

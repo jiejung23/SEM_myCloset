@@ -241,6 +241,38 @@
                 android:text="Separate different tages with a comma."
                 android:textSize="14sp" />
 
+            <TextView
+                android:id="@+id/text_detail_color_tags"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginTop="24dp"
+                android:text="Color Tages"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/editText_detail_color_tages"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginTop="4dp"
+                android:ems="10"
+                android:inputType="textMultiLine"
+                android:textSize="18sp"
+                android:paddingBottom="16dp"/>
+
+            <TextView
+                android:id="@+id/text_detail_color_helper"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginTop="2dp"
+                android:text="Separate different color tags with a comma."
+                android:textSize="14sp" />
+
             <!--<LinearLayout-->
                 <!--android:layout_width="match_parent"-->
                 <!--android:layout_height="wrap_content"-->

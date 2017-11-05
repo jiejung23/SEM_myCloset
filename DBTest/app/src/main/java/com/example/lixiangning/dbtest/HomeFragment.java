@@ -12,9 +12,16 @@ import android.view.ViewGroup;
 
 public class HomeFragment extends Fragment {
 
+    public static HomeFragment instance = null;
+
+    private int searchFrom = 0;
+    private String category;
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_home,container,false);
+
+        instance = this;
 
         return view;
     }
@@ -22,5 +29,21 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    public int getSearchFrom() {
+        return searchFrom;
+    }
+
+    public void setSearchFrom(int from) {
+        this.searchFrom = from;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 }

@@ -70,8 +70,8 @@ public class AddClothesActivity extends AppCompatActivity implements CameraPopup
     private int bValue = 0;
 
     private float hue = (float)0.0;
-    private float saturation = (float)0.0;
-    private float brightness = (float)0.0;
+    private float saturation = (float)1.0;
+    private float brightness = (float)1.0;
 
     private int colorClicked = 0;
 
@@ -141,11 +141,20 @@ public class AddClothesActivity extends AppCompatActivity implements CameraPopup
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 hue = (float)progress * 359 / 100;
-                float[] hsbArray = {hue, 1-saturation, 1-brightness};
+                float[] hsbArray = {hue, saturation, brightness};
                 float[] rgbArray = hsb2rgb(hsbArray);
                 rValue = (int)rgbArray[0];
                 gValue = (int)rgbArray[1];
                 bValue = (int)rgbArray[2];
+
+                if((saturation <= 0.2 && brightness >= 0.9) || (brightness >= 0.7 && saturation <= 0.05)) {
+                    text_choose_color.setTextColor(Color.rgb(66,66,66));
+                    btn_add.setTextColor(Color.rgb(66,66,66));
+                } else {
+                    text_choose_color.setTextColor(Color.rgb(255,255,255));
+                    btn_add.setTextColor(Color.rgb(255,255,255));
+                }
+
                 btn_add.setBackgroundColor(Color.rgb(rValue, gValue, bValue));
                 text_choose_color.setBackgroundColor(Color.rgb(rValue, gValue, bValue));
             }
@@ -169,12 +178,22 @@ public class AddClothesActivity extends AppCompatActivity implements CameraPopup
              */
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                saturation = (float)progress / 100;
-                float[] hsbArray = {hue, 1-saturation, 1-brightness};
+                float sat = (float)progress / 100;
+                saturation = 1 - sat;
+                float[] hsbArray = {hue, saturation, brightness};
                 float[] rgbArray = hsb2rgb(hsbArray);
                 rValue = (int)rgbArray[0];
                 gValue = (int)rgbArray[1];
                 bValue = (int)rgbArray[2];
+
+                if((saturation <= 0.2 && brightness >= 0.9) || (brightness >= 0.7 && saturation <= 0.05)) {
+                    text_choose_color.setTextColor(Color.rgb(66,66,66));
+                    btn_add.setTextColor(Color.rgb(66,66,66));
+                } else {
+                    text_choose_color.setTextColor(Color.rgb(255,255,255));
+                    btn_add.setTextColor(Color.rgb(255,255,255));
+                }
+
                 btn_add.setBackgroundColor(Color.rgb(rValue, gValue, bValue));
                 text_choose_color.setBackgroundColor(Color.rgb(rValue, gValue, bValue));
             }
@@ -198,12 +217,22 @@ public class AddClothesActivity extends AppCompatActivity implements CameraPopup
              */
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                brightness = (float)progress / 100;
-                float[] hsbArray = {hue, 1-saturation, 1-brightness};
+                float bri = (float)progress / 100;
+                brightness = 1 - bri;
+                float[] hsbArray = {hue, saturation, brightness};
                 float[] rgbArray = hsb2rgb(hsbArray);
                 rValue = (int)rgbArray[0];
                 gValue = (int)rgbArray[1];
                 bValue = (int)rgbArray[2];
+
+                if((saturation <= 0.2 && brightness >= 0.9) || (brightness >= 0.7 && saturation <= 0.05)) {
+                    text_choose_color.setTextColor(Color.rgb(66,66,66));
+                    btn_add.setTextColor(Color.rgb(66,66,66));
+                } else {
+                    text_choose_color.setTextColor(Color.rgb(255,255,255));
+                    btn_add.setTextColor(Color.rgb(255,255,255));
+                }
+
                 btn_add.setBackgroundColor(Color.rgb(rValue, gValue, bValue));
                 text_choose_color.setBackgroundColor(Color.rgb(rValue, gValue, bValue));
             }
@@ -309,9 +338,20 @@ public class AddClothesActivity extends AppCompatActivity implements CameraPopup
                 int checkTimes = 0;
                 int likeTimes = 0;
 
-//                //Map to color name
-//                MapRGBToColor map = new MapRGBToColor(colorR, colorG, colorB);
-//                int nameIndex = map.getColorName();
+                //Map to color name
+                float[] Array = {(float)rValue, (float)gValue, (float)bValue};
+                float[] hsbArray = rgb2hsb(Array);
+                hue = hsbArray[0];
+                saturation = hsbArray[1];
+                brightness = hsbArray[2];
+
+                Log.i("---RGB-----------------", rValue + gValue + bValue + "");
+                Log.i("---HSB-----------------", hue + saturation + brightness + "");
+
+
+                MapRGBToColor map = new MapRGBToColor(hue, saturation, brightness);
+                color = map.getColorName();
+
 
                 Clothes clothes = new Clothes(clothImg, category, color, colorLabel, colorR, colorG, colorB, clothTexture, clothTags, addDate, checkDate, checkTimes, likeTimes);
 
@@ -602,11 +642,26 @@ public class AddClothesActivity extends AppCompatActivity implements CameraPopup
         gValue = Integer.parseInt(rgbArray[1]);
         bValue = Integer.parseInt(rgbArray[2]);
 
-        btn_add.setBackgroundColor(Color.rgb(rValue, gValue, bValue));
+        //Map to color name
+        float[] Array = {(float)rValue, (float)gValue, (float)bValue};
+        float[] hsbArray = rgb2hsb(Array);
+        hue = hsbArray[0];
+        saturation = hsbArray[1];
+        brightness = hsbArray[2];
 
-//        MapRGBToColor mapRGBToColor = new MapRGBToColor(rValue, gValue, bValue);
-//        int pos = mapRGBToColor.getColorName();
-//        spin_color.setSelection(pos);
+        if((saturation <= 0.2 && brightness >= 0.9) || (brightness >= 0.7 && saturation <= 0.05)) {
+            text_choose_color.setTextColor(Color.rgb(66,66,66));
+            btn_add.setTextColor(Color.rgb(66,66,66));
+        } else {
+            text_choose_color.setTextColor(Color.rgb(255,255,255));
+            btn_add.setTextColor(Color.rgb(255,255,255));
+        }
+
+        seekR.setProgress((int)(hue * 100 / 359));
+        seekG.setProgress(100 - (int)(saturation * 100));
+        seekB.setProgress(100 - (int)(brightness * 100));
+
+        btn_add.setBackgroundColor(Color.rgb(rValue, gValue, bValue));
 
         text_choose_color.setBackgroundColor(Color.rgb(rValue, gValue, bValue));
 
@@ -637,6 +692,36 @@ public class AddClothesActivity extends AppCompatActivity implements CameraPopup
         for(int i=0;i<3;i++)
             rgb[i]*=hsb[2];
         return rgb;
+    }
+
+    public float[] rgb2hsb(float[] rgb) {
+        float[] hsb = new float[3];
+        float[] rearranged = rgb.clone();
+        int maxIndex = 0,minIndex = 0;
+        float tmp;
+        //将rgb的值从小到大排列，存在rearranged数组里
+        for(int i=0;i<2;i++) {
+            for(int j=0;j<2-i;j++)
+                if(rearranged[j]>rearranged[j+1]) {
+                    tmp=rearranged[j+1];
+                    rearranged[j+1]=rearranged[j];
+                    rearranged[j]=tmp;
+                }
+        }
+        //rgb的下标分别为0、1、2，maxIndex和minIndex用于存储rgb中最大最小值的下标
+        for(int i=0;i<3;i++) {
+            if(rearranged[0]==rgb[i]) minIndex=i;
+            if(rearranged[2]==rgb[i]) maxIndex=i;
+        }
+        //算出亮度
+        hsb[2]=rearranged[2]/255.0f;
+        //算出饱和度
+        hsb[1]=1-rearranged[0]/rearranged[2];
+        //算出色相
+        hsb[0]=maxIndex*120+60* (rearranged[1]/hsb[1]/rearranged[2]+(1-1/hsb[1])) *((maxIndex-minIndex+3)%3==1?1:-1);
+        //防止色相为负值
+        hsb[0]=(hsb[0]+360)%360;
+        return hsb;
     }
 
 //    @TargetApi(Build.VERSION_CODES.KITKAT)

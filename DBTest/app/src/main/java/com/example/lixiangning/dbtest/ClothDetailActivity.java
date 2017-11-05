@@ -7,6 +7,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -35,8 +37,8 @@ public class ClothDetailActivity extends AppCompatActivity {
     private int bValue;
 
     private float hue = (float)0.0;
-    private float saturation = (float)0.0;
-    private float brightness = (float)0.0;
+    private float saturation = (float)1.0;
+    private float brightness = (float)1.0;
 
     private int colorClicked = 0;
 
@@ -55,6 +57,7 @@ public class ClothDetailActivity extends AppCompatActivity {
     private SeekBar seekG;
     private SeekBar seekB;
     private LinearLayout color_picker;
+    private EditText colorTags;
 
     private final String[] categoryMap = {"Tops","Skirts","Pants"};
 
@@ -71,6 +74,17 @@ public class ClothDetailActivity extends AppCompatActivity {
 
         btn_save = (Button)findViewById(R.id.btn_detail_addClothes);
         detail_main = (LinearLayout) findViewById(R.id.detail_main);
+
+        detail_main.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View arg0, MotionEvent arg1) {
+                detail_main.requestFocus();
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(text_tag.getWindowToken(), 0);
+                return false;
+            }
+        });
+
         clothId = ClothesListActivity.instance.getClothId();
         imgCamera = (ImageView)findViewById(R.id.img_detail_clothes);
         text_tag = (EditText) findViewById(R.id.editText_detail_tages);
@@ -81,6 +95,7 @@ public class ClothDetailActivity extends AppCompatActivity {
         seekR = (SeekBar) findViewById(R.id.seekBar_R);
         seekG = (SeekBar) findViewById(R.id.seekBar_G);
         seekB = (SeekBar) findViewById(R.id.seekBar_B);
+        colorTags = (EditText) findViewById(R.id.editText_detail_color_tages);
 
         seekR.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             /**
@@ -101,11 +116,20 @@ public class ClothDetailActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 hue = (float)progress * 359 / 100;
-                float[] hsbArray = {hue, 1-saturation, 1-brightness};
+                float[] hsbArray = {hue, saturation, brightness};
                 float[] rgbArray = hsb2rgb(hsbArray);
                 rValue = (int)rgbArray[0];
                 gValue = (int)rgbArray[1];
                 bValue = (int)rgbArray[2];
+
+                if((saturation <= 0.2 && brightness >= 0.9) || (brightness >= 0.7 && saturation <= 0.05)) {
+                    text_choose_color.setTextColor(Color.rgb(66,66,66));
+                    btn_save.setTextColor(Color.rgb(66,66,66));
+                } else {
+                    text_choose_color.setTextColor(Color.rgb(255,255,255));
+                    btn_save.setTextColor(Color.rgb(255,255,255));
+                }
+
                 btn_save.setBackgroundColor(Color.rgb(rValue, gValue, bValue));
                 text_choose_color.setBackgroundColor(Color.rgb(rValue, gValue, bValue));
             }
@@ -129,12 +153,22 @@ public class ClothDetailActivity extends AppCompatActivity {
              */
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                saturation = (float)progress / 100;
-                float[] hsbArray = {hue, 1-saturation, 1-brightness};
+                float sat = (float)progress / 100;
+                saturation = 1 - sat;
+                float[] hsbArray = {hue, saturation, brightness};
                 float[] rgbArray = hsb2rgb(hsbArray);
                 rValue = (int)rgbArray[0];
                 gValue = (int)rgbArray[1];
                 bValue = (int)rgbArray[2];
+
+                if((saturation <= 0.2 && brightness >= 0.9) || (brightness >= 0.7 && saturation <= 0.05)) {
+                    text_choose_color.setTextColor(Color.rgb(66,66,66));
+                    btn_save.setTextColor(Color.rgb(66,66,66));
+                } else {
+                    text_choose_color.setTextColor(Color.rgb(255,255,255));
+                    btn_save.setTextColor(Color.rgb(255,255,255));
+                }
+
                 btn_save.setBackgroundColor(Color.rgb(rValue, gValue, bValue));
                 text_choose_color.setBackgroundColor(Color.rgb(rValue, gValue, bValue));
             }
@@ -158,44 +192,26 @@ public class ClothDetailActivity extends AppCompatActivity {
              */
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                brightness = (float)progress / 100;
-                float[] hsbArray = {hue, 1-saturation, 1-brightness};
+                float bri = (float)progress / 100;
+                brightness = 1 - bri;
+                float[] hsbArray = {hue, saturation, brightness};
                 float[] rgbArray = hsb2rgb(hsbArray);
                 rValue = (int)rgbArray[0];
                 gValue = (int)rgbArray[1];
                 bValue = (int)rgbArray[2];
+
+                if((saturation <= 0.2 && brightness >= 0.9) || (brightness >= 0.7 && saturation <= 0.05)) {
+                    text_choose_color.setTextColor(Color.rgb(66,66,66));
+                    btn_save.setTextColor(Color.rgb(66,66,66));
+                } else {
+                    text_choose_color.setTextColor(Color.rgb(255,255,255));
+                    btn_save.setTextColor(Color.rgb(255,255,255));
+                }
+
                 btn_save.setBackgroundColor(Color.rgb(rValue, gValue, bValue));
                 text_choose_color.setBackgroundColor(Color.rgb(rValue, gValue, bValue));
             }
         });
-
-        detail_main.setOnTouchListener(new View.OnTouchListener() {
-
-            @Override
-            public boolean onTouch(View arg0, MotionEvent arg1) {
-                detail_main.requestFocus();
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(text_tag.getWindowToken(), 0);
-                return false;
-            }
-        });
-
-        //color onClickListener
-        text_choose_color.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(colorClicked == 0) {
-                    color_picker.setVisibility(View.VISIBLE);
-                    text_choose_color.setText("Done");
-                    colorClicked = 1;
-                } else {
-                    color_picker.setVisibility(View.GONE);
-                    text_choose_color.setText("Click to change color");
-                    colorClicked = 0;
-                }
-            }
-        });
-
 
         List<CategoryList> categories = new ArrayList<CategoryList>();
         categories.add(new CategoryList("Tops"));
@@ -216,6 +232,24 @@ public class ClothDetailActivity extends AppCompatActivity {
             }
         });
 
+        //color onClickListener
+        text_choose_color.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(colorClicked == 0) {
+                    color_picker.setVisibility(View.VISIBLE);
+                    text_choose_color.setText("Done");
+                    colorClicked = 1;
+                } else {
+                    color_picker.setVisibility(View.GONE);
+                    MapRGBToColor map = new MapRGBToColor(hue, saturation, brightness);
+                    colorTags.setText(map.getColorName());
+                    text_choose_color.setText("Click to change color");
+                    colorClicked = 0;
+                }
+            }
+        });
+
 
         dbHelper = new DBHelper(ClothDetailActivity.this);
         dbHelper.getOne(clothId, new DBHelper.GetOneCallback() {
@@ -232,6 +266,8 @@ public class ClothDetailActivity extends AppCompatActivity {
 
                 imgCamera.setImageURI(imgUri);
 
+                colorTags.setText(clothColor);
+
                 textAddDate.setText("You added this cloth on " + clothAddDate);
 
                 for(int i = 0; i < categoryMap.length; i++) {
@@ -241,13 +277,23 @@ public class ClothDetailActivity extends AppCompatActivity {
                 }
                 spin_category.setSelection(clothCategoryPosition);
 
-                //color onClickListener
-                text_choose_color.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
+                float[] Array = {(float)rValue, (float)gValue, (float)bValue};
+                float[] hsbArray = rgb2hsb(Array);
+                hue = hsbArray[0];
+                saturation = hsbArray[1];
+                brightness = hsbArray[2];
 
-                    }
-                });
+                if((saturation <= 0.2 && brightness >= 0.9) || (brightness >= 0.7 && saturation <= 0.05)) {
+                    text_choose_color.setTextColor(Color.rgb(66,66,66));
+                    btn_save.setTextColor(Color.rgb(66,66,66));
+                } else {
+                    text_choose_color.setTextColor(Color.rgb(255,255,255));
+                    btn_save.setTextColor(Color.rgb(255,255,255));
+                }
+
+                seekR.setProgress((int)(hue * 100 / 359));
+                seekG.setProgress(100 - (int)(saturation * 100));
+                seekB.setProgress(100 - (int)(brightness * 100));
 
                 text_choose_color.setBackgroundColor(Color.rgb(rValue, gValue, bValue));
 
@@ -258,15 +304,12 @@ public class ClothDetailActivity extends AppCompatActivity {
                     public void onClick(View view) {
                         String clothImg = imgUri.toString();
                         String category = clothCategory;
-                        String color = clothColor;
+                        String color = colorTags.getText().toString();
                         String colorLabel = clothColorLabel;
                         int colorR = rValue;
                         int colorG = gValue;
                         int colorB = bValue;
 
-//                        //Map to color name
-//                        MapRGBToColor map = new MapRGBToColor(colorR, colorG, colorB);
-//                        int nameIndex = map.getColorName();
 
                         String sql = "update clothes set clothImg='" + clothImg +
                                 "', clothCategory='" + category +
@@ -336,4 +379,35 @@ public class ClothDetailActivity extends AppCompatActivity {
             rgb[i]*=hsb[2];
         return rgb;
     }
+
+    public float[] rgb2hsb(float[] rgb) {
+        float[] hsb = new float[3];
+        float[] rearranged = rgb.clone();
+        int maxIndex = 0,minIndex = 0;
+        float tmp;
+        //将rgb的值从小到大排列，存在rearranged数组里
+        for(int i=0;i<2;i++) {
+            for(int j=0;j<2-i;j++)
+                if(rearranged[j]>rearranged[j+1]) {
+                    tmp=rearranged[j+1];
+                    rearranged[j+1]=rearranged[j];
+                    rearranged[j]=tmp;
+                }
+        }
+        //rgb的下标分别为0、1、2，maxIndex和minIndex用于存储rgb中最大最小值的下标
+        for(int i=0;i<3;i++) {
+            if(rearranged[0]==rgb[i]) minIndex=i;
+            if(rearranged[2]==rgb[i]) maxIndex=i;
+        }
+        //算出亮度
+        hsb[2]=rearranged[2]/255.0f;
+        //算出饱和度
+        hsb[1]=1-rearranged[0]/rearranged[2];
+        //算出色相
+        hsb[0]=maxIndex*120+60* (rearranged[1]/hsb[1]/rearranged[2]+(1-1/hsb[1])) *((maxIndex-minIndex+3)%3==1?1:-1);
+        //防止色相为负值
+        hsb[0]=(hsb[0]+360)%360;
+        return hsb;
+    }
+
 }

@@ -7,6 +7,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -43,6 +45,7 @@ public class ClosetFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.fragment_closet,container,false);
+
         instance = this;
 
         ImageView imgAll = view.findViewById(R.id.img_all);
@@ -50,6 +53,7 @@ public class ClosetFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 category = "All Clothes";
+                HomeFragment.instance.setCategory("All Clothes");
                 Intent intent = new Intent(getActivity(), ClothesListActivity.class);
                 startActivity(intent);
 
@@ -62,6 +66,7 @@ public class ClosetFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 category = "Tops";
+                HomeFragment.instance.setCategory("Tops");
                 Intent intent = new Intent(getActivity(), ClothesListActivity.class);
                 startActivity(intent);
                 getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -73,6 +78,7 @@ public class ClosetFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 category = "Pants";
+                HomeFragment.instance.setCategory("Pants");
                 Intent intent = new Intent(getActivity(), ClothesListActivity.class);
                 startActivity(intent);
                 getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -84,6 +90,7 @@ public class ClosetFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 category = "Skirts";
+                HomeFragment.instance.setCategory("Skirts");
                 Intent intent = new Intent(getActivity(), ClothesListActivity.class);
                 startActivity(intent);
                 getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -171,7 +178,6 @@ public class ClosetFragment extends Fragment {
             }
         });
 
-
         dbHelper.getCount("Pants", new DBHelper.CountCallback() {
             @Override
             public void getCount(int number) {
@@ -192,9 +198,12 @@ public class ClosetFragment extends Fragment {
 
     }
 
-
     public String getCategory() {
         return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
 
