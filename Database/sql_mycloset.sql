@@ -1,4 +1,4 @@
--- MySQL dump 10.13  Distrib 5.7.19, for macos10.12 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.17, for macos10.12 (x86_64)
 --
 -- Host: localhost    Database: myCloset
 -- ------------------------------------------------------
@@ -27,6 +27,10 @@ CREATE TABLE `clothes` (
   `clothImg` varchar(255) DEFAULT NULL,
   `clothCategory` varchar(255) DEFAULT NULL,
   `clothColor` varchar(255) DEFAULT NULL,
+  `clothColorLabel` varchar(225) DEFAULT NULL,
+  `clothR` int(11) DEFAULT NULL,
+  `clothG` int(11) DEFAULT NULL,
+  `clothB` int(11) DEFAULT NULL,
   `clothTexture` varchar(255) DEFAULT NULL,
   `clothTags` varchar(255) DEFAULT NULL,
   `addDate` varchar(255) DEFAULT NULL,
@@ -34,7 +38,7 @@ CREATE TABLE `clothes` (
   `checkTimes` int(11) DEFAULT NULL,
   `likeTimes` int(11) DEFAULT NULL,
   PRIMARY KEY (`clothID`)
-) ENGINE=InnoDB AUTO_INCREMENT=186 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=256 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -43,7 +47,7 @@ CREATE TABLE `clothes` (
 
 LOCK TABLES `clothes` WRITE;
 /*!40000 ALTER TABLE `clothes` DISABLE KEYS */;
-INSERT INTO `clothes` VALUES (159,'','Tops','White','',', ','2017-10-19','2017-10-19',0,0),(180,'','Tops','White','',', ','2017-10-19','2017-10-19',0,0),(181,'','Tops','White','',', ','2017-10-19','2017-10-19',0,0),(182,'','Tops','White','',', ','2017-10-19','2017-10-19',0,0),(183,'','Tops','White','',', ','2017-10-19','2017-10-19',0,0),(184,'','Tops','Grey','',', ','2017-10-19','2017-10-19',0,0),(185,'','Skirts','Brown','',', ','2017-10-19','2017-10-19',0,0);
+INSERT INTO `clothes` VALUES (253,'file:///storage/emulated/0/test/1509655015181.jpg','Skirts','','',231,237,227,'',', ','2017-11-02','2017-11-02',0,0),(254,'file:///storage/emulated/0/test/1509655190871.jpg','Tops','','',153,128,97,'',', ','2017-11-02','2017-11-02',0,0),(255,'file:///storage/emulated/0/test/1509655211636.jpg','Tops','','',110,88,67,'',', ','2017-11-02','2017-11-02',0,0);
 /*!40000 ALTER TABLE `clothes` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -56,4 +60,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-10-20  0:19:47
+-- Dump completed on 2017-11-04 17:39:23
