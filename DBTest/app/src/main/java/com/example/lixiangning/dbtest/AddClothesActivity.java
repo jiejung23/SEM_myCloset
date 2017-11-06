@@ -589,11 +589,10 @@ public class AddClothesActivity extends AppCompatActivity implements CameraPopup
 
             }
         }
-        int sizeoflist = middleregionB.size();
+        int sizeoflist = middleregion.size();
 
         // Make 2D array
         // find most common element
-        List<Integer> list2 = Arrays.asList(1,3,4,3,4,3,2,3,3,3,3,3);
         //   System.out.println("Most common" + mostCommon(middleregionR));
 
         for(int i=0; i<sizeoflist; i++)
