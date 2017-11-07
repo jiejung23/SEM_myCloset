@@ -631,7 +631,7 @@ public class AddClothesActivity extends AppCompatActivity implements CameraPopup
         // AlertDialog settings
         alertDialogBuilder
                 //.setMessage("RGB: (" + mostCommon(middleregionR) + "," + mostCommon(middleregionG) + ", " + mostCommon(middleregionB) + ")")
-                .setMessage("RGB: " + mostRepeated + "pixels" + resultR)
+                .setMessage("RGB: " + mostRepeated + "pixels")
                 .setCancelable(false)
                 .setPositiveButton("Yes", null)
                 .setNegativeButton("No", null);
