@@ -621,35 +621,13 @@ public class AddClothesActivity extends AppCompatActivity implements CameraPopup
         // Title of dialog
         alertDialogBuilder.setTitle("RGB value");
         String RGBVal = mostRepeated.getKey();
-        String RGBValRed = null;
-        String RGBValBlue = null;
-        String RGBValGreen = null;
-        int count = 0;
-        int count2 = 0;
-        for(int i=2; i<RGBVal.length(); i++)
-        {
 
-            if(RGBVal.charAt(i) == ',')
-            {
-                    RGBValRed = RGBVal.substring(1, i);
-                    count = i;
-                    break;
-
-            }
-        }
-        for(int i=count+1; i<RGBVal.length(); i++)
-        {
-
-            if(RGBVal.charAt(i) == ',')
-            {
-                RGBValBlue = RGBVal.substring(count+1, i);
-                count2 = i;
-                break;
-            }
-        }
-
-  RGBValGreen = RGBVal.substring(count2+1, RGBVal.length());
-        Integer resultR = Integer.valueOf(RGBValRed);
+        int rgblength = RGBVal.length();
+        String rgbstring = RGBVal.substring(1, rgblength-1);
+        String[] entireRGB = rgbstring.split(", ");
+        int RGBValR = Integer.parseInt(entireRGB[0]);
+        int RGBValG = Integer.parseInt(entireRGB[1]);
+        int RGBValB = Integer.parseInt(entireRGB[2]);
         // AlertDialog settings
         alertDialogBuilder
                 //.setMessage("RGB: (" + mostCommon(middleregionR) + "," + mostCommon(middleregionG) + ", " + mostCommon(middleregionB) + ")")
