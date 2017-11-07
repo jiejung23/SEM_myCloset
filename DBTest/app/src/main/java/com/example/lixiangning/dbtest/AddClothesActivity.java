@@ -621,10 +621,39 @@ public class AddClothesActivity extends AppCompatActivity implements CameraPopup
         // Title of dialog
         alertDialogBuilder.setTitle("RGB value");
         String RGBVal = mostRepeated.getKey();
+        String RGBValRed = null;
+        String RGBValBlue = null;
+        String RGBValGreen = null;
+        int count = 0;
+        int count2 = 0;
+        for(int i=2; i<RGBVal.length(); i++)
+        {
+
+            if(RGBVal.charAt(i) == ',')
+            {
+                    RGBValRed = RGBVal.substring(1, i);
+                    count = i;
+                    break;
+
+            }
+        }
+        for(int i=count+1; i<RGBVal.length(); i++)
+        {
+
+            if(RGBVal.charAt(i) == ',')
+            {
+                RGBValBlue = RGBVal.substring(count+1, i);
+                count2 = i;
+                break;
+            }
+        }
+
+  RGBValGreen = RGBVal.substring(count2+1, RGBVal.length());
+        Integer resultR = Integer.valueOf(RGBValRed);
         // AlertDialog settings
         alertDialogBuilder
                 //.setMessage("RGB: (" + mostCommon(middleregionR) + "," + mostCommon(middleregionG) + ", " + mostCommon(middleregionB) + ")")
-                .setMessage("RGB: " + mostRepeated + "pixels")
+                .setMessage("RGB: " + mostRepeated + "pixels" + resultR)
                 .setCancelable(false)
                 .setPositiveButton("Yes", null)
                 .setNegativeButton("No", null);
