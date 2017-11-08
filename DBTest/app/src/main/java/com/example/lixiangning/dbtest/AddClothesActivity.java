@@ -628,10 +628,12 @@ public class AddClothesActivity extends AppCompatActivity implements CameraPopup
         int RGBValR = Integer.parseInt(entireRGB[0]);
         int RGBValG = Integer.parseInt(entireRGB[1]);
         int RGBValB = Integer.parseInt(entireRGB[2]);
+        String message_check=  String.format("Is this the right color?", RGBValR, RGBValG, RGBValB);  // "Is this the right color?";
         // AlertDialog settings
         alertDialogBuilder
-                //.setMessage("RGB: (" + mostCommon(middleregionR) + "," + mostCommon(middleregionG) + ", " + mostCommon(middleregionB) + ")")
-                .setMessage("RGB: " + mostRepeated + "pixels")
+
+                .setMessage("RGB: " + mostRepeated + "pixels\n")
+
                 .setCancelable(false)
                 .setPositiveButton("Yes", null)
                 .setNegativeButton("No", null);
@@ -642,7 +644,7 @@ public class AddClothesActivity extends AppCompatActivity implements CameraPopup
 
         // Show dialog
         alertDialog.show();
-
+//--------------------------------------------
         String str = mostRepeated.getKey();
         int len = str.length();
         String rgb = str.substring(1, len-1);
