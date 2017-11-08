@@ -58,6 +58,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import android.content.DialogInterface;
 
 public class AddClothesActivity extends AppCompatActivity implements CameraPopupWindow.OnItemClickListener {
 
@@ -628,22 +629,30 @@ public class AddClothesActivity extends AppCompatActivity implements CameraPopup
         int RGBValR = Integer.parseInt(entireRGB[0]);
         int RGBValG = Integer.parseInt(entireRGB[1]);
         int RGBValB = Integer.parseInt(entireRGB[2]);
-        String message_check=  String.format("Is this the right color?", RGBValR, RGBValG, RGBValB);  // "Is this the right color?";
         // AlertDialog settings
         alertDialogBuilder
 
-                .setMessage("RGB: " + mostRepeated + "pixels\n")
+                .setMessage("RGB: " + mostRepeated + "pixels\nIs this the color of your clothes?")
 
                 .setCancelable(false)
-                .setPositiveButton("Yes", null)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                })
                 .setNegativeButton("No", null);
-
 
         // Create Dialog
         AlertDialog alertDialog = alertDialogBuilder.create();
 
+
         // Show dialog
         alertDialog.show();
+
+        Button pbutton = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
+        //Set positive button background
+        pbutton.setBackgroundColor(Color.rgb(RGBValR,RGBValG,RGBValB));
+        //Set positive button text color
+        pbutton.setTextColor(Color.MAGENTA);
 //--------------------------------------------
         String str = mostRepeated.getKey();
         int len = str.length();
