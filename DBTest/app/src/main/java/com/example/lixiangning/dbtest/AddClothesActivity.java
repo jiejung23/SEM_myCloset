@@ -648,7 +648,7 @@ public class AddClothesActivity extends AppCompatActivity implements CameraPopup
             }
         }
 
-  RGBValGreen = RGBVal.substring(count2+1, RGBVal.length());
+        RGBValGreen = RGBVal.substring(count2+1, RGBVal.length());
         Integer resultR = Integer.valueOf(RGBValRed);
         // AlertDialog settings
         alertDialogBuilder
@@ -665,6 +665,8 @@ public class AddClothesActivity extends AppCompatActivity implements CameraPopup
         // Show dialog
         alertDialog.show();
 
+
+        //save and map color
         String str = mostRepeated.getKey();
         int len = str.length();
         String rgb = str.substring(1, len-1);
@@ -724,6 +726,7 @@ public class AddClothesActivity extends AppCompatActivity implements CameraPopup
             rgb[i]*=hsb[2];
         return rgb;
     }
+
 
     public float[] rgb2hsb(float[] rgb) {
         float[] hsb = new float[3];

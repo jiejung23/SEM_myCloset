@@ -40,4 +40,8 @@
         <item name="android:activityCloseExitAnimation">@anim/slide_out_right</item>
     </style>
 
+    <style name="TabLayoutText" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:textSize">16sp</item>
+    </style>
+
 </resources>

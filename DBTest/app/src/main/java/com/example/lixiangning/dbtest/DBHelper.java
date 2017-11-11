@@ -39,8 +39,8 @@ public class DBHelper {
     public DBHelper(Context context) {
         mContext = context;
 
-        ip = "172.29.95.53"; //School
-//        ip = "192.168.7.23"; //home
+//        ip = "172.29.95.53"; //School
+        ip = "192.168.7.23"; //home
         port = 3306;
         dbName = "myCloset";
         url = "jdbc:mysql://" + ip + ":" + port + "/" + dbName;
@@ -734,6 +734,166 @@ public class DBHelper {
     }
 
 
+    public void insertStyle(Styles styles, InsertCallback callback) {
+
+        //insert thread
+        final Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                // connect to database
+                while (!Thread.interrupted()) {
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        Log.e(TAG, e.toString());
+                    }
+
+                    if (con == null) {
+                        try {
+                            Class.forName("com.mysql.jdbc.Driver");
+                            Log.v(TAG, "Strat JDBC Successfully");
+                        } catch (ClassNotFoundException e) {
+                            Log.e(TAG, "Strat JDBC Unsuccessfully");
+                            return;
+                        }
+
+                        // connect to JDBC
+                        try {
+                            con = DriverManager.getConnection(url, user, password);
+
+                            con.setAutoCommit(true);
+
+                            Log.i(TAG, "Connect to JDBC Successfully!");
+                            break;
+
+                        } catch (SQLException e) {
+                            Log.e(TAG, "Connect to JDBC Unsuccessfully!");
+                        }
+
+                    } else {
+                        break;
+                    }
+                }
+
+                // insert
+                if (con != null) {
+                    int i = 0;
+                    String sql = "insert into styles(" + "" +
+                            "styleImg) " + "" +
+                            "values('" + styles.getStyleImg() + ")";
+                    PreparedStatement pstmt;
+                    try {
+                        pstmt = (PreparedStatement) con.prepareStatement(sql);
+                        i = pstmt.executeUpdate();
+
+                        Log.i(TAG, "Insert the cloth: " + styles.getStyleID() + ".");
+                        pstmt.close();
+
+                        //return to main thread
+                        ((Activity)mContext).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                //insert finish or not
+                                if (callback != null) {
+                                    callback.onFinished();
+                                }
+                            }
+                        });
+
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+        });
+
+        thread.start();
+
+    }
+
+
+    public void getAllStyle(GetAllStyleCallback getAllCallback) {
+
+        //get all thread
+        final Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                // connect to database
+                while (!Thread.interrupted()) {
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        Log.e(TAG, e.toString());
+                    }
+
+                    if (con == null) {
+                        try {
+                            Class.forName("com.mysql.jdbc.Driver");
+                            Log.v(TAG, "Strat JDBC Successfully");
+                        } catch (ClassNotFoundException e) {
+                            Log.e(TAG, "Strat JDBC Unsuccessfully");
+                            return;
+                        }
+
+                        // connect to JDBC
+                        try {
+                            con = DriverManager.getConnection(url, user, password);
+
+                            con.setAutoCommit(true);
+
+                            Log.i(TAG, "Connect to JDBC Successfully!");
+                            break;
+
+                        } catch (SQLException e) {
+                            Log.e(TAG, "Connect to JDBC Unsuccessfully!");
+                        }
+
+                    } else {
+                        break;
+                    }
+                }
+
+                // get all
+                if (con != null) {
+                    String sql = "select styleID, styleImg from styles";
+                    PreparedStatement pstmt;
+
+                    try {
+                        final ArrayList<ArrayList<String>> oneList = new ArrayList<>();
+                        pstmt = (PreparedStatement)con.prepareStatement(sql);
+                        ResultSet rs = pstmt.executeQuery();
+
+                        while (rs.next()) {
+                            ArrayList<String> temp = new ArrayList<>();
+                            String id = rs.getInt(1)+"";
+                            String img = rs.getString(2);
+                            temp.add(id);
+                            temp.add(img);
+                            oneList.add(temp);
+                        }
+
+                        if (getAllCallback != null) {
+                            ((Activity) mContext).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    getAllCallback.getAllStyle(oneList);
+                                }
+                            });
+                        }
+
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+
+        thread.start();
+    }
+
 
     public interface GetAllCallback {
         public void getAll(ArrayList<ArrayList<String>> data);
@@ -761,5 +921,9 @@ public class DBHelper {
 
     public interface GetOneCallback {
         public void getOne(ArrayList<String> data);
+    }
+
+    public interface GetAllStyleCallback {
+        public void getAllStyle(ArrayList<ArrayList<String>> data);
     }
 }
