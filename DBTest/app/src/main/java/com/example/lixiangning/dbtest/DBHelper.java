@@ -41,7 +41,7 @@ public class DBHelper {
 
 //        ip = "172.29.95.53"; //School
 //        ip = "192.168.7.23"; //home
-        ip = "10.241.199.250";
+        ip = "192.168.29.107";
         port = 3306;
         dbName = "myCloset";
         url = "jdbc:mysql://" + ip + ":" + port + "/" + dbName;
@@ -96,14 +96,14 @@ public class DBHelper {
                 if (con != null) {
                     int i = 0;
                     String sql = "insert into clothes(" + "" +
-                            "clothImg, clothCategory, clothColor, clothColorLabel, clothR, clothG, clothB, clothTexture, clothTags, addDate, checkDate, checkTimes, likeTimes) " + "" +
+                            "clothImg, clothCategory, clothColor, clothColorLabel, clothR, clothG, clothB, " +
+                            "clothTexture, clothTags, addDate, checkTimes, likeTimes) " + "" +
                             "values('" + clothes.getClothImg() + "','" + clothes.getClothCategory() + "','"
                             + clothes.getClothColor() + "','" + clothes.getClothColorLabel() + "','"
                             + clothes.getClothR() + "','" + clothes.getClothG() + "','"
                             + clothes.getClothB() + "','" + clothes.getClothTexture() + "','"
-                            + clothes.getDBClothTages() + "','" + clothes.getDBAddDate() + "','"
-                            + clothes.getDBCheckDate() + "'," + clothes.getCheckTimes() + ","
-                            + clothes.getLikeTimes() + ")";
+                            + clothes.getDBClothTages() + "','" + clothes.getDBAddDate() + "',"
+                            + clothes.getCheckTimes() + "," + clothes.getLikeTimes() + ")";
                     PreparedStatement pstmt;
                     try {
                         pstmt = (PreparedStatement) con.prepareStatement(sql);
@@ -181,6 +181,7 @@ public class DBHelper {
                             break;
 
                         } catch (SQLException e) {
+                            Log.e(TAG, "Code" + e.getErrorCode() + " State" + e.getSQLState() + " Cause:"+ e.getCause() + " Message:" +e.getMessage());
                             Log.e(TAG, "Connect to JDBC Unsuccessfully!");
                         }
 
@@ -896,6 +897,100 @@ public class DBHelper {
     }
 
 
+    public void getAllDeclutter(GetAllDeclutterCallback getAllDeclutterCallback) {
+
+        //get all thread
+        final Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                // connect to database
+                while (!Thread.interrupted()) {
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        Log.e(TAG, e.toString());
+                    }
+
+                    if (con == null) {
+                        try {
+                            Class.forName("com.mysql.jdbc.Driver");
+                            Log.v(TAG, "Strat JDBC Successfully");
+                        } catch (ClassNotFoundException e) {
+                            Log.e(TAG, "Strat JDBC Unsuccessfully");
+                            return;
+                        }
+
+                        // connect to JDBC
+                        try {
+                            con = DriverManager.getConnection(url, user, password);
+
+                            con.setAutoCommit(true);
+
+                            Log.i(TAG, "Connect to JDBC Successfully!");
+                            break;
+
+                        } catch (SQLException e) {
+                            Log.e(TAG, "Code" + e.getErrorCode() + " State" + e.getSQLState() + " Cause:"+ e.getCause() + " Message:" +e.getMessage());
+                            Log.e(TAG, "Connect to JDBC Unsuccessfully!");
+                        }
+
+                    } else {
+                        break;
+                    }
+                }
+
+                // get all
+                if (con != null) {
+                    String sql = "select clothID, clothImg, clothCategory, clothColor from clothes where (checkDate is NULL and addDate < CURRENT_DATE-INTERVAL 30 DAY) or (checkDate is NOT NULL and thinkDate is NULL and checkDate < CURRENT_DATE-INTERVAL 365 DAY) or (thinkDate is NOT NULL and thinkDate < CURRENT_DATE-INTERVAL 30 DAY)";
+                    PreparedStatement pstmt;
+
+                    try {
+                        final ArrayList<ArrayList<String>> oneList = new ArrayList<>();
+                        pstmt = (PreparedStatement)con.prepareStatement(sql);
+
+                        ResultSet rs = pstmt.executeQuery();
+
+//                        int col = rs.getMetaData().getColumnCount();
+//                        Log.i(TAG, "col: " + col);
+//                        Log.i(TAG, "1111");
+
+                        while (rs.next()) {
+                            ArrayList<String> temp = new ArrayList<>();
+                            String id = rs.getInt(1)+"";
+                            String img = rs.getString(2);
+                            String category = rs.getString(3);
+                            String color = rs.getString(4);
+                            Log.i(TAG, "cloth: " + id + ", " + img + ", " + category + "," + color);
+                            temp.add(id);
+                            temp.add(img);
+                            temp.add(category);
+                            temp.add(color);
+                            oneList.add(temp);
+                        }
+
+//                        Log.e("ddd", "all clohtes size = " + oneList.size());
+
+                        if (getAllDeclutterCallback != null) {
+                            ((Activity) mContext).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    getAllDeclutterCallback.getAllDeclutter(oneList);
+                                }
+                            });
+                        }
+
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+
+        thread.start();
+    }
+
+
     public interface GetAllCallback {
         public void getAll(ArrayList<ArrayList<String>> data);
     }
@@ -926,5 +1021,9 @@ public class DBHelper {
 
     public interface GetAllStyleCallback {
         public void getAllStyle(ArrayList<ArrayList<String>> data);
+    }
+
+    public interface GetAllDeclutterCallback {
+        public void getAllDeclutter(ArrayList<ArrayList<String>> data);
     }
 }

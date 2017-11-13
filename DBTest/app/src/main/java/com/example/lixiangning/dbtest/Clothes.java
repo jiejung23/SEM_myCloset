@@ -22,12 +22,13 @@ public class Clothes {
     ArrayList<String> clothTags;
     Date addDate;
     Date checkDate;
+    Date thinkDate;
     int checkTimes;
     int likeTimes;
 
     public Clothes(String clothImg, String clothCategory, String clothColor, String clothColorLabel,
                    int clothR, int clothG, int clothB, String clothTexture, String clothTags,
-                   String addDate, String checkDate, int checkTimes, int likeTimes) {
+                   String addDate, String checkDate, String thinkDate, int checkTimes, int likeTimes) {
 
         this.clothImg = clothImg;
         this.clothCategory = clothCategory;
@@ -96,6 +97,9 @@ public class Clothes {
     public Date getCheckDate() {
         return this.checkDate;
     }
+    public Date getThinkDate() {
+        return this.thinkDate;
+    }
     public int getCheckTimes() {
         return this.checkTimes;
     }
@@ -123,6 +127,11 @@ public class Clothes {
         return strCheck;
     }
 
+    public String getDBThinkDate() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String strCheck = sdf.format(this.thinkDate);
+        return strCheck;
+    }
 
 
 

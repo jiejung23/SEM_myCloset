@@ -77,8 +77,7 @@
                     android:layout_weight="1"
                     android:background="#E57373"
                     android:onClick="deleteCloth2"
-                    android:text="I'm Done"
-                    android:textColor="#fff" />
+                    android:text="I'm Done" />
 
                 <Button
                     android:id="@+id/btn_think"
@@ -87,7 +86,7 @@
                     android:layout_gravity="bottom"
                     android:layout_marginRight="16dp"
                     android:layout_weight="1"
-                    android:background="#e0e0e0"
+                    android:background="@color/colorWhite70"
                     android:onClick="thinkCloth2"
                     android:text="Think" />
 
