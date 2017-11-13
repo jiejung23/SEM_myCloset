@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/junjun/.android/build-cache/efe529c4a338c3d1ce68bc4b41b4afaff66aab30/output/jars/classes.jar"
+        revision="26.0.1"
+        sha1="47471eb19df288158b00b8d9cfa41bce7373f5cc">
+        <dex dex="/Users/junjun/Desktop/SEM/SEM_myCloset/Declutter/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-bbe4f8a9cb0d31b8b4fc57216980ca75e0fc01d0.jar" />
+    </item>
+    <item
+        jar="/Users/junjun/.android/build-cache/c52255967ca9b4efc675bc756a63ebdd16c2a6f8/output/jars/classes.jar"
+        revision="26.0.1"
+        sha1="88246166d5afb106f532f6e6deae683c66b42c89">
+        <dex dex="/Users/junjun/Desktop/SEM/SEM_myCloset/Declutter/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-a4fc123edd4cb6e1f2595622a7d17834a81d9242.jar" />
+    </item>
+    <item
+        jar="/Users/junjun/.android/build-cache/694bcd0be2042098952fabc866e7a73d2ab4d616/output/jars/classes.jar"
+        revision="26.0.1"
+        sha1="6a022bf00ccd0948a8180c505e8e458bbddd43a6">
+        <dex dex="/Users/junjun/Desktop/SEM/SEM_myCloset/Declutter/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-95b21c2876e3c8ded7935dcbfac14fdc2a07ae0f.jar" />
+    </item>
+    <item
+        jar="/Users/junjun/Library/Android/sdk/platforms/android-26/optional/org.apache.http.legacy.jar"
+        revision="26.0.1"
+        sha1="d5b8c556427a60ed5f7f0abc415555de7bbba1ad">
+        <dex dex="/Users/junjun/Desktop/SEM/SEM_myCloset/Declutter/app/build/intermediates/transforms/preJackRuntimeLibraries/debug/jars/8000/40/org.apache.http.legacy-aaf5b70bce20be2a5d1ad9ad09993444c357e32c.jar" />
+    </item>
+    <item
+        jar="/Users/junjun/.android/build-cache/5610d261464783bf4fa4c60d2324cd27985a3bc6/output/jars/classes.jar"
+        revision="26.0.1"
+        sha1="cddcd0fb93bc70e27325f2f715b2710332004ebb">
+        <dex dex="/Users/junjun/Desktop/SEM/SEM_myCloset/Declutter/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-e88af9b404e5c21df0d4f558e976896f5e845c08.jar" />
+    </item>
+    <item
+        jar="/Users/junjun/.android/build-cache/415a5cb71e7b4b4403ac5b1011ef88b18d34b231/output/jars/classes.jar"
+        revision="26.0.1"
+        sha1="18d31838aa4fcc768a8a0516e22cc13b94655d89">
+        <dex dex="/Users/junjun/Desktop/SEM/SEM_myCloset/Declutter/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-7797161481312c9fa6d57574a80c15fc725ec1f8.jar" />
+    </item>
+    <item
+        jar="/Users/junjun/.android/build-cache/182e1be0d997118f482a6b63f4d464fcb44d7637/output/jars/classes.jar"
+        revision="26.0.1"
+        sha1="44ee06abb66da30f5855e6bf54574e64cdcd982a">
+        <dex dex="/Users/junjun/Desktop/SEM/SEM_myCloset/Declutter/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-c4548e5af1006e8c796edce27e527adbafabc6ae.jar" />
+    </item>
+    <item
+        jar="/Users/junjun/.android/build-cache/df8947ef903f56714553c255518326b4919c1bf7/output/jars/classes.jar"
+        revision="26.0.1"
+        sha1="fcd01fd11233459f546c437ec927e9b61bf7caf1">
+        <dex dex="/Users/junjun/Desktop/SEM/SEM_myCloset/Declutter/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-7dc5a24a53babc24a55c20bdfb18d071667797d4.jar" />
+    </item>
+    <item
+        jar="/Users/junjun/.android/build-cache/409af36f5ee4b96fd2983b0b8842389d60a75fe5/output/jars/classes.jar"
+        revision="26.0.1"
+        sha1="952944218ecedea1554a513dec0c14d570642843">
+        <dex dex="/Users/junjun/Desktop/SEM/SEM_myCloset/Declutter/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-611c0d3b2fed76737ee6da9cd741eaf46d60b390.jar" />
+    </item>
+    <item
+        jar="/Users/junjun/.android/build-cache/7065bfaa7cdd01c0a118a843685b2f1f08e4aa53/output/jars/classes.jar"
+        revision="26.0.1"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="/Users/junjun/Desktop/SEM/SEM_myCloset/Declutter/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-3f38b609e526bd2beb7a083754b3ed5587f565d3.jar" />
+    </item>
+    <item
+        jar="/Users/junjun/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/26.0.0-alpha1/support-annotations-26.0.0-alpha1.jar"
+        revision="26.0.1"
+        sha1="023ee503b631f69511e335a061ea008f8da60f40">
+        <dex dex="/Users/junjun/Desktop/SEM/SEM_myCloset/Declutter/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/support-annotations-26.0.0-alpha1-b3cdd856dbdd415808b5085f9d292bb4e83d4ee6.jar" />
+    </item>
+    <item
+        jar="/Users/junjun/.android/build-cache/1f45d864a4dca24579e36e1a44594faab202bb8c/output/jars/classes.jar"
+        revision="26.0.1"
+        sha1="62f733cc92b1611138da965697f4654cd385e078">
+        <dex dex="/Users/junjun/Desktop/SEM/SEM_myCloset/Declutter/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-50b5457be04335a55de7bdac7823dab0e1659364.jar" />
+    </item>
+    <item
+        jar="/Users/junjun/Library/Android/sdk/extras/m2repository/com/android/support/constraint/constraint-layout-solver/1.0.2/constraint-layout-solver-1.0.2.jar"
+        revision="26.0.1"
+        sha1="b9cd8fc6bd15cb915735d34535db30ece0c44603">
+        <dex dex="/Users/junjun/Desktop/SEM/SEM_myCloset/Declutter/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/constraint-layout-solver-1.0.2-0bd4a2744840e89694efb8376561a55b34ea98c6.jar" />
+    </item>
+    <item
+        jar="/Users/junjun/.android/build-cache/d800dd9fbd855a800a9be4bf77dbcccc76678cfd/output/jars/classes.jar"
+        revision="26.0.1"
+        sha1="8df0e365e40beb151bc42dee20817721a6cab7b0">
+        <dex dex="/Users/junjun/Desktop/SEM/SEM_myCloset/Declutter/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-e3a99d969112e8524dab0ab4caa0a3bf8ba42e61.jar" />
+    </item>
+    <item
+        jar="/Users/junjun/Desktop/SEM/SEM_myCloset/Declutter/app/libs/mysql-connector-java-3.0.17-ga-bin.jar"
+        revision="26.0.1"
+        sha1="3d8b493d12562fc904a947ea7b84394fe67e8a55">
+        <dex dex="/Users/junjun/Desktop/SEM/SEM_myCloset/Declutter/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/mysql-connector-java-3.0.17-ga-bin-f1e19fab9b5d3ff296c70d8688d89367d52416b0.jar" />
+    </item>
+    <item
+        jar="/Users/junjun/Library/Android/sdk/platforms/android-26/android.jar"
+        revision="26.0.1"
+        sha1="18eaee6ff2a1c15c603daafb41277ea9376f30b5">
+        <dex dex="/Users/junjun/Desktop/SEM/SEM_myCloset/Declutter/app/build/intermediates/transforms/preJackRuntimeLibraries/debug/jars/8000/40/android-704a648ea15f50518f4c0a2f21eb050c0eb10712.jar" />
+    </item>
+    <item
+        jar="/Users/junjun/.android/build-cache/382d4ea656cfb0bf44f75edf1a5463906d34de4e/output/jars/classes.jar"
+        revision="26.0.1"
+        sha1="2e92aa0163544a804a0b34f169ca61801770839a">
+        <dex dex="/Users/junjun/Desktop/SEM/SEM_myCloset/Declutter/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-de0f6ce22ebc2e8f06f935e2cd8270b73c810d62.jar" />
+    </item>
+    <item
+        jar="/Users/junjun/.android/build-cache/eb39dc410aecd377412c9284c1fcaaec1bf6803b/output/jars/classes.jar"
+        revision="26.0.1"
+        sha1="9935891f23923f39d002087085d9696568a9f657">
+        <dex dex="/Users/junjun/Desktop/SEM/SEM_myCloset/Declutter/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-c607db3954b9307efb505b7eba70b5642c37edbb.jar" />
+    </item>
+    <item
+        jar="/Users/junjun/.android/build-cache/b4817f918873a9a0231d4e5e299f22aaa2c058fb/output/jars/classes.jar"
+        revision="26.0.1"
+        sha1="c4f45092eee6cdf1a5dbd597b2b6819be652ce2e">
+        <dex dex="/Users/junjun/Desktop/SEM/SEM_myCloset/Declutter/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-43f59ea6d8916364f6c56c9101539ee68c76920b.jar" />
+    </item>
+
+</items>

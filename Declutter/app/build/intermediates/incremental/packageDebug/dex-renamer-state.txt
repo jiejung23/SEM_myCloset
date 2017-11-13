@@ -1,0 +1,4 @@
+#Mon Nov 06 15:35:48 PST 2017
+base.0=/Users/junjun/Desktop/SEM/SEM_myCloset/Declutter/app/build/intermediates/transforms/jack/debug/folders/1000/1f/main
+renamed.0=classes.dex
+file.0=/Users/junjun/Desktop/SEM/SEM_myCloset/Declutter/app/build/intermediates/transforms/jack/debug/folders/1000/1f/main/classes.dex

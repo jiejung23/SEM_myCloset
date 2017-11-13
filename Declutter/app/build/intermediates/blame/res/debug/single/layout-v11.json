@@ -1,0 +1,50 @@
+[
+    {
+        "merged": "/Users/junjun/Desktop/SEM/SEM_myCloset/OrderCoffee/app/build/intermediates/res/merged/debug/layout-v11/notification_template_big_media_narrow.xml",
+        "source": "/Users/junjun/.android/build-cache/efe529c4a338c3d1ce68bc4b41b4afaff66aab30/output/res/layout-v11/notification_template_big_media_narrow.xml"
+    },
+    {
+        "merged": "/Users/junjun/Desktop/SEM/SEM_myCloset/Declutter/app/build/intermediates/res/merged/debug/layout-v11/notification_template_big_media_narrow.xml",
+        "source": "/Users/junjun/.android/build-cache/efe529c4a338c3d1ce68bc4b41b4afaff66aab30/output/res/layout-v11/notification_template_big_media_narrow.xml"
+    },
+    {
+        "merged": "/Users/junjun/Desktop/SEM/SEM_myCloset/OrderCoffee/app/build/intermediates/res/merged/debug/layout-v11/notification_media_action.xml",
+        "source": "/Users/junjun/.android/build-cache/efe529c4a338c3d1ce68bc4b41b4afaff66aab30/output/res/layout-v11/notification_media_action.xml"
+    },
+    {
+        "merged": "/Users/junjun/Desktop/SEM/SEM_myCloset/OrderCoffee/app/build/intermediates/res/merged/debug/layout-v11/notification_media_cancel_action.xml",
+        "source": "/Users/junjun/.android/build-cache/efe529c4a338c3d1ce68bc4b41b4afaff66aab30/output/res/layout-v11/notification_media_cancel_action.xml"
+    },
+    {
+        "merged": "/Users/junjun/Desktop/SEM/SEM_myCloset/Declutter/app/build/intermediates/res/merged/debug/layout-v11/notification_media_action.xml",
+        "source": "/Users/junjun/.android/build-cache/efe529c4a338c3d1ce68bc4b41b4afaff66aab30/output/res/layout-v11/notification_media_action.xml"
+    },
+    {
+        "merged": "/Users/junjun/Desktop/SEM/SEM_myCloset/Declutter/app/build/intermediates/res/merged/debug/layout-v11/notification_media_cancel_action.xml",
+        "source": "/Users/junjun/.android/build-cache/efe529c4a338c3d1ce68bc4b41b4afaff66aab30/output/res/layout-v11/notification_media_cancel_action.xml"
+    },
+    {
+        "merged": "/Users/junjun/Desktop/SEM/SEM_myCloset/OrderCoffee/app/build/intermediates/res/merged/debug/layout-v11/notification_template_big_media_narrow_custom.xml",
+        "source": "/Users/junjun/.android/build-cache/efe529c4a338c3d1ce68bc4b41b4afaff66aab30/output/res/layout-v11/notification_template_big_media_narrow_custom.xml"
+    },
+    {
+        "merged": "/Users/junjun/Desktop/SEM/SEM_myCloset/OrderCoffee/app/build/intermediates/res/merged/debug/layout-v11/notification_template_big_media.xml",
+        "source": "/Users/junjun/.android/build-cache/efe529c4a338c3d1ce68bc4b41b4afaff66aab30/output/res/layout-v11/notification_template_big_media.xml"
+    },
+    {
+        "merged": "/Users/junjun/Desktop/SEM/SEM_myCloset/Declutter/app/build/intermediates/res/merged/debug/layout-v11/notification_template_big_media_custom.xml",
+        "source": "/Users/junjun/.android/build-cache/efe529c4a338c3d1ce68bc4b41b4afaff66aab30/output/res/layout-v11/notification_template_big_media_custom.xml"
+    },
+    {
+        "merged": "/Users/junjun/Desktop/SEM/SEM_myCloset/Declutter/app/build/intermediates/res/merged/debug/layout-v11/notification_template_big_media.xml",
+        "source": "/Users/junjun/.android/build-cache/efe529c4a338c3d1ce68bc4b41b4afaff66aab30/output/res/layout-v11/notification_template_big_media.xml"
+    },
+    {
+        "merged": "/Users/junjun/Desktop/SEM/SEM_myCloset/Declutter/app/build/intermediates/res/merged/debug/layout-v11/notification_template_big_media_narrow_custom.xml",
+        "source": "/Users/junjun/.android/build-cache/efe529c4a338c3d1ce68bc4b41b4afaff66aab30/output/res/layout-v11/notification_template_big_media_narrow_custom.xml"
+    },
+    {
+        "merged": "/Users/junjun/Desktop/SEM/SEM_myCloset/OrderCoffee/app/build/intermediates/res/merged/debug/layout-v11/notification_template_big_media_custom.xml",
+        "source": "/Users/junjun/.android/build-cache/efe529c4a338c3d1ce68bc4b41b4afaff66aab30/output/res/layout-v11/notification_template_big_media_custom.xml"
+    }
+]

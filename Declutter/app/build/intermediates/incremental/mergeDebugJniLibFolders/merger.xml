@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet config="main"><source path="/Users/junjun/Desktop/SEM/SEM_myCloset/Declutter/app/libs"><file name="mysql-connector-java-3.0.17-ga-bin.jar" path="/Users/junjun/Desktop/SEM/SEM_myCloset/Declutter/app/libs/mysql-connector-java-3.0.17-ga-bin.jar"/></source></dataSet><dataSet config="debug"><source path="/Users/junjun/Desktop/SEM/SEM_myCloset/Declutter/app/src/debug/jniLibs"/></dataSet></merger>

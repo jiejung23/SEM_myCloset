@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "/Users/junjun/Desktop/SEM/SEM_myCloset/OrderCoffee/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi/ic_launcher_round.png",
+        "source": "/Users/junjun/Desktop/SEM/SEM_myCloset/OrderCoffee/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "/Users/junjun/Desktop/SEM/SEM_myCloset/OrderCoffee/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi/ic_launcher.png",
+        "source": "/Users/junjun/Desktop/SEM/SEM_myCloset/OrderCoffee/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/junjun/Desktop/SEM/SEM_myCloset/Declutter/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi/ic_launcher.png",
+        "source": "/Users/junjun/Desktop/SEM/SEM_myCloset/Declutter/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/junjun/Desktop/SEM/SEM_myCloset/Declutter/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi/ic_launcher_round.png",
+        "source": "/Users/junjun/Desktop/SEM/SEM_myCloset/Declutter/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png"
+    }
+]
