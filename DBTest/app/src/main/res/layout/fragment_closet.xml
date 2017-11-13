@@ -55,7 +55,7 @@
                     android:layout_marginTop="8dp"
                     android:adjustViewBounds="true"
                     android:scaleType="fitXY"
-                    app:srcCompat="@drawable/all_collection" />
+                    app:srcCompat="@drawable/all_categort" />
 
 
                 <LinearLayout
@@ -94,7 +94,7 @@
                     android:layout_marginTop="8dp"
                     android:adjustViewBounds="true"
                     android:scaleType="fitXY"
-                    app:srcCompat="@drawable/tops_collection" />
+                    app:srcCompat="@drawable/tops_category1" />
 
 
 
@@ -135,7 +135,7 @@
                     android:layout_marginTop="8dp"
                     android:adjustViewBounds="true"
                     android:scaleType="fitXY"
-                    app:srcCompat="@drawable/all_collection" />
+                    app:srcCompat="@drawable/pants_category" />
 
 
 
@@ -175,7 +175,7 @@
                     android:layout_marginTop="8dp"
                     android:adjustViewBounds="true"
                     android:scaleType="fitXY"
-                    app:srcCompat="@drawable/tops_collection" />
+                    app:srcCompat="@drawable/skirts_category" />
 
 
             </LinearLayout>

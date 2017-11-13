@@ -335,6 +335,7 @@ public class AddClothesActivity extends AppCompatActivity implements CameraPopup
                 Date curDate = new Date(System.currentTimeMillis());
                 String addDate = sdf.format(curDate);
                 String checkDate = sdf.format(curDate);
+                String thinkDate = sdf.format(curDate);
                 int checkTimes = 0;
                 int likeTimes = 0;
 
@@ -353,7 +354,7 @@ public class AddClothesActivity extends AppCompatActivity implements CameraPopup
                 color = map.getColorName();
 
 
-                Clothes clothes = new Clothes(clothImg, category, color, colorLabel, colorR, colorG, colorB, clothTexture, clothTags, addDate, checkDate, checkTimes, likeTimes);
+                Clothes clothes = new Clothes(clothImg, category, color, colorLabel, colorR, colorG, colorB, clothTexture, clothTags, addDate, checkDate, thinkDate, checkTimes, likeTimes);
 
                 DBHelper dbHelper = new DBHelper(AddClothesActivity.this);
 
@@ -620,12 +621,44 @@ public class AddClothesActivity extends AppCompatActivity implements CameraPopup
 
         // Title of dialog
         alertDialogBuilder.setTitle("RGB value");
+        String RGBVal = mostRepeated.getKey();
+        String RGBValRed = null;
+        String RGBValBlue = null;
+        String RGBValGreen = null;
+        int count = 0;
+        int count2 = 0;
+        for(int i=2; i<RGBVal.length(); i++)
+        {
 
+            if(RGBVal.charAt(i) == ',')
+            {
+                    RGBValRed = RGBVal.substring(1, i);
+                    count = i;
+                    break;
+
+            }
+        }
+        for(int i=count+1; i<RGBVal.length(); i++)
+        {
+
+            if(RGBVal.charAt(i) == ',')
+            {
+                RGBValBlue = RGBVal.substring(count+1, i);
+                count2 = i;
+                break;
+            }
+        }
+
+        RGBValGreen = RGBVal.substring(count2+1, RGBVal.length());
+        Integer resultR = Integer.valueOf(RGBValRed);
         // AlertDialog settings
         alertDialogBuilder
                 //.setMessage("RGB: (" + mostCommon(middleregionR) + "," + mostCommon(middleregionG) + ", " + mostCommon(middleregionB) + ")")
-                .setMessage("RGB: " + mostRepeated + "pixels")
-                .setCancelable(true);
+                .setMessage("RGB: " + mostRepeated + "total pixels" + resultR)
+                .setCancelable(false)
+                .setPositiveButton("Yes", null)
+                .setNegativeButton("No", null);
+
 
         // Create Dialog
         AlertDialog alertDialog = alertDialogBuilder.create();
@@ -633,6 +666,8 @@ public class AddClothesActivity extends AppCompatActivity implements CameraPopup
         // Show dialog
         alertDialog.show();
 
+
+        //save and map color
         String str = mostRepeated.getKey();
         int len = str.length();
         String rgb = str.substring(1, len-1);
@@ -692,6 +727,7 @@ public class AddClothesActivity extends AppCompatActivity implements CameraPopup
             rgb[i]*=hsb[2];
         return rgb;
     }
+
 
     public float[] rgb2hsb(float[] rgb) {
         float[] hsb = new float[3];
