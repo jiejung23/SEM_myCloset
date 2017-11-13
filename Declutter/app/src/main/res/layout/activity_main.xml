@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/linearlay_1"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.junjun.ordercoffee.MainActivity">>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="4dp"
+                    android:orientation="horizontal"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="4dp">
+
+                    <ImageView
+                        android:id="@+id/img_home_de_2"
+                        android:layout_width="100dp"
+                        android:layout_height="120dp"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitXY"
+                        app:srcCompat="@drawable/de3"></ImageView>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="16dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:paddingTop="4dp">
+
+                        <TextView
+                            android:id="@+id/text_noti_2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Haven't check it for a long time."
+
+                            android:textSize="20sp" />
+
+                        <!--<TextView-->
+                        <!--android:id="@+id/text_home_de_1"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginTop="4dp"-->
+                        <!--android:text="Add Date: 04/23/2017" />-->
+
+                        <!--<TextView-->
+                        <!--android:id="@+id/text_home_de_2"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginTop="4dp"-->
+                        <!--android:text="Check Date: 06/20/2017" />-->
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <Button
+                                android:id="@+id/btn_keep2"
+                                android:layout_width="0dp"
+                                android:layout_height="36dp"
+                                android:layout_gravity="bottom"
+                                android:layout_marginRight="16dp"
+                                android:layout_weight="1"
+                                android:background="#81C784"
+                                android:onClick="keepCloth2"
+
+                                android:text="Keep it" />
+
+                            <Button
+                                android:id="@+id/btn_delete2"
+                                android:layout_width="0dp"
+                                android:layout_height="36dp"
+                                android:layout_gravity="bottom"
+                                android:layout_marginRight="16dp"
+                                android:layout_weight="1"
+                                android:background="#E57373"
+                                android:onClick="deleteCloth2"
+                                android:text="I'm Done"
+                                android:textColor="#fff" />
+
+                            <Button
+                                android:id="@+id/btn_think2"
+                                android:layout_width="0dp"
+                                android:layout_height="36dp"
+                                android:layout_gravity="bottom"
+                                android:layout_marginRight="16dp"
+                                android:layout_weight="1"
+                                android:background="#e0e0e0"
+                                android:onClick="thinkCloth2"
+                                android:text="Think" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="4dp"
+                    android:orientation="horizontal"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="4dp">
+
+                    <ImageView
+                        android:id="@+id/img_home_de_1"
+                        android:layout_width="100dp"
+                        android:layout_height="120dp"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitXY"
+                        app:srcCompat="@drawable/de2"></ImageView>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="16dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:paddingTop="4dp">
+
+                        <TextView
+                            android:id="@+id/text_noti_1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text=" Bought it a long time ago."
+
+                            android:textSize="20sp" />
+
+                        <!--<TextView-->
+                        <!--android:id="@+id/text_home_de_1"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginTop="4dp"-->
+                        <!--android:text="Add Date: 04/23/2017" />-->
+
+                        <!--<TextView-->
+                        <!--android:id="@+id/text_home_de_2"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginTop="4dp"-->
+                        <!--android:text="Check Date: 06/20/2017" />-->
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <Button
+                                android:id="@+id/btn_keep"
+                                android:layout_width="0dp"
+                                android:layout_height="36dp"
+                                android:layout_gravity="bottom"
+                                android:layout_marginRight="16dp"
+                                android:layout_weight="1"
+                                android:background="#81C784"
+                                android:onClick="keepCloth"
+
+                                android:text="Keep it" />
+
+                            <Button
+                                android:id="@+id/btn_delete"
+                                android:layout_width="0dp"
+                                android:layout_height="36dp"
+                                android:layout_gravity="bottom"
+                                android:layout_marginRight="16dp"
+                                android:layout_weight="1"
+                                android:background="#E57373"
+                                android:onClick="deleteCloth"
+                                android:text="I'm Done"
+                                android:textColor="#fff" />
+
+                            <Button
+                                android:id="@+id/btn_think"
+                                android:layout_width="0dp"
+                                android:layout_height="36dp"
+                                android:layout_gravity="bottom"
+                                android:layout_marginRight="16dp"
+                                android:layout_weight="1"
+                                android:background="#e0e0e0"
+                                android:onClick="thinkCloth"
+                                android:text="Think" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="4dp"
+                    android:orientation="horizontal"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="4dp">
+
+                    <ImageView
+                        android:id="@+id/img_home_de_3"
+                        android:layout_width="100dp"
+                        android:layout_height="120dp"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitXY"
+                        app:srcCompat="@drawable/de4"></ImageView>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="16dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:paddingTop="4dp">
+
+                        <TextView
+                            android:id="@+id/text_noti_3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Haven't check it for a long time."
+
+                            android:textSize="20sp" />
+
+                        <!--<TextView-->
+                        <!--android:id="@+id/text_home_de_1"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginTop="4dp"-->
+                        <!--android:text="Add Date: 04/23/2017" />-->
+
+                        <!--<TextView-->
+                        <!--android:id="@+id/text_home_de_2"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginTop="4dp"-->
+                        <!--android:text="Check Date: 06/20/2017" />-->
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <Button
+                                android:id="@+id/btn_keep3"
+                                android:layout_width="0dp"
+                                android:layout_height="36dp"
+                                android:layout_gravity="bottom"
+                                android:layout_marginRight="16dp"
+                                android:layout_weight="1"
+                                android:background="#81C784"
+                                android:onClick="keepCloth3"
+
+                                android:text="Keep it" />
+
+                            <Button
+                                android:id="@+id/btn_delete3"
+                                android:layout_width="0dp"
+                                android:layout_height="36dp"
+                                android:layout_gravity="bottom"
+                                android:layout_marginRight="16dp"
+                                android:layout_weight="1"
+                                android:background="#E57373"
+                                android:onClick="deleteCloth3"
+                                android:text="I'm Done"
+                                android:textColor="#fff" />
+
+                            <Button
+                                android:id="@+id/btn_think3"
+                                android:layout_width="0dp"
+                                android:layout_height="36dp"
+                                android:layout_gravity="bottom"
+                                android:layout_marginRight="16dp"
+                                android:layout_weight="1"
+                                android:background="#e0e0e0"
+                                android:onClick="thinkCloth3"
+                                android:text="Think" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+        </ScrollView>
+    </FrameLayout>
+</LinearLayout>
+

@@ -40,12 +40,13 @@ public class DBHelper {
         mContext = context;
 
 //        ip = "172.29.95.53"; //School
-        ip = "192.168.7.23"; //home
+//        ip = "192.168.7.23"; //home
+        ip = "10.241.199.250";
         port = 3306;
         dbName = "myCloset";
         url = "jdbc:mysql://" + ip + ":" + port + "/" + dbName;
         user = "root";
-        password = "xn1230o.";
+        password = "cat";
     }
 
 

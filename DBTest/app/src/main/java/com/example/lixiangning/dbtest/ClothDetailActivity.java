@@ -85,7 +85,11 @@ public class ClothDetailActivity extends AppCompatActivity {
             }
         });
 
-        clothId = ClothesListActivity.instance.getClothId();
+        if(ClothesListActivity.instance == null) {
+            clothId = DeclutterFragment.instance.getDeclutterId();
+        } else {
+            clothId = ClothesListActivity.instance.getClothId();
+        }
         imgCamera = (ImageView)findViewById(R.id.img_detail_clothes);
         text_tag = (EditText) findViewById(R.id.editText_detail_tages);
         textAddDate = (TextView)findViewById(R.id.text_detail_add_value);
