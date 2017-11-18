@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="category">
+        <item></item>
+        <item>Tops</item>
+        <item>Skirts</item>
+        <item>Pants</item>
+        <item>Suits</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="color">
+        <item></item>
+        <item>White</item>
+        <item>Black</item>
+        <item>Grey</item>
+        <item>Brown</item>
+        <item>Blue</item>
+        <item>Green</item>
+        <item>Purple</item>
+        <item>Yello</item>
+        <item>Pink</item>
+        <item>Red</item>
+        <item>Orange</item>
+        <item>Other</item>
+    </string-array>
+</resources>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="text_colorName" type="id"></item>
+    <item name="text_colorValue" type="id"></item>
+    <item name="visible" type="id"/>
+    <item name="masked" type="id"/>
+</resources>
