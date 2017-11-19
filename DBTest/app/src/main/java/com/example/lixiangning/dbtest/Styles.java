@@ -7,10 +7,11 @@ package com.example.lixiangning.dbtest;
 public class Styles {
     int styleID;
     String styleImg;
+    int styleLike;
 
-    public Styles(int id, String img) {
-        this.styleID = id;
+    public Styles(String img, int like) {
         this.styleImg = img;
+        this.styleLike = like;
     }
 
     public int getStyleID() {
@@ -27,5 +28,13 @@ public class Styles {
 
     public void setStyleImg(String img) {
         this.styleImg = img;
+    }
+
+    public int getStyleLike() {
+        return this.styleLike;
+    }
+
+    public void setStyleLike(int like) {
+        this.styleLike = like;
     }
 }

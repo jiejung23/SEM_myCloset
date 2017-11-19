@@ -11,7 +11,11 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +45,7 @@ public class DBHelper {
 
 //        ip = "172.29.95.53"; //School
         ip = "192.168.7.23"; //home
+//        ip = "192.168.29.107";
         port = 3306;
         dbName = "myCloset";
         url = "jdbc:mysql://" + ip + ":" + port + "/" + dbName;
@@ -94,32 +99,25 @@ public class DBHelper {
                 // insert
                 if (con != null) {
                     int i = 0;
-                    String sql = "insert into clothes(" + "" +
-                            "clothImg, clothCategory, clothColor, clothColorLabel, clothR, clothG, clothB, clothTexture, clothTags, addDate, checkDate, checkTimes, likeTimes) " + "" +
+                    String sql = "insert into clothes(clothImg, clothCategory, clothColor, clothColorLabel, clothR, clothG, clothB, "
+                    + "clothTexture, clothTags, addDate, checkDate, thinkDate, checkTimes, likeTimes) " +
                             "values('" + clothes.getClothImg() + "','" + clothes.getClothCategory() + "','"
-                            + clothes.getClothColor() + "','" + clothes.getClothColorLabel() + "','"
-                            + clothes.getClothR() + "','" + clothes.getClothG() + "','"
-                            + clothes.getClothB() + "','" + clothes.getClothTexture() + "','"
+                            + clothes.getClothColor() + "','" + clothes.getClothColorLabel() + "',"
+                            + clothes.getClothR() + "," + clothes.getClothG() + ","
+                            + clothes.getClothB() + ",'" + clothes.getClothTexture() + "','"
                             + clothes.getDBClothTages() + "','" + clothes.getDBAddDate() + "','"
-                            + clothes.getDBCheckDate() + "'," + clothes.getCheckTimes() + ","
-                            + clothes.getLikeTimes() + ")";
+                            + clothes.getDBCheckDate() + "','" + clothes.getDBThinkDate() + "',"
+                            + clothes.getCheckTimes() + "," + clothes.getLikeTimes() + ")";
+
+
                     PreparedStatement pstmt;
                     try {
                         pstmt = (PreparedStatement) con.prepareStatement(sql);
 
-//                        pstmt.setString(1, clothes.getClothImg());
-//                        pstmt.setString(2, clothes.getClothCategory());
-//                        pstmt.setString(3, clothes.getClothColor());
-//                        pstmt.setString(4, clothes.getClothTexture());
-//                        pstmt.setString(5, clothes.getDBClothTages());
-//                        pstmt.setString(6, clothes.getDBAddDate());
-//                        pstmt.setString(7, clothes.getDBCheckDate());
-//                        pstmt.setString(8, clothes.getCheckTimes() + "");
-//                        pstmt.setString(9, clothes.getLikeTimes() + "");
-
                         i = pstmt.executeUpdate();
 
                         Log.i(TAG, "Insert the cloth: " + clothes.getClothID() + ".");
+
                         pstmt.close();
 
                         //return to main thread
@@ -180,6 +178,7 @@ public class DBHelper {
                             break;
 
                         } catch (SQLException e) {
+                            Log.e(TAG, "Code" + e.getErrorCode() + " State" + e.getSQLState() + " Cause:"+ e.getCause() + " Message:" +e.getMessage());
                             Log.e(TAG, "Connect to JDBC Unsuccessfully!");
                         }
 
@@ -779,9 +778,7 @@ public class DBHelper {
                 // insert
                 if (con != null) {
                     int i = 0;
-                    String sql = "insert into styles(" + "" +
-                            "styleImg) " + "" +
-                            "values('" + styles.getStyleImg() + ")";
+                    String sql = "insert into styles(styleImg, styleLike) values('" + styles.getStyleImg() + "'," + styles.getStyleLike() + ")";
                     PreparedStatement pstmt;
                     try {
                         pstmt = (PreparedStatement) con.prepareStatement(sql);
@@ -858,7 +855,7 @@ public class DBHelper {
 
                 // get all
                 if (con != null) {
-                    String sql = "select styleID, styleImg from styles";
+                    String sql = "select styleID, styleImg, styleLike from styles";
                     PreparedStatement pstmt;
 
                     try {
@@ -870,8 +867,10 @@ public class DBHelper {
                             ArrayList<String> temp = new ArrayList<>();
                             String id = rs.getInt(1)+"";
                             String img = rs.getString(2);
+                            String like = rs.getString(3) + "";
                             temp.add(id);
                             temp.add(img);
+                            temp.add(like);
                             oneList.add(temp);
                         }
 
@@ -880,6 +879,122 @@ public class DBHelper {
                                 @Override
                                 public void run() {
                                     getAllCallback.getAllStyle(oneList);
+                                }
+                            });
+                        }
+
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+
+        thread.start();
+    }
+
+
+    public void getAllDeclutter(GetAllDeclutterCallback getAllDeclutterCallback) {
+
+        //get all thread
+        final Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                // connect to database
+                while (!Thread.interrupted()) {
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        Log.e(TAG, e.toString());
+                    }
+
+                    if (con == null) {
+                        try {
+                            Class.forName("com.mysql.jdbc.Driver");
+                            Log.v(TAG, "Strat JDBC Successfully");
+                        } catch (ClassNotFoundException e) {
+                            Log.e(TAG, "Strat JDBC Unsuccessfully");
+                            return;
+                        }
+
+                        // connect to JDBC
+                        try {
+                            con = DriverManager.getConnection(url, user, password);
+
+                            con.setAutoCommit(true);
+
+                            Log.i(TAG, "Connect to JDBC Successfully!");
+                            break;
+
+                        } catch (SQLException e) {
+                            Log.e(TAG, "Code" + e.getErrorCode() + " State" + e.getSQLState() + " Cause:"+ e.getCause() + " Message:" +e.getMessage());
+                            Log.e(TAG, "Connect to JDBC Unsuccessfully!");
+                        }
+
+                    } else {
+                        break;
+                    }
+                }
+
+                // get all
+                if (con != null) {
+                    String sql = "select clothID, clothImg, clothCategory, clothColor, addDate, checkDate, thinkDate from clothes";
+                    PreparedStatement pstmt;
+
+                    try {
+                        final ArrayList<ArrayList<String>> oneList = new ArrayList<>();
+                        pstmt = (PreparedStatement)con.prepareStatement(sql);
+
+                        ResultSet rs = pstmt.executeQuery();
+
+                        while (rs.next()) {
+                            ArrayList<String> temp = new ArrayList<>();
+                            String id = rs.getInt(1)+"";
+                            String img = rs.getString(2);
+                            String category = rs.getString(3);
+                            String color = rs.getString(4);
+
+                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                            Date curDate = new Date(System.currentTimeMillis());
+                            String currentDate = sdf.format(curDate);
+
+                            long checkDayCount = 0;
+                            long addDayCount = 0;
+                            long thinkDayCount = 0;
+                            String checkDate = rs.getString(5);
+                            if(!checkDate.equals("")) {
+                                checkDayCount = getDayCount(checkDate);
+                            }
+
+                            String addDate = rs.getString(6);
+                            if(!addDate.equals("")) {
+                                addDayCount = getDayCount(addDate);
+                            }
+
+                            String thinkDate = rs.getString(7);
+                            if(!thinkDate.equals("")) {
+                                thinkDayCount = getDayCount(thinkDate);
+                            }
+
+
+                            if((checkDate.equals(addDate) && addDayCount > 30) || (!checkDate.equals(addDate) && thinkDate.equals("") && checkDayCount > 365) || (!thinkDate.equals("") && thinkDayCount > 30)) {
+                                Log.i(TAG, "cloth: " + id + ", " + img + ", " + category + "," + color);
+                                temp.add(id);
+                                temp.add(img);
+                                temp.add(category);
+                                temp.add(color);
+                                oneList.add(temp);
+                            }
+                        }
+
+//                        Log.e("ddd", "all clohtes size = " + oneList.size());
+
+                        if (getAllDeclutterCallback != null) {
+                            ((Activity) mContext).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    getAllDeclutterCallback.getAllDeclutter(oneList);
                                 }
                             });
                         }
@@ -926,4 +1041,45 @@ public class DBHelper {
     public interface GetAllStyleCallback {
         public void getAllStyle(ArrayList<ArrayList<String>> data);
     }
+
+    public interface GetAllDeclutterCallback {
+        public void getAllDeclutter(ArrayList<ArrayList<String>> data);
+    }
+
+    public long getDayCount(String StartDate) {
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+
+        Date clickDate = null;
+
+        try {
+            clickDate = sdf.parse(StartDate);
+        } catch (ParseException pe) {
+            System.out.println(pe.getMessage());
+        }
+
+        Date curDate = new Date(System.currentTimeMillis());
+        String currentDateStr = sdf.format(curDate);
+        Date currentDate = null;
+
+        try {
+            currentDate = sdf.parse(currentDateStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        GregorianCalendar cal1 = new GregorianCalendar();
+
+        GregorianCalendar cal2 = new GregorianCalendar();
+
+        cal1.setTime(clickDate);
+
+        cal2.setTime(currentDate);
+
+        long dayCount = (cal2.getTimeInMillis()-cal1.getTimeInMillis())/(1000*3600*24);
+
+        return dayCount;
+    }
 }
+

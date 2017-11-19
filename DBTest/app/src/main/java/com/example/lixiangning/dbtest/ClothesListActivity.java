@@ -433,6 +433,10 @@ public class ClothesListActivity extends AppCompatActivity {
 
     }
 
+    public void setClothId(int id) {
+        this.clothId = id;
+    }
+
 
     /**
      * Action bar button listener

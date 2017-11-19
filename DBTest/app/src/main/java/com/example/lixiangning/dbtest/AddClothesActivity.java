@@ -335,6 +335,7 @@ public class AddClothesActivity extends AppCompatActivity implements CameraPopup
                 Date curDate = new Date(System.currentTimeMillis());
                 String addDate = sdf.format(curDate);
                 String checkDate = sdf.format(curDate);
+                String thinkDate = "";
                 int checkTimes = 0;
                 int likeTimes = 0;
 
@@ -353,9 +354,18 @@ public class AddClothesActivity extends AppCompatActivity implements CameraPopup
                 color = map.getColorName();
 
 
-                Clothes clothes = new Clothes(clothImg, category, color, colorLabel, colorR, colorG, colorB, clothTexture, clothTags, addDate, checkDate, checkTimes, likeTimes);
+                Clothes clothes = new Clothes(clothImg, category, color, colorLabel, colorR, colorG, colorB, clothTexture, clothTags, addDate, checkDate, thinkDate, checkTimes, likeTimes);
 
                 DBHelper dbHelper = new DBHelper(AddClothesActivity.this);
+
+                if(ClothesListActivity.instance != null) {
+                    //refresh clothes grid list
+                    ClothesListActivity.instance.refresh();
+                }
+
+                ClosetFragment.instance.refresh();
+
+                Toast.makeText(AddClothesActivity.this, "Add clothes successfully.", Toast.LENGTH_SHORT).show();
 
                 //wait for insert thread finish
                 dbHelper.insert(clothes, new DBHelper.InsertCallback() {

@@ -22,12 +22,13 @@ public class Clothes {
     ArrayList<String> clothTags;
     Date addDate;
     Date checkDate;
+    Date thinkDate;
     int checkTimes;
     int likeTimes;
 
     public Clothes(String clothImg, String clothCategory, String clothColor, String clothColorLabel,
                    int clothR, int clothG, int clothB, String clothTexture, String clothTags,
-                   String addDate, String checkDate, int checkTimes, int likeTimes) {
+                   String addDate, String checkDate, String thinkDate, int checkTimes, int likeTimes) {
 
         this.clothImg = clothImg;
         this.clothCategory = clothCategory;
@@ -48,9 +49,15 @@ public class Clothes {
         try {
             this.addDate = sdf.parse(addDate);
             this.checkDate = sdf.parse(checkDate);
+            if(thinkDate.equals("")) {
+                this.thinkDate = null;
+            } else {
+                this.thinkDate = sdf.parse(thinkDate);
+            }
         } catch (ParseException pe) {
             System.out.println(pe.getMessage());
         }
+
         this.checkTimes = checkTimes;
         this.likeTimes = likeTimes;
     }
@@ -96,6 +103,9 @@ public class Clothes {
     public Date getCheckDate() {
         return this.checkDate;
     }
+    public Date getThinkDate() {
+        return this.thinkDate;
+    }
     public int getCheckTimes() {
         return this.checkTimes;
     }
@@ -123,7 +133,15 @@ public class Clothes {
         return strCheck;
     }
 
-
+    public String getDBThinkDate() {
+        if(this.thinkDate == null) {
+            return "";
+        } else {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            String strThink = sdf.format(this.thinkDate);
+            return strThink;
+        }
+    }
 
 
 }

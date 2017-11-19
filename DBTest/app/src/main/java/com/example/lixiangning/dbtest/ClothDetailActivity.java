@@ -24,7 +24,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ClothDetailActivity extends AppCompatActivity {
@@ -85,7 +87,11 @@ public class ClothDetailActivity extends AppCompatActivity {
             }
         });
 
-        clothId = ClothesListActivity.instance.getClothId();
+        if(ClothesListActivity.instance == null) {
+            clothId = DeclutterFragment.instance.getDeclutterId();
+        } else {
+            clothId = ClothesListActivity.instance.getClothId();
+        }
         imgCamera = (ImageView)findViewById(R.id.img_detail_clothes);
         text_tag = (EditText) findViewById(R.id.editText_detail_tages);
         textAddDate = (TextView)findViewById(R.id.text_detail_add_value);
@@ -255,88 +261,105 @@ public class ClothDetailActivity extends AppCompatActivity {
         dbHelper.getOne(clothId, new DBHelper.GetOneCallback() {
             @Override
             public void getOne(ArrayList<String> data) {
-                imgUri = Uri.parse((String)data.get(0));
-                clothCategory = data.get(1);
-                clothColor = data.get(2);
-                clothColorLabel = data.get(3);
-                rValue = Integer.parseInt(data.get(4));
-                gValue = Integer.parseInt(data.get(5));
-                bValue = Integer.parseInt(data.get(6));
-                clothAddDate = data.get(7);
-
-                imgCamera.setImageURI(imgUri);
-
-                colorTags.setText(clothColor);
-
-                textAddDate.setText("You added this cloth on " + clothAddDate);
-
-                for(int i = 0; i < categoryMap.length; i++) {
-                    if(categoryMap[i].equals(clothCategory)) {
-                        clothCategoryPosition = i;
-                    }
-                }
-                spin_category.setSelection(clothCategoryPosition);
-
-                float[] Array = {(float)rValue, (float)gValue, (float)bValue};
-                float[] hsbArray = rgb2hsb(Array);
-                hue = hsbArray[0];
-                saturation = hsbArray[1];
-                brightness = hsbArray[2];
-
-                if((saturation <= 0.2 && brightness >= 0.9) || (brightness >= 0.7 && saturation <= 0.05)) {
-                    text_choose_color.setTextColor(Color.rgb(66,66,66));
-                    btn_save.setTextColor(Color.rgb(66,66,66));
-                } else {
-                    text_choose_color.setTextColor(Color.rgb(255,255,255));
-                    btn_save.setTextColor(Color.rgb(255,255,255));
-                }
-
-                seekR.setProgress((int)(hue * 100 / 359));
-                seekG.setProgress(100 - (int)(saturation * 100));
-                seekB.setProgress(100 - (int)(brightness * 100));
-
-                text_choose_color.setBackgroundColor(Color.rgb(rValue, gValue, bValue));
-
-                btn_save.setBackgroundColor(Color.rgb(rValue, gValue, bValue));
-
-                btn_save.setOnClickListener(new View.OnClickListener() {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                Date curDate = new Date(System.currentTimeMillis());
+                String checkDate = sdf.format(curDate);
+                String sql = "update clothes set checkDate='" + checkDate + "' where clothID=" + clothId;
+                dbHelper.update(sql, new DBHelper.UpdateCallback() {
                     @Override
-                    public void onClick(View view) {
-                        String clothImg = imgUri.toString();
-                        String category = clothCategory;
-                        String color = colorTags.getText().toString();
-                        String colorLabel = clothColorLabel;
-                        int colorR = rValue;
-                        int colorG = gValue;
-                        int colorB = bValue;
+                    public void onFinished() {
+                        if(DeclutterFragment.instance != null) {
+                            DeclutterFragment.instance.refresh();
+                        }
 
+                        Log.i("------Detail------", "After Refresh Declutter.");
 
-                        String sql = "update clothes set clothImg='" + clothImg +
-                                "', clothCategory='" + category +
-                                "', clothColor='" + color +
-                                "', clothColorLabel='" + colorLabel +
-                                "', clothR=" + colorR +
-                                ", clothG=" + colorG +
-                                ", clothB=" + colorB +
-                                " where clothID=" + clothId;
+                        imgUri = Uri.parse((String)data.get(0));
+                        clothCategory = data.get(1);
+                        clothColor = data.get(2);
+                        clothColorLabel = data.get(3);
+                        rValue = Integer.parseInt(data.get(4));
+                        gValue = Integer.parseInt(data.get(5));
+                        bValue = Integer.parseInt(data.get(6));
+                        clothAddDate = data.get(7);
 
-                        //wait for insert thread finish
-                        dbHelper.update(sql, new DBHelper.UpdateCallback() {
+                        imgCamera.setImageURI(imgUri);
+
+                        colorTags.setText(clothColor);
+
+                        textAddDate.setText("You added this cloth on " + clothAddDate);
+
+                        for(int i = 0; i < categoryMap.length; i++) {
+                            if(categoryMap[i].equals(clothCategory)) {
+                                clothCategoryPosition = i;
+                            }
+                        }
+                        spin_category.setSelection(clothCategoryPosition);
+
+                        float[] Array = {(float)rValue, (float)gValue, (float)bValue};
+                        float[] hsbArray = rgb2hsb(Array);
+                        hue = hsbArray[0];
+                        saturation = hsbArray[1];
+                        brightness = hsbArray[2];
+
+                        if((saturation <= 0.2 && brightness >= 0.9) || (brightness >= 0.7 && saturation <= 0.05)) {
+                            text_choose_color.setTextColor(Color.rgb(66,66,66));
+                            btn_save.setTextColor(Color.rgb(66,66,66));
+                        } else {
+                            text_choose_color.setTextColor(Color.rgb(255,255,255));
+                            btn_save.setTextColor(Color.rgb(255,255,255));
+                        }
+
+                        seekR.setProgress((int)(hue * 100 / 359));
+                        seekG.setProgress(100 - (int)(saturation * 100));
+                        seekB.setProgress(100 - (int)(brightness * 100));
+
+                        text_choose_color.setBackgroundColor(Color.rgb(rValue, gValue, bValue));
+
+                        btn_save.setBackgroundColor(Color.rgb(rValue, gValue, bValue));
+
+                        btn_save.setOnClickListener(new View.OnClickListener() {
                             @Override
-                            public void onFinished() {
+                            public void onClick(View view) {
+                                String clothImg = imgUri.toString();
+                                String category = clothCategory;
+                                String color = colorTags.getText().toString();
+                                String colorLabel = clothColorLabel;
+                                int colorR = rValue;
+                                int colorG = gValue;
+                                int colorB = bValue;
 
-                                //refresh clothes grid list
-                                ClothesListActivity.instance.refresh();
 
-                                ClosetFragment.instance.refresh();
+                                String sql = "update clothes set clothImg='" + clothImg +
+                                        "', clothCategory='" + category +
+                                        "', clothColor='" + color +
+                                        "', clothColorLabel='" + colorLabel +
+                                        "', clothR=" + colorR +
+                                        ", clothG=" + colorG +
+                                        ", clothB=" + colorB +
+                                        " where clothID=" + clothId;
 
-                                Toast.makeText(ClothDetailActivity.this, "Update clothes successfully.", Toast.LENGTH_SHORT).show();
+                                //wait for insert thread finish
+                                dbHelper.update(sql, new DBHelper.UpdateCallback() {
+                                    @Override
+                                    public void onFinished() {
 
-                                finish();
+                                        //refresh clothes grid list
+                                        ClothesListActivity.instance.refresh();
+
+                                        ClosetFragment.instance.refresh();
+
+                                        Toast.makeText(ClothDetailActivity.this, "Update clothes successfully.", Toast.LENGTH_SHORT).show();
+
+                                        finish();
+                                    }
+                                });
                             }
                         });
                     }
                 });
+
+
             }
         });
 

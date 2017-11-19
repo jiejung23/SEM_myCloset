@@ -3,12 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/text_declutterPage"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:layout_weight="1"
-        android:text="DECLUTTER" />
 
+    <GridView
+        android:id="@+id/grid_declutter"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </LinearLayout>

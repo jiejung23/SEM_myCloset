@@ -33,8 +33,9 @@ CREATE TABLE `clothes` (
   `clothB` int(11) DEFAULT NULL,
   `clothTexture` varchar(255) DEFAULT NULL,
   `clothTags` varchar(255) DEFAULT NULL,
-  `addDate` varchar(255) DEFAULT NULL,
-  `checkDate` varchar(255) DEFAULT NULL,
+  `addDate` Date DEFAULT NULL,
+  `checkDate` Date DEFAULT NULL,
+  `thinkDate` Date DEFAULT NULL,
   `checkTimes` int(11) DEFAULT NULL,
   `likeTimes` int(11) DEFAULT NULL,
   PRIMARY KEY (`clothID`)
@@ -47,7 +48,7 @@ CREATE TABLE `clothes` (
 
 LOCK TABLES `clothes` WRITE;
 /*!40000 ALTER TABLE `clothes` DISABLE KEYS */;
-INSERT INTO `clothes` VALUES (253,'file:///storage/emulated/0/test/1509655015181.jpg','Skirts','','',231,237,227,'',', ','2017-11-02','2017-11-02',0,0),(254,'file:///storage/emulated/0/test/1509655190871.jpg','Tops','','',153,128,97,'',', ','2017-11-02','2017-11-02',0,0),(255,'file:///storage/emulated/0/test/1509655211636.jpg','Tops','','',110,88,67,'',', ','2017-11-02','2017-11-02',0,0);
+INSERT INTO `clothes` VALUES (253,'file:///storage/emulated/0/test/1509655015181.jpg','Skirts','','',231,237,227,'',', ','2017-11-02',NULL,NULL,0,0),(254,'file:///storage/emulated/0/test/1509655190871.jpg','Tops','','',153,128,97,'',', ','2017-11-02',NULL,NULL,0,0),(255,'file:///storage/emulated/0/test/1509655211636.jpg','Tops','','',110,88,67,'',', ','2017-11-02','2017-11-02',NULL,0,0);
 /*!40000 ALTER TABLE `clothes` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
