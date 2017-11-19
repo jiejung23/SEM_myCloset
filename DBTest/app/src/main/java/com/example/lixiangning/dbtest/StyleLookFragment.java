@@ -54,6 +54,7 @@ public class StyleLookFragment extends Fragment implements AdapterView.OnItemCli
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_style_look, container, false);
+        instance = this;
         dbHelper = new DBHelper(view.getContext());
         grid_style = (GridView) view.findViewById(R.id.grid_look);
 
@@ -111,6 +112,9 @@ public class StyleLookFragment extends Fragment implements AdapterView.OnItemCli
                                     dbHelper.update(sql, new DBHelper.UpdateCallback() {
                                         @Override
                                         public void onFinished() {
+                                            if(StyleLikeFragment.instance != null) {
+                                                StyleLikeFragment.instance.refresh();
+                                            }
                                         }
                                     });
                                 } else {
@@ -120,6 +124,10 @@ public class StyleLookFragment extends Fragment implements AdapterView.OnItemCli
                                     dbHelper.update(sql, new DBHelper.UpdateCallback() {
                                         @Override
                                         public void onFinished() {
+                                            if(StyleLikeFragment.instance != null) {
+                                                StyleLikeFragment.instance.refresh();
+                                            }
+
                                         }
                                     });
                                 }
@@ -174,8 +182,8 @@ public class StyleLookFragment extends Fragment implements AdapterView.OnItemCli
                     dbHelper.insertStyle(styles, new DBHelper.InsertCallback() {
                         @Override
                         public void onFinished() {
-                            gridList.clear();
-                            setLookGrid();
+                            refresh();
+                            StyleLikeFragment.instance.refresh();
                         }
                     });
 
@@ -185,6 +193,11 @@ public class StyleLookFragment extends Fragment implements AdapterView.OnItemCli
             default:
                 break;
         }
+    }
+
+    public void refresh() {
+        gridList.clear();
+        setLookGrid();
     }
 
 

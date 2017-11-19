@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
 
     <GridView
-        android:id="@+id/grid_"
+        android:id="@+id/grid_like"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:numColumns="2"/>
