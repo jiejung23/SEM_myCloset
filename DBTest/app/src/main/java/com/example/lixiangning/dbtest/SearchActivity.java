@@ -29,26 +29,16 @@ public class SearchActivity extends AppCompatActivity {
 
     private String category;
 
-
-    private ArrayList<ArrayList<String>> clothList; //clothes list from database
-    private ArrayList<ArrayList<String>> clothList2;
     private ArrayList<ArrayList<String>> clothList3;
     private ArrayList<ArrayList<String>> clothList4;
     private ArrayList<ArrayList<String>> clothList5;
-    private BaseAdapter mAdapter; //grid view adapter
-    private BaseAdapter mAdapter2;
     private BaseAdapter mAdapter3;
     private BaseAdapter mAdapter4;
     private BaseAdapter mAdapter5;
-    private ArrayList<ClothImageGrid> gridList = new ArrayList<>(); //grid view items
-    private ArrayList<ClothImageGrid> gridList2 = new ArrayList<>();
     private ArrayList<ClothImageGrid> gridList3 = new ArrayList<>();
     private ArrayList<ClothImageGrid> gridList4 = new ArrayList<>();
     private ArrayList<ClothImageGrid> gridList5 = new ArrayList<>();
     private DBHelper dbHelper; //database class
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -292,53 +282,6 @@ public class SearchActivity extends AppCompatActivity {
 
     public int getClothId() {
         return clothId;
-    }
-
-    /**
-     * Refresh grid list
-     */
-    public void refresh() {
-
-        if(category.equals("All Clothes")) {
-            dbHelper.getAll(new DBHelper.GetAllCallback() {
-                @Override
-                public void getAll(ArrayList<ArrayList<String>> data) {
-                    clothList = data;
-                    gridList.clear();
-
-//                Log.e("test", "clothList list size: " + clothList.size());
-
-                    for(int i = 0; i < clothList.size(); i++) {
-                        ArrayList<String> thisCloth = clothList.get(i);
-                        Uri imgUri = Uri.parse((String)thisCloth.get(1));
-                        gridList.add(new ClothImageGrid(imgUri, thisCloth.get(0), thisCloth.get(2), thisCloth.get(3)));
-                    }
-
-                    //update data with new grid list
-                    mAdapter.notifyDataSetChanged();
-                }
-            });
-        }
-        else {
-            dbHelper.getCategoryAll(category, new DBHelper.GetCategoryCallback() {
-                @Override
-                public void getCategoryAll(ArrayList<ArrayList<String>> data) {
-                    clothList2 = data;
-                    gridList2.clear();
-
-                    for(int i = 0; i < clothList2.size(); i++) {
-                        ArrayList<String> thisCloth = clothList2.get(i);
-                        Uri imgUri = Uri.parse((String)thisCloth.get(1));
-                        gridList2.add(new ClothImageGrid(imgUri, thisCloth.get(0), thisCloth.get(2), thisCloth.get(3)));
-                    }
-
-                    //update data with new grid list
-                    mAdapter2.notifyDataSetChanged();
-                }
-            });
-        }
-
-
     }
 
     public void setClothId(int id) {
