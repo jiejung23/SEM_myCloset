@@ -19,7 +19,7 @@ public class Clothes {
     int clothG;
     int clothB;
     String clothTexture;
-    ArrayList<String> clothTags;
+    String clothTags;
     Date addDate;
     Date checkDate;
     Date thinkDate;
@@ -39,11 +39,7 @@ public class Clothes {
         this.clothB = clothB;
         this.clothTexture = clothTexture;
 
-        this.clothTags = new ArrayList<String>() ;
-        String[] strTags = clothTags.split(", ");
-        for(int i = 0; i < strTags.length; i++) {
-            this.clothTags.add(strTags[i]);
-        }
+        this.clothTags = clothTags;
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         try {
@@ -94,7 +90,7 @@ public class Clothes {
     public String getClothTexture() {
         return this.clothTexture;
     }
-    public ArrayList<String> getClothTages() {
+    public String getClothTages() {
         return this.clothTags;
     }
     public Date getAddDate() {
@@ -116,11 +112,7 @@ public class Clothes {
 
 
     public String getDBClothTages() {
-        String tags = "";
-        for(int i = 0; i < this.clothTags.size(); i++) {
-            tags = tags + this.clothTags.get(i) + ", ";
-        }
-        return tags;
+        return this.clothTags;
     }
     public String getDBAddDate() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");

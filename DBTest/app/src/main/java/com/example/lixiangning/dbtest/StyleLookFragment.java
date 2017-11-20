@@ -47,6 +47,10 @@ public class StyleLookFragment extends Fragment implements AdapterView.OnItemCli
     Uri imgUri = null;
     ImageView btn_like;
 
+    int size = 6;
+    int offset = 0;
+    int n = 0;
+
     final int CHOOSE_PHOTO = 2;
     final int AFTER_CROP = 1;
 
@@ -58,17 +62,117 @@ public class StyleLookFragment extends Fragment implements AdapterView.OnItemCli
         dbHelper = new DBHelper(view.getContext());
         grid_style = (GridView) view.findViewById(R.id.grid_look);
 
-        setLookGrid();
+//        setLookGrid();
+
+        setOffsetLookGrid();
 
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab_in_style);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                albumPhoto();
+//                albumPhoto();
+                offset = offset + size;
+                if(offset == n) {
+                    offset = 0;
+                    size = 6;
+                }
+                setOffsetLookGrid();
             }
         });
 
         return view;
+    }
+
+
+    private void setOffsetLookGrid() {
+        dbHelper.getAllStyle(new DBHelper.GetAllStyleCallback() {
+            @Override
+            public void getAllStyle(ArrayList<ArrayList<String>> data) {
+                styleList = data;
+
+                gridList.clear();
+
+                n = styleList.size();
+
+                if(n - offset < size) {
+                    size = n - offset;
+                }
+
+                Log.i("------n------", n+"");
+                Log.i("------offset------", offset+"");
+                Log.i("------size------", size+"");
+
+                for(int i = offset; i < offset + size; i++) {
+                    ArrayList<String> thisCloth = styleList.get(i);
+                    Uri imgUri = Uri.parse((String) thisCloth.get(1));
+                    String id = thisCloth.get(0);
+                    gridList.add(new StyleImageGrid(imgUri, id, Integer.parseInt(thisCloth.get(2))));
+                }
+
+                mAdapter = new ClothGridAdapter<StyleImageGrid>(gridList, R.layout.list_style_item) {
+                    @Override
+                    public void bindView(ViewHolder holder, StyleImageGrid obj) {
+                        holder.setImageResource(R.id.img_style1, obj.getStyleImage());
+                        holder.setText(R.id.text_id, obj.getStyleID());
+                        btn_like = holder.getItemView().findViewById(R.id.icon_like);
+                        if (obj.getStyleLike() == 1) {
+                            btn_like.setImageResource(R.drawable.ic_favorite_white_24dp);
+                            holder.setText(R.id.text_like, "1");
+                        } else {
+                            btn_like.setImageResource(R.drawable.ic_favorite_border_white_24dp);
+                            holder.setText(R.id.text_like, "0");
+                        }
+                        btn_like.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+//                                Toast.makeText(getActivity(), holder.getItemPosition() + "", Toast.LENGTH_SHORT).show();
+                                ImageView img_like = holder.getItemView().findViewById(R.id.icon_like);
+                                TextView text_like = holder.getItemView().findViewById(R.id.text_like);
+                                TextView text_id = holder.getItemView().findViewById(R.id.text_id);
+                                int thisID = Integer.parseInt(text_id.getText().toString());
+                                if (text_like.getText().equals("1")) {
+                                    img_like.setImageResource(R.drawable.ic_favorite_border_white_24dp);
+                                    text_like.setText("0");
+                                    String sql = "update styles set styleLike=0 where styleID=" + thisID;
+                                    dbHelper.update(sql, new DBHelper.UpdateCallback() {
+                                        @Override
+                                        public void onFinished() {
+                                            if(StyleLikeFragment.instance != null) {
+                                                StyleLikeFragment.instance.refresh();
+                                            }
+                                        }
+                                    });
+                                } else {
+                                    img_like.setImageResource(R.drawable.ic_favorite_white_24dp);
+                                    text_like.setText("1");
+                                    String sql = "update styles set styleLike=1 where styleID=" + thisID;
+                                    dbHelper.update(sql, new DBHelper.UpdateCallback() {
+                                        @Override
+                                        public void onFinished() {
+                                            if(StyleLikeFragment.instance != null) {
+                                                StyleLikeFragment.instance.refresh();
+                                            }
+
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                    }
+                };
+
+                grid_style.setAdapter(mAdapter);
+                //grid item listener
+                grid_style.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        StyleImageGrid c = (StyleImageGrid) mAdapter.getItem(position);
+                    }
+                });
+
+
+            }
+        });
     }
 
     private void setLookGrid() {
@@ -76,8 +180,14 @@ public class StyleLookFragment extends Fragment implements AdapterView.OnItemCli
             @Override
             public void getAllStyle(ArrayList<ArrayList<String>> data) {
                 styleList = data;
-                Log.i("---StyleLook Size---", styleList.size() + "");
-                for(int i = 0; i < styleList.size(); i++) {
+
+                int n = styleList.size();
+
+                if(n < size) {
+                    size = n;
+                }
+
+                for(int i = 0; i < size; i++) {
                     ArrayList<String> thisCloth = styleList.get(i);
                     Uri imgUri = Uri.parse((String) thisCloth.get(1));
                     String id = thisCloth.get(0);
@@ -197,7 +307,7 @@ public class StyleLookFragment extends Fragment implements AdapterView.OnItemCli
 
     public void refresh() {
         gridList.clear();
-        setLookGrid();
+        setOffsetLookGrid();
     }
 
 
