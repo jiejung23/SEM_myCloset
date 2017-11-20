@@ -68,7 +68,7 @@
                     android:background="@color/colorPrimary"
                     android:textColor="#fff"
                     android:onClick="keepCloth2"
-                    android:text="Keep it" />
+                    android:text="Keep" />
 
                 <!--@color/colorWhite70-->
                 <Button
@@ -94,7 +94,7 @@
                     android:background="@color/colorAccent"
                     android:textColor="#fff"
                     android:onClick="deleteCloth2"
-                    android:text="I'm Done" />
+                    android:text="Done" />
 
             </LinearLayout>
 

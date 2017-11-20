@@ -111,11 +111,20 @@ public class DeclutterFragment extends Fragment {
                                 dbHelper.update(sql, new DBHelper.UpdateCallback() {
                                     @Override
                                     public void onFinished() {
-                                        noti = holder.getItemView().findViewById(R.id.text_noti);
+
+                                        Button btn_keep = holder.getItemView().findViewById(R.id.btn_keep);
+                                        Button btn_delete = holder.getItemView().findViewById(R.id.btn_delete);
+                                        Button btn_think = holder.getItemView().findViewById(R.id.btn_think);
+
+                                        TextView noti = holder.getItemView().findViewById(R.id.text_noti);
                                         noti.setText("You kept it! Love this cloth!");
                                         btn_keep.setEnabled(false);
                                         btn_delete.setEnabled(false);
                                         btn_think.setEnabled(false);
+
+                                        btn_keep.setClickable(false);
+                                        btn_delete.setClickable(false);
+                                        btn_think.setClickable(false);
 
                                         btn_keep.setBackgroundColor(Color.parseColor("#e0e0e0"));
                                         btn_delete.setBackgroundColor(Color.parseColor("#e0e0e0"));
@@ -140,11 +149,20 @@ public class DeclutterFragment extends Fragment {
                                 dbHelper.update(sql, new DBHelper.UpdateCallback() {
                                     @Override
                                     public void onFinished() {
-                                        noti = holder.getItemView().findViewById(R.id.text_noti);
+                                        Button btn_keep = holder.getItemView().findViewById(R.id.btn_keep);
+                                        Button btn_delete = holder.getItemView().findViewById(R.id.btn_delete);
+                                        Button btn_think = holder.getItemView().findViewById(R.id.btn_think);
+
+                                        TextView noti = holder.getItemView().findViewById(R.id.text_noti);
+
                                         noti.setText("You'll be reminded in 30 days ;)");
                                         btn_keep.setEnabled(false);
                                         btn_delete.setEnabled(false);
                                         btn_think.setEnabled(false);
+
+                                        btn_keep.setClickable(false);
+                                        btn_delete.setClickable(false);
+                                        btn_think.setClickable(false);
 
                                         btn_keep.setBackgroundColor(Color.parseColor("#e0e0e0"));
                                         btn_delete.setBackgroundColor(Color.parseColor("#e0e0e0"));
@@ -363,7 +381,11 @@ public class DeclutterFragment extends Fragment {
                                         dbHelper.update(sql, new DBHelper.UpdateCallback() {
                                             @Override
                                             public void onFinished() {
-                                                noti = holder.getItemView().findViewById(R.id.text_noti);
+                                                Button btn_keep = holder.getItemView().findViewById(R.id.btn_keep);
+                                                Button btn_delete = holder.getItemView().findViewById(R.id.btn_delete);
+                                                Button btn_think = holder.getItemView().findViewById(R.id.btn_think);
+
+                                                TextView noti = holder.getItemView().findViewById(R.id.text_noti);
                                                 noti.setText("You kept it! Love this cloth!");
                                                 btn_keep.setEnabled(false);
                                                 btn_delete.setEnabled(false);
@@ -392,7 +414,11 @@ public class DeclutterFragment extends Fragment {
                                         dbHelper.update(sql, new DBHelper.UpdateCallback() {
                                             @Override
                                             public void onFinished() {
-                                                noti = holder.getItemView().findViewById(R.id.text_noti);
+                                                Button btn_keep = holder.getItemView().findViewById(R.id.btn_keep);
+                                                Button btn_delete = holder.getItemView().findViewById(R.id.btn_delete);
+                                                Button btn_think = holder.getItemView().findViewById(R.id.btn_think);
+
+                                                TextView noti = holder.getItemView().findViewById(R.id.text_noti);
                                                 noti.setText("You'll be reminded in 30 days ;)");
                                                 btn_keep.setEnabled(false);
                                                 btn_delete.setEnabled(false);

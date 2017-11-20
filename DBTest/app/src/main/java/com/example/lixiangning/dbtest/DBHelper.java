@@ -43,8 +43,8 @@ public class DBHelper {
     public DBHelper(Context context) {
         mContext = context;
 
-//        ip = "172.29.95.53"; //School
-        ip = "192.168.7.23"; //home
+        ip = "172.29.95.53"; //School
+//        ip = "192.168.7.23"; //home
 //        ip = "192.168.29.107";
         port = 3306;
         dbName = "myCloset";

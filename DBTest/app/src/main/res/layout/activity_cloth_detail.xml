@@ -215,7 +215,7 @@
                 android:layout_marginLeft="24dp"
                 android:layout_marginRight="24dp"
                 android:layout_marginTop="24dp"
-                android:text="Free Tages"
+                android:text="Custom Tags"
                 android:textSize="18sp" />
 
             <EditText
@@ -248,7 +248,7 @@
                 android:layout_marginLeft="24dp"
                 android:layout_marginRight="24dp"
                 android:layout_marginTop="24dp"
-                android:text="Color Tages"
+                android:text="Color Tags"
                 android:textSize="18sp" />
 
             <EditText

@@ -111,7 +111,7 @@ public class CropActivity extends AppCompatActivity {
         // 设置剪切后的最大宽度
 //        mGestureCropImageView.setMaxResultImageSizeX(300);
         // 设置剪切后的最大高度
-//        mGestureCropImageView.setMaxResultImageSizeY(300);
+//        mGestureCropImageView.setMaxResultImageSizeY(400);
 
         // 设置外部阴影颜色
         mOverlayView.setDimmedColor(Color.parseColor("#AA000000"));

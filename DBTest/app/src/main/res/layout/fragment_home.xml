@@ -187,7 +187,7 @@
                                 android:layout_weight="1"
                                 android:background="@color/colorPrimary"
                                 android:onClick="keepCloth2"
-                                android:text="Keep it"
+                                android:text="Keep"
                                 android:textColor="#fff" />
 
                             <!--@color/colorWhite70-->
@@ -213,7 +213,7 @@
                                 android:layout_weight="1"
                                 android:background="@color/colorAccent"
                                 android:onClick="deleteCloth2"
-                                android:text="I'm Done"
+                                android:text="Done"
                                 android:textColor="#fff" />
 
                         </LinearLayout>
@@ -271,7 +271,7 @@
                                 android:layout_weight="1"
                                 android:background="@color/colorPrimary"
                                 android:onClick="keepCloth2"
-                                android:text="Keep it"
+                                android:text="Keep"
                                 android:textColor="#fff" />
 
                             <!--@color/colorWhite70-->
@@ -297,7 +297,7 @@
                                 android:layout_weight="1"
                                 android:background="@color/colorAccent"
                                 android:onClick="deleteCloth2"
-                                android:text="I'm Done"
+                                android:text="Done"
                                 android:textColor="#fff" />
 
                         </LinearLayout>
@@ -366,7 +366,7 @@
                                 android:layout_weight="1"
                                 android:background="@color/colorPrimary"
                                 android:onClick="keepCloth2"
-                                android:text="Keep it"
+                                android:text="Keep"
                                 android:textColor="#fff" />
 
                             <!--@color/colorWhite70-->
@@ -392,7 +392,7 @@
                                 android:layout_weight="1"
                                 android:background="@color/colorAccent"
                                 android:onClick="deleteCloth2"
-                                android:text="I'm Done"
+                                android:text="Done"
                                 android:textColor="#fff" />
 
                         </LinearLayout>

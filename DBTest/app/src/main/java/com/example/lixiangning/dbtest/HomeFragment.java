@@ -88,16 +88,19 @@ public class HomeFragment extends Fragment {
                 int i = 0;
                 int j = 0;
 
-                while(j < 3) {
-                    ArrayList<String> thisCloth = styleList.get(i);
-                    Uri imgUri = Uri.parse((String) thisCloth.get(1));
-                    String id = thisCloth.get(0);
-                    if(thisCloth.get(2).equals("0")) {
-                        gridList.add(new StyleImageGrid(imgUri, id, Integer.parseInt(thisCloth.get(2))));
-                        j++;
+                if(styleList.size() > 3 ) {
+                    while(j < 3) {
+                        ArrayList<String> thisCloth = styleList.get(i);
+                        Uri imgUri = Uri.parse((String) thisCloth.get(1));
+                        String id = thisCloth.get(0);
+                        if(thisCloth.get(2).equals("0")) {
+                            gridList.add(new StyleImageGrid(imgUri, id, Integer.parseInt(thisCloth.get(2))));
+                            j++;
+                        }
+                        i++;
                     }
-                    i++;
                 }
+
 
 
 
@@ -552,16 +555,19 @@ public class HomeFragment extends Fragment {
                 int i = 0;
                 int j = 0;
 
-                while(j < 3) {
-                    ArrayList<String> thisCloth = styleList.get(i);
-                    Uri imgUri = Uri.parse((String) thisCloth.get(1));
-                    String id = thisCloth.get(0);
-                    if(thisCloth.get(2).equals("0")) {
-                        gridList.add(new StyleImageGrid(imgUri, id, Integer.parseInt(thisCloth.get(2))));
-                        j++;
+                if(styleList.size() > 3) {
+                    while(j < 3) {
+                        ArrayList<String> thisCloth = styleList.get(i);
+                        Uri imgUri = Uri.parse((String) thisCloth.get(1));
+                        String id = thisCloth.get(0);
+                        if(thisCloth.get(2).equals("0")) {
+                            gridList.add(new StyleImageGrid(imgUri, id, Integer.parseInt(thisCloth.get(2))));
+                            j++;
+                        }
+                        i++;
                     }
-                    i++;
                 }
+
 
 
 
