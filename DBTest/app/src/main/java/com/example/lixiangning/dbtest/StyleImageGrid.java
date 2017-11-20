@@ -16,6 +16,11 @@ public class StyleImageGrid {
 
     }
 
+    public StyleImageGrid(Uri file, String id) {
+        this.img_file = file;
+        this.style_id = id;
+    }
+
     public StyleImageGrid(Uri file, String id, int like) {
         this.img_file = file;
         this.style_id = id;

@@ -72,22 +72,18 @@ public class DeclutterFragment extends Fragment {
                 //add grid items
                 for(int i = 0; i < clothList.size(); i++) {
                     ArrayList<String> thisCloth = clothList.get(i); //current cloth
-
-                    // your codes
-                    // choose notification
-                    // if(...) {next 3 lines}
-
                     String notification = "Haven't checked this item for a long time.";
                     Uri imgUri = Uri.parse((String) thisCloth.get(1));
                     gridList.add(new DeclutterGrid(imgUri, thisCloth.get(0).toString(), notification));
-
+                    Log.i("---Declutter11 i---", i + "");
                 }
 
                 mAdapter = new ClothGridAdapter<DeclutterGrid>(gridList, R.layout.list_declutter) {
                     @Override
                     public void bindView(ViewHolder holder, DeclutterGrid obj) {
+                        Log.i("---Declutter11 id---", obj.getDeclutterID() + "");
                         holder.setImageResource(R.id.img_home_de, obj.getDeclutterImage());
-                        holder.setText(R.id.text_home_noti, obj.getNotification());
+                        holder.setText(R.id.text_noti, obj.getNotification());
                         btn_keep = holder.getItemView().findViewById(R.id.btn_keep);
                         btn_delete = holder.getItemView().findViewById(R.id.btn_delete);
                         btn_think = holder.getItemView().findViewById(R.id.btn_think);
@@ -95,7 +91,7 @@ public class DeclutterFragment extends Fragment {
                         btn_keep.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                //example
+                                Log.i("---Keep OnClick11---", obj.getDeclutterID() + "");
                                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                                 Date curDate = new Date(System.currentTimeMillis());
                                 String currentDate = sdf.format(curDate);
@@ -108,6 +104,14 @@ public class DeclutterFragment extends Fragment {
                                         btn_keep.setEnabled(false);
                                         btn_delete.setEnabled(false);
                                         btn_think.setEnabled(false);
+
+                                        btn_keep.setBackgroundColor(Color.parseColor("#e0e0e0"));
+                                        btn_delete.setBackgroundColor(Color.parseColor("#e0e0e0"));
+                                        btn_think.setBackgroundColor(Color.parseColor("#e0e0e0"));
+
+                                        btn_keep.setTextColor(Color.parseColor("#9e9e9e"));
+                                        btn_delete.setTextColor(Color.parseColor("#9e9e9e"));
+                                        btn_think.setTextColor(Color.parseColor("#9e9e9e"));
                                     }
                                 });
 
@@ -118,6 +122,7 @@ public class DeclutterFragment extends Fragment {
                             @Override
                             public void onClick(View v) {
                                 //declutter
+                                Log.i("---Delete OnClick11---", obj.getDeclutterID() + "");
                                 String sql = "delete from clothes where clothID="+ obj.getDeclutterID();
                                 dbHelper.update(sql, new DBHelper.UpdateCallback() {
                                     @Override
@@ -133,6 +138,10 @@ public class DeclutterFragment extends Fragment {
                                         btn_keep.setBackgroundColor(Color.parseColor("#e0e0e0"));
                                         btn_delete.setBackgroundColor(Color.parseColor("#e0e0e0"));
                                         btn_think.setBackgroundColor(Color.parseColor("#e0e0e0"));
+
+                                        btn_keep.setTextColor(Color.parseColor("#9e9e9e"));
+                                        btn_delete.setTextColor(Color.parseColor("#9e9e9e"));
+                                        btn_think.setTextColor(Color.parseColor("#9e9e9e"));
                                     }
                                 });
                             }
@@ -141,6 +150,7 @@ public class DeclutterFragment extends Fragment {
                         btn_think.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                Log.i("---Think OnClick11---", obj.getDeclutterID() + "");
                                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                                 Date curDate = new Date(System.currentTimeMillis());
                                 String currentDate = sdf.format(curDate);
@@ -153,6 +163,14 @@ public class DeclutterFragment extends Fragment {
                                         btn_keep.setEnabled(false);
                                         btn_delete.setEnabled(false);
                                         btn_think.setEnabled(false);
+
+                                        btn_keep.setBackgroundColor(Color.parseColor("#e0e0e0"));
+                                        btn_delete.setBackgroundColor(Color.parseColor("#e0e0e0"));
+                                        btn_think.setBackgroundColor(Color.parseColor("#e0e0e0"));
+
+                                        btn_keep.setTextColor(Color.parseColor("#9e9e9e"));
+                                        btn_delete.setTextColor(Color.parseColor("#9e9e9e"));
+                                        btn_think.setTextColor(Color.parseColor("#9e9e9e"));
                                     }
                                 });
                             }
@@ -162,14 +180,16 @@ public class DeclutterFragment extends Fragment {
                         imageView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                Log.i("---Img OnClick11---", obj.getDeclutterID() + "");
                                 clothId = Integer.parseInt(obj.getDeclutterID());
-                                if(ClothesListActivity.instance != null) {
-                                    ClothesListActivity.instance.setClothId(clothId);
-                                }
+                                HomeFragment.instance.setDetailID(clothId);
+
                                 Intent intent = new Intent(getActivity(), ClothDetailActivity.class);
                                 startActivity(intent);
                             }
                         });
+
+                        Log.i("---Finish one11---", obj.getDeclutterID() + "");
                     }
                 };
 
@@ -177,6 +197,122 @@ public class DeclutterFragment extends Fragment {
 
             }
         });
+
+//        dbHelper.getAllDeclutter(new DBHelper.GetAllDeclutterCallback() {
+//
+//            @Override
+//            public void getAllDeclutter(ArrayList<ArrayList<String>> data) {
+//
+//                clothList = data;
+//
+//                //add grid items
+//                for(int i = 0; i < clothList.size(); i++) {
+//                    ArrayList<String> thisCloth = clothList.get(i); //current cloth
+//
+//                    // your codes
+//                    // choose notification
+//                    // if(...) {next 3 lines}
+//
+//                    String notification = "Haven't checked this item for a long time.";
+//                    Uri imgUri = Uri.parse((String) thisCloth.get(1));
+//                    gridList.add(new DeclutterGrid(imgUri, thisCloth.get(0).toString(), notification));
+//
+//                }
+//
+//                mAdapter = new ClothGridAdapter<DeclutterGrid>(gridList, R.layout.list_declutter) {
+//                    @Override
+//                    public void bindView(ViewHolder holder, DeclutterGrid obj) {
+//                        holder.setImageResource(R.id.img_home_de, obj.getDeclutterImage());
+//                        holder.setText(R.id.text_noti, obj.getNotification());
+//                        btn_keep = holder.getItemView().findViewById(R.id.btn_keep);
+//                        btn_delete = holder.getItemView().findViewById(R.id.btn_delete);
+//                        btn_think = holder.getItemView().findViewById(R.id.btn_think);
+//
+//                        btn_keep.setOnClickListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View v) {
+//                                //example
+//                                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//                                Date curDate = new Date(System.currentTimeMillis());
+//                                String currentDate = sdf.format(curDate);
+//                                String sql = "update clothes set checkDate='"+ currentDate + "' where clothID=" + obj.getDeclutterID();
+//                                dbHelper.update(sql, new DBHelper.UpdateCallback() {
+//                                    @Override
+//                                    public void onFinished() {
+//                                        noti = holder.getItemView().findViewById(R.id.text_noti);
+//                                        noti.setText("You kept it! Love this cloth!");
+//                                        btn_keep.setEnabled(false);
+//                                        btn_delete.setEnabled(false);
+//                                        btn_think.setEnabled(false);
+//                                    }
+//                                });
+//
+//                            }
+//                        });
+//
+//                        btn_delete.setOnClickListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View v) {
+//                                //declutter
+//                                String sql = "delete from clothes where clothID="+ obj.getDeclutterID();
+//                                dbHelper.update(sql, new DBHelper.UpdateCallback() {
+//                                    @Override
+//                                    public void onFinished() {
+//                                        noti = holder.getItemView().findViewById(R.id.text_noti);
+//                                        noti.setText("Removed this item from the closet permanently.");
+//                                        btn_keep.setEnabled(false);
+//                                        btn_delete.setEnabled(false);
+//                                        btn_think.setEnabled(false);
+//                                        btn_keep.setClickable(false);
+//                                        btn_delete.setClickable(false);
+//                                        btn_think.setClickable(false);
+//                                        btn_keep.setBackgroundColor(Color.parseColor("#e0e0e0"));
+//                                        btn_delete.setBackgroundColor(Color.parseColor("#e0e0e0"));
+//                                        btn_think.setBackgroundColor(Color.parseColor("#e0e0e0"));
+//                                    }
+//                                });
+//                            }
+//                        });
+//
+//                        btn_think.setOnClickListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View v) {
+//                                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//                                Date curDate = new Date(System.currentTimeMillis());
+//                                String currentDate = sdf.format(curDate);
+//                                String sql = "update clothes set thinkDate='"+ currentDate + "' where clothID=" + obj.getDeclutterID();
+//                                dbHelper.update(sql, new DBHelper.UpdateCallback() {
+//                                    @Override
+//                                    public void onFinished() {
+//                                        noti = holder.getItemView().findViewById(R.id.text_noti);
+//                                        noti.setText("You'll be reminded in 30 days ;)");
+//                                        btn_keep.setEnabled(false);
+//                                        btn_delete.setEnabled(false);
+//                                        btn_think.setEnabled(false);
+//                                    }
+//                                });
+//                            }
+//                        });
+//
+//                        imageView = holder.getItemView().findViewById(R.id.img_home_de);
+//                        imageView.setOnClickListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View v) {
+//                                clothId = Integer.parseInt(obj.getDeclutterID());
+//                                if(ClothesListActivity.instance != null) {
+//                                    ClothesListActivity.instance.setClothId(clothId);
+//                                }
+//                                Intent intent = new Intent(getActivity(), ClothDetailActivity.class);
+//                                startActivity(intent);
+//                            }
+//                        });
+//                    }
+//                };
+//
+//                grid_declutter.setAdapter(mAdapter);
+//
+//            }
+//        });
 
         return view;
     }

@@ -15,8 +15,9 @@ public class ClothImageGrid {
     private String cloth_categort;
     private String cloth_color;
 
-    public ClothImageGrid() {
-
+    public ClothImageGrid(Uri file, String id) {
+        this.img_file = file;
+        this.cloth_id = id;
     }
 
     public ClothImageGrid(Uri file, String id, String cloth_categort, String cloth_color) {

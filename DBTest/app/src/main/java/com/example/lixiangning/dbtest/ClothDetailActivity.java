@@ -34,6 +34,7 @@ public class ClothDetailActivity extends AppCompatActivity {
     private String clothCategory;
     private String clothColor;
     private String clothColorLabel;
+    private String clothTags;
     private int rValue;
     private int gValue;
     private int bValue;
@@ -87,11 +88,8 @@ public class ClothDetailActivity extends AppCompatActivity {
             }
         });
 
-        if(ClothesListActivity.instance == null) {
-            clothId = DeclutterFragment.instance.getDeclutterId();
-        } else {
-            clothId = ClothesListActivity.instance.getClothId();
-        }
+        clothId = HomeFragment.instance.getDetailID();
+
         imgCamera = (ImageView)findViewById(R.id.img_detail_clothes);
         text_tag = (EditText) findViewById(R.id.editText_detail_tages);
         textAddDate = (TextView)findViewById(R.id.text_detail_add_value);
@@ -273,6 +271,8 @@ public class ClothDetailActivity extends AppCompatActivity {
                         }
 
                         Log.i("------Detail------", "After Refresh Declutter.");
+                        Log.i("------Detail id------", clothId + "");
+                        Log.i("------Detail size------", data.size() + "");
 
                         imgUri = Uri.parse((String)data.get(0));
                         clothCategory = data.get(1);
@@ -281,11 +281,13 @@ public class ClothDetailActivity extends AppCompatActivity {
                         rValue = Integer.parseInt(data.get(4));
                         gValue = Integer.parseInt(data.get(5));
                         bValue = Integer.parseInt(data.get(6));
-                        clothAddDate = data.get(7);
+                        clothTags = data.get(7);
+                        clothAddDate = data.get(8);
 
                         imgCamera.setImageURI(imgUri);
 
                         colorTags.setText(clothColor);
+                        text_tag.setText(clothTags);
 
                         textAddDate.setText("You added this cloth on " + clothAddDate);
 
@@ -324,6 +326,7 @@ public class ClothDetailActivity extends AppCompatActivity {
                                 String clothImg = imgUri.toString();
                                 String category = clothCategory;
                                 String color = colorTags.getText().toString();
+                                String tags = text_tag.getText().toString();
                                 String colorLabel = clothColorLabel;
                                 int colorR = rValue;
                                 int colorG = gValue;
@@ -337,7 +340,8 @@ public class ClothDetailActivity extends AppCompatActivity {
                                         "', clothR=" + colorR +
                                         ", clothG=" + colorG +
                                         ", clothB=" + colorB +
-                                        " where clothID=" + clothId;
+                                        ", clothTags='" + tags +
+                                        "' where clothID=" + clothId;
 
                                 //wait for insert thread finish
                                 dbHelper.update(sql, new DBHelper.UpdateCallback() {

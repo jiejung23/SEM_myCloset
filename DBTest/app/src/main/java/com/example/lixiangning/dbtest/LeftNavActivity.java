@@ -108,9 +108,9 @@ public class LeftNavActivity extends AppCompatActivity
             @Override
             public boolean onQueryTextSubmit(String query) {
                 HomeFragment.instance.setCategory(query);
-                ClosetFragment.instance.setCategory("All Clothes");
+                HomeFragment.instance.setTitleCategory("All Clothes");
                 HomeFragment.instance.setSearchFrom(0);
-                Intent intent = new Intent(LeftNavActivity.this, ClothesListActivity.class);
+                Intent intent = new Intent(LeftNavActivity.this, SearchActivity.class);
                 startActivity(intent);
 
                 return false;

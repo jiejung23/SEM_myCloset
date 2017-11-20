@@ -189,7 +189,7 @@ public class DBHelper {
 
                 // get all
                 if (con != null) {
-                    String sql = "select clothID, clothImg, clothCategory, clothColor from clothes";
+                    String sql = "select clothID, clothImg, clothCategory, clothColor, clothTags from clothes";
                     PreparedStatement pstmt;
 
                     try {
@@ -208,11 +208,13 @@ public class DBHelper {
                             String img = rs.getString(2);
                             String category = rs.getString(3);
                             String color = rs.getString(4);
+                            String tags = rs.getString(5);
                             Log.i(TAG, "cloth: " + id + ", " + img + ", " + category + "," + color);
                             temp.add(id);
                             temp.add(img);
                             temp.add(category);
                             temp.add(color);
+                            temp.add(tags);
                             oneList.add(temp);
                         }
 
@@ -449,7 +451,7 @@ public class DBHelper {
 
                 // get all
                 if (con != null) {
-                    String sql = "select clothImg, clothCategory, clothColor, clothColorLabel, clothR, clothG, clothB, addDate from clothes where clothId=" + cloth_id;
+                    String sql = "select clothImg, clothCategory, clothColor, clothColorLabel, clothR, clothG, clothB, clothTags, addDate from clothes where clothId=" + cloth_id;
                     PreparedStatement pstmt;
 
                     try {
@@ -467,7 +469,8 @@ public class DBHelper {
                             String colorR = rs.getInt(5) + "";
                             String colorG = rs.getInt(6) + "";
                             String colorB = rs.getInt(7) + "";
-                            String add = rs.getString(8);
+                            String tags = rs.getString(8);
+                            String add = rs.getString(9);
                             oneCloth.add(img);
                             oneCloth.add(category);
                             oneCloth.add(color);
@@ -475,6 +478,7 @@ public class DBHelper {
                             oneCloth.add(colorR);
                             oneCloth.add(colorG);
                             oneCloth.add(colorB);
+                            oneCloth.add(tags);
                             oneCloth.add(add);
                         }
 
@@ -621,7 +625,7 @@ public class DBHelper {
 
                 // get all
                 if (con != null) {
-                    String sql = "select clothID, clothImg, clothCategory, clothColor from clothes where clothCategory='" + category + "'";
+                    String sql = "select clothID, clothImg, clothCategory, clothColor, clothTags from clothes where clothCategory='" + category + "'";
                     PreparedStatement pstmt;
 
                     try {
@@ -640,11 +644,13 @@ public class DBHelper {
                             String img = rs.getString(2);
                             String category = rs.getString(3);
                             String color = rs.getString(4);
+                            String tags = rs.getString(5);
                             Log.i(TAG, "cloth: " + id + ", " + img + ", " + category + "," + color);
                             temp.add(id);
                             temp.add(img);
                             temp.add(category);
                             temp.add(color);
+                            temp.add(tags);
                             oneList.add(temp);
                         }
 

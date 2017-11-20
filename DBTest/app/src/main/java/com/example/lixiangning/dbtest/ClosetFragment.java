@@ -54,6 +54,7 @@ public class ClosetFragment extends Fragment {
             public void onClick(View view) {
                 category = "All Clothes";
                 HomeFragment.instance.setCategory("All Clothes");
+                HomeFragment.instance.setTitleCategory("All Clothes");
                 Intent intent = new Intent(getActivity(), ClothesListActivity.class);
                 startActivity(intent);
 
@@ -67,6 +68,7 @@ public class ClosetFragment extends Fragment {
             public void onClick(View view) {
                 category = "Tops";
                 HomeFragment.instance.setCategory("Tops");
+                HomeFragment.instance.setTitleCategory("Tops");
                 Intent intent = new Intent(getActivity(), ClothesListActivity.class);
                 startActivity(intent);
                 getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -79,6 +81,7 @@ public class ClosetFragment extends Fragment {
             public void onClick(View view) {
                 category = "Pants";
                 HomeFragment.instance.setCategory("Pants");
+                HomeFragment.instance.setTitleCategory("Pants");
                 Intent intent = new Intent(getActivity(), ClothesListActivity.class);
                 startActivity(intent);
                 getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -91,6 +94,7 @@ public class ClosetFragment extends Fragment {
             public void onClick(View view) {
                 category = "Skirts";
                 HomeFragment.instance.setCategory("Skirts");
+                HomeFragment.instance.setTitleCategory("Skirts");
                 Intent intent = new Intent(getActivity(), ClothesListActivity.class);
                 startActivity(intent);
                 getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);

@@ -87,6 +87,7 @@ public class AddClothesActivity extends AppCompatActivity implements CameraPopup
     private SeekBar seekR;
     private SeekBar seekG;
     private SeekBar seekB;
+    private EditText text_tags;
 
     Uri imageUri = null;
     File imageFile = null;
@@ -121,6 +122,7 @@ public class AddClothesActivity extends AppCompatActivity implements CameraPopup
         text_choose_color = (TextView) findViewById(R.id.text_choose_color);
         spin_category = (Spinner) findViewById(R.id.spin_category);
         imgCamera = (ImageView) findViewById(R.id.img_clothes);
+        text_tags = (EditText) findViewById(R.id.editText_tages);
 
         seekR.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             /**
@@ -330,7 +332,7 @@ public class AddClothesActivity extends AppCompatActivity implements CameraPopup
                 int colorG = gValue;
                 int colorB = bValue;
                 String clothTexture = "";
-                String clothTags = "";
+                String clothTags = text_tags.getText().toString();
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 Date curDate = new Date(System.currentTimeMillis());
                 String addDate = sdf.format(curDate);
