@@ -260,7 +260,6 @@ public class StyleLookFragment extends Fragment implements AdapterView.OnItemCli
         });
     }
 
-
     private void albumPhoto() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, CHOOSE_PHOTO);

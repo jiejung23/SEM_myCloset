@@ -37,10 +37,13 @@ public class HomeFragment extends Fragment {
 
     private ArrayList<ArrayList<String>> styleList;
     private BaseAdapter mAdapter;
+    private BaseAdapter mAdapterMy;
     private ArrayList<StyleImageGrid> gridList = new ArrayList<>();
+    private ArrayList<ClothImageGrid> gridListMy = new ArrayList<>();
     private DBHelper dbHelper;
     private int styleId = 0;
     GridView grid_style;
+    GridView grid_my;
     Uri imgUri = null;
 
     private TextView no_declutter;
@@ -56,10 +59,14 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.fragment_home,container,false);
+
+//        getActivity().setTitle("Home");
+
         instance = this;
 
         dbHelper = new DBHelper(view.getContext());
         grid_style = (GridView) view.findViewById(R.id.grid_home_style);
+        grid_my = (GridView) view.findViewById(R.id.grid_home_my);
         no_declutter = (TextView) view.findViewById(R.id.text_no_declutter);
         layout_de1 = view.findViewById(R.id.layout_de1);
         layout_de2 = view.findViewById(R.id.layout_de2);
@@ -67,6 +74,7 @@ public class HomeFragment extends Fragment {
 
         setLookGrid();
         setDeclutterGrid();
+        setMyGrid();
 
         return view;
     }
@@ -481,6 +489,103 @@ public class HomeFragment extends Fragment {
         });
     }
 
+    private void setMyGrid() {
+        dbHelper.getAll(new DBHelper.GetAllCallback() {
+
+            @Override
+            public void getAll(ArrayList<ArrayList<String>> data) {
+
+                clothList = data;
+
+                if(clothList.size() > 3) {
+                    //add grid items
+                    for(int i = clothList.size()-1; i > clothList.size()-4; i--) {
+                        ArrayList<String> thisCloth = clothList.get(i);
+
+                        Uri imgUri = Uri.parse((String)thisCloth.get(1));
+
+                        gridListMy.add(new ClothImageGrid(imgUri, thisCloth.get(0), thisCloth.get(2), thisCloth.get(3)));
+                    }
+                } else {
+                    for(int i = clothList.size()-1; i > 0; i--) {
+                        ArrayList<String> thisCloth = clothList.get(i);
+
+                        Uri imgUri = Uri.parse((String)thisCloth.get(1));
+
+                        gridListMy.add(new ClothImageGrid(imgUri, thisCloth.get(0), thisCloth.get(2), thisCloth.get(3)));
+                    }
+                }
+
+
+
+                //add grid adapter
+                mAdapterMy = new ClothGridAdapter<ClothImageGrid>(gridListMy, R.layout.grid_cloth_text) {
+                    @Override
+                    public void bindView(ViewHolder holder, ClothImageGrid obj) {
+                        holder.setImageResource(R.id.grid_text_img, obj.getClothImageGrid());
+                    }
+                };
+
+                grid_my.setAdapter(mAdapterMy);
+
+                //grid item listener
+                grid_my.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        ClothImageGrid c = (ClothImageGrid) mAdapterMy.getItem(position);
+
+                        detail_id = Integer.parseInt(c.getClothGridID());
+
+                        Intent intent = new Intent(getActivity(), ClothDetailActivity.class);
+                        startActivity(intent);
+
+                    }
+                });
+
+            }
+        });
+        dbHelper.getAllStyle(new DBHelper.GetAllStyleCallback() {
+            @Override
+            public void getAllStyle(ArrayList<ArrayList<String>> data) {
+                styleList = data;
+                Log.i("---StyleLook Size---", styleList.size() + "");
+                int i = 0;
+                int j = 0;
+
+                while(j < 3) {
+                    ArrayList<String> thisCloth = styleList.get(i);
+                    Uri imgUri = Uri.parse((String) thisCloth.get(1));
+                    String id = thisCloth.get(0);
+                    if(thisCloth.get(2).equals("0")) {
+                        gridList.add(new StyleImageGrid(imgUri, id, Integer.parseInt(thisCloth.get(2))));
+                        j++;
+                    }
+                    i++;
+                }
+
+
+
+                mAdapter = new ClothGridAdapter<StyleImageGrid>(gridList, R.layout.grid_cloth_text) {
+                    @Override
+                    public void bindView(ViewHolder holder, StyleImageGrid obj) {
+                        holder.setImageResource(R.id.grid_text_img, obj.getStyleImage());
+                    }
+                };
+
+                grid_style.setAdapter(mAdapter);
+
+                //grid item listener
+                grid_style.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        StyleImageGrid c = (StyleImageGrid) mAdapter.getItem(position);
+                    }
+                });
+
+
+            }
+        });
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

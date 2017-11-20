@@ -46,6 +46,8 @@ public class ClosetFragment extends Fragment {
 
         view = inflater.inflate(R.layout.fragment_closet,container,false);
 
+//        getActivity().setTitle("myCloset");
+
         instance = this;
 
         ImageView imgAll = view.findViewById(R.id.img_all);

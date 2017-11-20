@@ -50,6 +50,9 @@ public class DeclutterFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_declutter,container,false);
+
+//        getActivity().setTitle("Declutter");
+
         instance = this;
 
         dbHelper = new DBHelper(view.getContext());

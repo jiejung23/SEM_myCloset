@@ -34,6 +34,8 @@ public class StyleFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_style, container, false);
 
+//        getActivity().setTitle("Style");
+
         mTablayout = (TabLayout) view.findViewById(R.id.tab_style);
         mViewpager = (ViewPager) view.findViewById(R.id.viewpager);
 
