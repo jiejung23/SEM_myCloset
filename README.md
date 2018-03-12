@@ -11,14 +11,16 @@ Recommend new styles<br>
 Manage the liked styles
 <br>
 
+------ Configuration:<br>
 Android API Version: 24<br>
 Java Version: 1.8
+MySQL with JDBC
 <br>
-
 MySQL Download: https://dev.mysql.com/downloads/mysql/<br>
 MySQL Workbench Download: https://dev.mysql.com/downloads/workbench/
 <br>
 
+### Database Instruction
 Database Name: myCloset<br>
 Table Name: clothes
 <br>
