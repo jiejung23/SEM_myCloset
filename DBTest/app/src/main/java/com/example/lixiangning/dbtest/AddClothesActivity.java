@@ -102,6 +102,8 @@ public class AddClothesActivity extends AppCompatActivity implements CameraPopup
 
     final String TAG = "tag---------";
 
+    private EditText colorTags;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,6 +125,8 @@ public class AddClothesActivity extends AppCompatActivity implements CameraPopup
         spin_category = (Spinner) findViewById(R.id.spin_category);
         imgCamera = (ImageView) findViewById(R.id.img_clothes);
         text_tags = (EditText) findViewById(R.id.editText_tages);
+
+        colorTags = (EditText) findViewById(R.id.editText_color_tages);
 
         seekR.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             /**
@@ -283,6 +287,8 @@ public class AddClothesActivity extends AppCompatActivity implements CameraPopup
                     colorClicked = 1;
                 } else {
                     color_picker.setVisibility(View.GONE);
+                    MapRGBToColor map = new MapRGBToColor(hue, saturation, brightness);
+                    colorTags.setText(map.getColorName());
                     text_choose_color.setText("Click to change color");
                     colorClicked = 0;
                 }
@@ -326,7 +332,7 @@ public class AddClothesActivity extends AppCompatActivity implements CameraPopup
                 }
                 String clothImg = imageUri.toString();
                 String category = clothCategory;
-                String color = clothColor = "";
+                String color = colorTags.getText().toString();
                 String colorLabel = clothColorLabel = "";
                 int colorR = rValue;
                 int colorG = gValue;
@@ -351,9 +357,15 @@ public class AddClothesActivity extends AppCompatActivity implements CameraPopup
                 Log.i("---RGB-----------------", rValue + gValue + bValue + "");
                 Log.i("---HSB-----------------", hue + saturation + brightness + "");
 
+                Log.i("---Add R---", rValue+"");
+                Log.i("---Add G---", gValue+"");
+                Log.i("---Add B---", bValue+"");
 
-                MapRGBToColor map = new MapRGBToColor(hue, saturation, brightness);
-                color = map.getColorName();
+                Log.i("---Add Color---", color);
+
+//
+//                MapRGBToColor map = new MapRGBToColor(hue, saturation, brightness);
+//                color = map.getColorName();
 
 
                 Clothes clothes = new Clothes(clothImg, category, color, colorLabel, colorR, colorG, colorB, clothTexture, clothTags, addDate, checkDate, thinkDate, checkTimes, likeTimes);
@@ -365,7 +377,11 @@ public class AddClothesActivity extends AppCompatActivity implements CameraPopup
                     ClothesListActivity.instance.refresh();
                 }
 
-                ClosetFragment.instance.refresh();
+                if(ClosetFragment.instance != null) {
+                    ClosetFragment.instance.refresh();
+                }
+
+                HomeFragment.instance.refreshMy();
 
                 Toast.makeText(AddClothesActivity.this, "Add clothes successfully.", Toast.LENGTH_SHORT).show();
 
@@ -379,7 +395,11 @@ public class AddClothesActivity extends AppCompatActivity implements CameraPopup
                             ClothesListActivity.instance.refresh();
                         }
 
-                        ClosetFragment.instance.refresh();
+                        if(ClosetFragment.instance != null) {
+                            ClosetFragment.instance.refresh();
+                        }
+
+                        HomeFragment.instance.refreshMy();
 
                         Toast.makeText(AddClothesActivity.this, "Add clothes successfully.", Toast.LENGTH_SHORT).show();
 
@@ -693,6 +713,9 @@ public class AddClothesActivity extends AppCompatActivity implements CameraPopup
         hue = hsbArray[0];
         saturation = hsbArray[1];
         brightness = hsbArray[2];
+
+        MapRGBToColor map = new MapRGBToColor(hue, saturation, brightness);
+        colorTags.setText(map.getColorName());
 
         if((saturation <= 0.2 && brightness >= 0.9) || (brightness >= 0.7 && saturation <= 0.05)) {
             text_choose_color.setTextColor(Color.rgb(66,66,66));

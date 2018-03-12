@@ -13,9 +13,12 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -102,8 +105,6 @@ public class HomeFragment extends Fragment {
                 }
 
 
-
-
                 mAdapter = new ClothGridAdapter<StyleImageGrid>(gridList, R.layout.grid_cloth_text) {
                     @Override
                     public void bindView(ViewHolder holder, StyleImageGrid obj) {
@@ -152,9 +153,13 @@ public class HomeFragment extends Fragment {
                     img1.setImageURI(imgUri1);
                     TextView noti1 = (TextView) view.findViewById(R.id.text_noti1);
                     noti1.setText(notification);
-                    Button keep1 = (Button) view.findViewById(R.id.btn_keep1);
-                    Button think1 = (Button) view.findViewById(R.id.btn_think1);
-                    Button delete1 = (Button) view.findViewById(R.id.btn_delete1);
+                    ImageButton keep1 = (ImageButton) view.findViewById(R.id.btn_keep1);
+                    ImageButton think1 = (ImageButton) view.findViewById(R.id.btn_think1);
+                    ImageButton delete1 = (ImageButton) view.findViewById(R.id.btn_delete1);
+
+                    TextView text_btn_keep1 = (TextView) view.findViewById(R.id.text_btn_keep1);
+                    TextView text_btn_delete1 = (TextView) view.findViewById(R.id.text_btn_delete1);
+                    TextView text_btn_think1 = (TextView) view.findViewById(R.id.text_btn_think1);
 
                     keep1.setEnabled(true);
                     think1.setEnabled(true);
@@ -164,13 +169,13 @@ public class HomeFragment extends Fragment {
                     think1.setClickable(true);
                     delete1.setClickable(true);
 
-                    keep1.setBackgroundResource(R.color.colorPrimary);
-                    think1.setBackgroundResource(R.color.colorPrimary);
-                    delete1.setBackgroundResource(R.color.colorAccent);
+                    keep1.setImageResource(R.drawable.ic_favorite_border_black_24dp);
+                    think1.setImageResource(R.drawable.ic_access_alarm_black_18dp);
+                    delete1.setImageResource(R.drawable.ic_delete_border_black_24dp);
 
-                    keep1.setTextColor(Color.parseColor("#ffffff"));
-                    think1.setTextColor(Color.parseColor("#ffffff"));
-                    delete1.setTextColor(Color.parseColor("#ffffff"));
+                    text_btn_keep1.setTextColor(Color.parseColor("#212121"));
+                    text_btn_think1.setTextColor(Color.parseColor("#212121"));
+                    text_btn_delete1.setTextColor(Color.parseColor("#212121"));
 
 
                     keep1.setOnClickListener(new View.OnClickListener() {
@@ -192,13 +197,13 @@ public class HomeFragment extends Fragment {
                                     think1.setClickable(false);
                                     delete1.setClickable(false);
 
-                                    keep1.setBackgroundColor(Color.parseColor("#e0e0e0"));
-                                    think1.setBackgroundColor(Color.parseColor("#e0e0e0"));
-                                    delete1.setBackgroundColor(Color.parseColor("#e0e0e0"));
+                                    keep1.setImageResource(R.drawable.ic_favorite_pink_24dp);
+                                    think1.setImageResource(R.drawable.ic_access_alarm_gray_18dp);
+                                    delete1.setImageResource(R.drawable.ic_delete_border_gray_24dp);
 
-                                    keep1.setTextColor(Color.parseColor("#9e9e9e"));
-                                    think1.setTextColor(Color.parseColor("#9e9e9e"));
-                                    delete1.setTextColor(Color.parseColor("#9e9e9e"));
+                                    text_btn_keep1.setTextColor(Color.parseColor("#FF4081"));
+                                    text_btn_think1.setTextColor(Color.parseColor("#9e9e9e"));
+                                    text_btn_delete1.setTextColor(Color.parseColor("#9e9e9e"));
 
                                     if(DeclutterFragment.instance != null) {
                                         DeclutterFragment.instance.refresh();
@@ -207,6 +212,44 @@ public class HomeFragment extends Fragment {
                             });
                         }
                     });
+                    text_btn_keep1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                            Date curDate = new Date(System.currentTimeMillis());
+                            String currentDate = sdf.format(curDate);
+                            String sql = "update clothes set checkDate='"+ currentDate + "' where clothID=" + id1;
+                            dbHelper.update(sql, new DBHelper.UpdateCallback() {
+                                @Override
+                                public void onFinished() {
+                                    noti1.setText("You kept it! Love this cloth!");
+                                    keep1.setEnabled(false);
+                                    think1.setEnabled(false);
+                                    delete1.setEnabled(false);
+
+                                    keep1.setClickable(false);
+                                    think1.setClickable(false);
+                                    delete1.setClickable(false);
+
+                                    keep1.setImageResource(R.drawable.ic_favorite_pink_24dp);
+                                    think1.setImageResource(R.drawable.ic_access_alarm_gray_18dp);
+                                    delete1.setImageResource(R.drawable.ic_delete_border_gray_24dp);
+
+                                    text_btn_keep1.setTextColor(Color.parseColor("#FF4081"));
+                                    text_btn_think1.setTextColor(Color.parseColor("#9e9e9e"));
+                                    text_btn_delete1.setTextColor(Color.parseColor("#9e9e9e"));
+
+                                    if(DeclutterFragment.instance != null) {
+                                        DeclutterFragment.instance.refresh();
+                                    }
+                                }
+                            });
+                        }
+                    });
+
+
+
+
                     think1.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -226,13 +269,13 @@ public class HomeFragment extends Fragment {
                                     think1.setClickable(false);
                                     delete1.setClickable(false);
 
-                                    keep1.setBackgroundColor(Color.parseColor("#e0e0e0"));
-                                    think1.setBackgroundColor(Color.parseColor("#e0e0e0"));
-                                    delete1.setBackgroundColor(Color.parseColor("#e0e0e0"));
+                                    keep1.setImageResource(R.drawable.ic_favorite_border_gray_24dp);
+                                    think1.setImageResource(R.drawable.ic_access_alarm_pink_18dp);
+                                    delete1.setImageResource(R.drawable.ic_delete_border_gray_24dp);
 
-                                    keep1.setTextColor(Color.parseColor("#9e9e9e"));
-                                    think1.setTextColor(Color.parseColor("#9e9e9e"));
-                                    delete1.setTextColor(Color.parseColor("#9e9e9e"));
+                                    text_btn_keep1.setTextColor(Color.parseColor("#9e9e9e"));
+                                    text_btn_think1.setTextColor(Color.parseColor("#FF4081"));
+                                    text_btn_delete1.setTextColor(Color.parseColor("#9e9e9e"));
 
                                     if(DeclutterFragment.instance != null) {
                                         DeclutterFragment.instance.refresh();
@@ -241,6 +284,42 @@ public class HomeFragment extends Fragment {
                             });
                         }
                     });
+                    text_btn_think1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                            Date curDate = new Date(System.currentTimeMillis());
+                            String currentDate = sdf.format(curDate);
+                            String sql = "update clothes set thinkDate='"+ currentDate + "' where clothID=" + id1;
+                            dbHelper.update(sql, new DBHelper.UpdateCallback() {
+                                @Override
+                                public void onFinished() {
+                                    noti1.setText("You'll be reminded in 30 days ;)");
+                                    keep1.setEnabled(false);
+                                    think1.setEnabled(false);
+                                    delete1.setEnabled(false);
+
+                                    keep1.setClickable(false);
+                                    think1.setClickable(false);
+                                    delete1.setClickable(false);
+
+                                    keep1.setImageResource(R.drawable.ic_favorite_border_gray_24dp);
+                                    think1.setImageResource(R.drawable.ic_access_alarm_pink_18dp);
+                                    delete1.setImageResource(R.drawable.ic_delete_border_gray_24dp);
+
+                                    text_btn_keep1.setTextColor(Color.parseColor("#9e9e9e"));
+                                    text_btn_think1.setTextColor(Color.parseColor("#FF4081"));
+                                    text_btn_delete1.setTextColor(Color.parseColor("#9e9e9e"));
+
+                                    if(DeclutterFragment.instance != null) {
+                                        DeclutterFragment.instance.refresh();
+                                    }
+                                }
+                            });
+                        }
+                    });
+
+
                     delete1.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -250,6 +329,17 @@ public class HomeFragment extends Fragment {
                             startActivity(intent);
                         }
                     });
+                    text_btn_delete1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            setDeclutterID(Integer.parseInt(id1));
+
+                            Intent intent = new Intent(getActivity(), DeclutterDetailActivity.class);
+                            startActivity(intent);
+                        }
+                    });
+
+
                 } else {
                     layout_de1.setVisibility(View.GONE);
                 }
@@ -265,9 +355,13 @@ public class HomeFragment extends Fragment {
                     img2.setImageURI(imgUri2);
                     TextView noti2 = (TextView) view.findViewById(R.id.text_noti2);
                     noti2.setText(notification2);
-                    Button keep2 = (Button) view.findViewById(R.id.btn_keep2);
-                    Button think2 = (Button) view.findViewById(R.id.btn_think2);
-                    Button delete2 = (Button) view.findViewById(R.id.btn_delete2);
+                    ImageButton keep2 = (ImageButton) view.findViewById(R.id.btn_keep2);
+                    ImageButton think2 = (ImageButton) view.findViewById(R.id.btn_think2);
+                    ImageButton delete2 = (ImageButton) view.findViewById(R.id.btn_delete2);
+
+                    TextView text_btn_keep2 = (TextView) view.findViewById(R.id.text_btn_keep2);
+                    TextView text_btn_delete2 = (TextView) view.findViewById(R.id.text_btn_delete2);
+                    TextView text_btn_think2 = (TextView) view.findViewById(R.id.text_btn_think2);
 
                     keep2.setEnabled(true);
                     think2.setEnabled(true);
@@ -277,13 +371,14 @@ public class HomeFragment extends Fragment {
                     think2.setClickable(true);
                     delete2.setClickable(true);
 
-                    keep2.setBackgroundResource(R.color.colorPrimary);
-                    think2.setBackgroundResource(R.color.colorPrimary);
-                    delete2.setBackgroundResource(R.color.colorAccent);
+                    keep2.setImageResource(R.drawable.ic_favorite_border_black_24dp);
+                    think2.setImageResource(R.drawable.ic_access_alarm_black_18dp);
+                    delete2.setImageResource(R.drawable.ic_delete_border_black_24dp);
 
-                    keep2.setTextColor(Color.parseColor("#ffffff"));
-                    think2.setTextColor(Color.parseColor("#ffffff"));
-                    delete2.setTextColor(Color.parseColor("#ffffff"));
+                    text_btn_keep2.setTextColor(Color.parseColor("#212121"));
+                    text_btn_think2.setTextColor(Color.parseColor("#212121"));
+                    text_btn_delete2.setTextColor(Color.parseColor("#212121"));
+
 
                     keep2.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -304,13 +399,13 @@ public class HomeFragment extends Fragment {
                                     think2.setClickable(false);
                                     delete2.setClickable(false);
 
-                                    keep2.setBackgroundColor(Color.parseColor("#e0e0e0"));
-                                    think2.setBackgroundColor(Color.parseColor("#e0e0e0"));
-                                    delete2.setBackgroundColor(Color.parseColor("#e0e0e0"));
+                                    keep2.setImageResource(R.drawable.ic_favorite_pink_24dp);
+                                    think2.setImageResource(R.drawable.ic_access_alarm_gray_18dp);
+                                    delete2.setImageResource(R.drawable.ic_delete_border_gray_24dp);
 
-                                    keep2.setTextColor(Color.parseColor("#9e9e9e"));
-                                    think2.setTextColor(Color.parseColor("#9e9e9e"));
-                                    delete2.setTextColor(Color.parseColor("#9e9e9e"));
+                                    text_btn_keep2.setTextColor(Color.parseColor("#FF4081"));
+                                    text_btn_think2.setTextColor(Color.parseColor("#9e9e9e"));
+                                    text_btn_delete2.setTextColor(Color.parseColor("#9e9e9e"));
 
                                     if(DeclutterFragment.instance != null) {
                                         DeclutterFragment.instance.refresh();
@@ -319,6 +414,43 @@ public class HomeFragment extends Fragment {
                             });
                         }
                     });
+                    text_btn_keep2.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                            Date curDate = new Date(System.currentTimeMillis());
+                            String currentDate = sdf.format(curDate);
+                            String sql = "update clothes set checkDate='"+ currentDate + "' where clothID=" + id2;
+                            dbHelper.update(sql, new DBHelper.UpdateCallback() {
+                                @Override
+                                public void onFinished() {
+                                    noti2.setText("You kept it! Love this cloth!");
+                                    keep2.setEnabled(false);
+                                    think2.setEnabled(false);
+                                    delete2.setEnabled(false);
+
+                                    keep2.setClickable(false);
+                                    think2.setClickable(false);
+                                    delete2.setClickable(false);
+
+                                    keep2.setImageResource(R.drawable.ic_favorite_pink_24dp);
+                                    think2.setImageResource(R.drawable.ic_access_alarm_gray_18dp);
+                                    delete2.setImageResource(R.drawable.ic_delete_border_gray_24dp);
+
+                                    text_btn_keep2.setTextColor(Color.parseColor("#FF4081"));
+                                    text_btn_think2.setTextColor(Color.parseColor("#9e9e9e"));
+                                    text_btn_delete2.setTextColor(Color.parseColor("#9e9e9e"));
+
+                                    if(DeclutterFragment.instance != null) {
+                                        DeclutterFragment.instance.refresh();
+                                    }
+                                }
+                            });
+                        }
+                    });
+
+
+
                     think2.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -338,13 +470,13 @@ public class HomeFragment extends Fragment {
                                     think2.setClickable(false);
                                     delete2.setClickable(false);
 
-                                    keep2.setBackgroundColor(Color.parseColor("#e0e0e0"));
-                                    think2.setBackgroundColor(Color.parseColor("#e0e0e0"));
-                                    delete2.setBackgroundColor(Color.parseColor("#e0e0e0"));
+                                    keep2.setImageResource(R.drawable.ic_favorite_border_gray_24dp);
+                                    think2.setImageResource(R.drawable.ic_access_alarm_pink_18dp);
+                                    delete2.setImageResource(R.drawable.ic_delete_border_gray_24dp);
 
-                                    keep2.setTextColor(Color.parseColor("#9e9e9e"));
-                                    think2.setTextColor(Color.parseColor("#9e9e9e"));
-                                    delete2.setTextColor(Color.parseColor("#9e9e9e"));
+                                    text_btn_keep2.setTextColor(Color.parseColor("#9e9e9e"));
+                                    text_btn_think2.setTextColor(Color.parseColor("#FF4081"));
+                                    text_btn_delete2.setTextColor(Color.parseColor("#9e9e9e"));
 
                                     if(DeclutterFragment.instance != null) {
                                         DeclutterFragment.instance.refresh();
@@ -353,6 +485,44 @@ public class HomeFragment extends Fragment {
                             });
                         }
                     });
+                    text_btn_think2.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                            Date curDate = new Date(System.currentTimeMillis());
+                            String currentDate = sdf.format(curDate);
+                            String sql = "update clothes set thinkDate='"+ currentDate + "' where clothID=" + id2;
+                            dbHelper.update(sql, new DBHelper.UpdateCallback() {
+                                @Override
+                                public void onFinished() {
+                                    noti2.setText("You'll be reminded in 30 days ;)");
+                                    keep2.setEnabled(false);
+                                    think2.setEnabled(false);
+                                    delete2.setEnabled(false);
+
+                                    keep2.setClickable(false);
+                                    think2.setClickable(false);
+                                    delete2.setClickable(false);
+
+                                    keep2.setImageResource(R.drawable.ic_favorite_border_gray_24dp);
+                                    think2.setImageResource(R.drawable.ic_access_alarm_pink_18dp);
+                                    delete2.setImageResource(R.drawable.ic_delete_border_gray_24dp);
+
+                                    text_btn_keep2.setTextColor(Color.parseColor("#9e9e9e"));
+                                    text_btn_think2.setTextColor(Color.parseColor("#FF4081"));
+                                    text_btn_delete2.setTextColor(Color.parseColor("#9e9e9e"));
+
+                                    if(DeclutterFragment.instance != null) {
+                                        DeclutterFragment.instance.refresh();
+                                    }
+                                }
+                            });
+                        }
+                    });
+
+
+
+
                     delete2.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -362,6 +532,17 @@ public class HomeFragment extends Fragment {
                             startActivity(intent);
                         }
                     });
+                    text_btn_delete2.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            setDeclutterID(Integer.parseInt(id2));
+
+                            Intent intent = new Intent(getActivity(), DeclutterDetailActivity.class);
+                            startActivity(intent);
+                        }
+                    });
+
+
                 } else {
                     layout_de2.setVisibility(View.GONE);
                 }
@@ -377,9 +558,13 @@ public class HomeFragment extends Fragment {
                     img3.setImageURI(imgUri3);
                     TextView noti3 = (TextView) view.findViewById(R.id.text_noti3);
                     noti3.setText(notification3);
-                    Button keep3 = (Button) view.findViewById(R.id.btn_keep3);
-                    Button think3 = (Button) view.findViewById(R.id.btn_think3);
-                    Button delete3 = (Button) view.findViewById(R.id.btn_delete3);
+                    ImageButton keep3 = (ImageButton) view.findViewById(R.id.btn_keep3);
+                    ImageButton think3 = (ImageButton) view.findViewById(R.id.btn_think3);
+                    ImageButton delete3 = (ImageButton) view.findViewById(R.id.btn_delete3);
+
+                    TextView text_btn_keep3 = (TextView) view.findViewById(R.id.text_btn_keep3);
+                    TextView text_btn_delete3 = (TextView) view.findViewById(R.id.text_btn_delete3);
+                    TextView text_btn_think3 = (TextView) view.findViewById(R.id.text_btn_think3);
 
                     keep3.setEnabled(true);
                     think3.setEnabled(true);
@@ -389,13 +574,14 @@ public class HomeFragment extends Fragment {
                     think3.setClickable(true);
                     delete3.setClickable(true);
 
-                    keep3.setBackgroundResource(R.color.colorPrimary);
-                    think3.setBackgroundResource(R.color.colorPrimary);
-                    delete3.setBackgroundResource(R.color.colorAccent);
+                    keep3.setImageResource(R.drawable.ic_favorite_border_black_24dp);
+                    think3.setImageResource(R.drawable.ic_access_alarm_black_18dp);
+                    delete3.setImageResource(R.drawable.ic_delete_border_black_24dp);
 
-                    keep3.setTextColor(Color.parseColor("#ffffff"));
-                    think3.setTextColor(Color.parseColor("#ffffff"));
-                    delete3.setTextColor(Color.parseColor("#ffffff"));
+                    text_btn_keep3.setTextColor(Color.parseColor("#212121"));
+                    text_btn_think3.setTextColor(Color.parseColor("#212121"));
+                    text_btn_delete3.setTextColor(Color.parseColor("#212121"));
+
 
                     keep3.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -416,13 +602,13 @@ public class HomeFragment extends Fragment {
                                     think3.setClickable(false);
                                     delete3.setClickable(false);
 
-                                    keep3.setBackgroundColor(Color.parseColor("#e0e0e0"));
-                                    think3.setBackgroundColor(Color.parseColor("#e0e0e0"));
-                                    delete3.setBackgroundColor(Color.parseColor("#e0e0e0"));
+                                    keep3.setImageResource(R.drawable.ic_favorite_pink_24dp);
+                                    think3.setImageResource(R.drawable.ic_access_alarm_gray_18dp);
+                                    delete3.setImageResource(R.drawable.ic_delete_border_gray_24dp);
 
-                                    keep3.setTextColor(Color.parseColor("#9e9e9e"));
-                                    think3.setTextColor(Color.parseColor("#9e9e9e"));
-                                    delete3.setTextColor(Color.parseColor("#9e9e9e"));
+                                    text_btn_keep3.setTextColor(Color.parseColor("#FF4081"));
+                                    text_btn_think3.setTextColor(Color.parseColor("#9e9e9e"));
+                                    text_btn_delete3.setTextColor(Color.parseColor("#9e9e9e"));
 
                                     if(DeclutterFragment.instance != null) {
                                         DeclutterFragment.instance.refresh();
@@ -431,6 +617,44 @@ public class HomeFragment extends Fragment {
                             });
                         }
                     });
+                    text_btn_keep3.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                            Date curDate = new Date(System.currentTimeMillis());
+                            String currentDate = sdf.format(curDate);
+                            String sql = "update clothes set checkDate='"+ currentDate + "' where clothID=" + id3;
+                            dbHelper.update(sql, new DBHelper.UpdateCallback() {
+                                @Override
+                                public void onFinished() {
+                                    noti3.setText("You kept it! Love this cloth!");
+                                    keep3.setEnabled(false);
+                                    think3.setEnabled(false);
+                                    delete3.setEnabled(false);
+
+                                    keep3.setClickable(false);
+                                    think3.setClickable(false);
+                                    delete3.setClickable(false);
+
+                                    keep3.setImageResource(R.drawable.ic_favorite_pink_24dp);
+                                    think3.setImageResource(R.drawable.ic_access_alarm_gray_18dp);
+                                    delete3.setImageResource(R.drawable.ic_delete_border_gray_24dp);
+
+                                    text_btn_keep3.setTextColor(Color.parseColor("#FF4081"));
+                                    text_btn_think3.setTextColor(Color.parseColor("#9e9e9e"));
+                                    text_btn_delete3.setTextColor(Color.parseColor("#9e9e9e"));
+
+                                    if(DeclutterFragment.instance != null) {
+                                        DeclutterFragment.instance.refresh();
+                                    }
+                                }
+                            });
+                        }
+                    });
+
+
+
+
                     think3.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -450,13 +674,13 @@ public class HomeFragment extends Fragment {
                                     think3.setClickable(false);
                                     delete3.setClickable(false);
 
-                                    keep3.setBackgroundColor(Color.parseColor("#e0e0e0"));
-                                    think3.setBackgroundColor(Color.parseColor("#e0e0e0"));
-                                    delete3.setBackgroundColor(Color.parseColor("#e0e0e0"));
+                                    keep3.setImageResource(R.drawable.ic_favorite_border_gray_24dp);
+                                    think3.setImageResource(R.drawable.ic_access_alarm_pink_18dp);
+                                    delete3.setImageResource(R.drawable.ic_delete_border_gray_24dp);
 
-                                    keep3.setTextColor(Color.parseColor("#9e9e9e"));
-                                    think3.setTextColor(Color.parseColor("#9e9e9e"));
-                                    delete3.setTextColor(Color.parseColor("#9e9e9e"));
+                                    text_btn_keep3.setTextColor(Color.parseColor("#9e9e9e"));
+                                    text_btn_think3.setTextColor(Color.parseColor("#FF4081"));
+                                    text_btn_delete3.setTextColor(Color.parseColor("#9e9e9e"));
 
                                     if(DeclutterFragment.instance != null) {
                                         DeclutterFragment.instance.refresh();
@@ -465,6 +689,44 @@ public class HomeFragment extends Fragment {
                             });
                         }
                     });
+                    text_btn_think3.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                            Date curDate = new Date(System.currentTimeMillis());
+                            String currentDate = sdf.format(curDate);
+                            String sql = "update clothes set thinkDate='"+ currentDate + "' where clothID=" + id3;
+                            dbHelper.update(sql, new DBHelper.UpdateCallback() {
+                                @Override
+                                public void onFinished() {
+                                    noti3.setText("You'll be reminded in 30 days ;)");
+                                    keep3.setEnabled(false);
+                                    think3.setEnabled(false);
+                                    delete3.setEnabled(false);
+
+                                    keep3.setClickable(false);
+                                    think3.setClickable(false);
+                                    delete3.setClickable(false);
+
+                                    keep3.setImageResource(R.drawable.ic_favorite_border_gray_24dp);
+                                    think3.setImageResource(R.drawable.ic_access_alarm_pink_18dp);
+                                    delete3.setImageResource(R.drawable.ic_delete_border_gray_24dp);
+
+                                    text_btn_keep3.setTextColor(Color.parseColor("#9e9e9e"));
+                                    text_btn_think3.setTextColor(Color.parseColor("#FF4081"));
+                                    text_btn_delete3.setTextColor(Color.parseColor("#9e9e9e"));
+
+                                    if(DeclutterFragment.instance != null) {
+                                        DeclutterFragment.instance.refresh();
+                                    }
+                                }
+                            });
+                        }
+                    });
+
+
+
+
                     delete3.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -474,17 +736,21 @@ public class HomeFragment extends Fragment {
                             startActivity(intent);
                         }
                     });
+                    text_btn_delete3.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            setDeclutterID(Integer.parseInt(id3));
+
+                            Intent intent = new Intent(getActivity(), DeclutterDetailActivity.class);
+                            startActivity(intent);
+                        }
+                    });
+
+
+
                 } else {
                     layout_de3.setVisibility(View.GONE);
                 }
-
-
-
-
-
-
-
-
 
 
 
@@ -547,50 +813,6 @@ public class HomeFragment extends Fragment {
 
             }
         });
-        dbHelper.getAllStyle(new DBHelper.GetAllStyleCallback() {
-            @Override
-            public void getAllStyle(ArrayList<ArrayList<String>> data) {
-                styleList = data;
-                Log.i("---StyleLook Size---", styleList.size() + "");
-                int i = 0;
-                int j = 0;
-
-                if(styleList.size() > 3) {
-                    while(j < 3) {
-                        ArrayList<String> thisCloth = styleList.get(i);
-                        Uri imgUri = Uri.parse((String) thisCloth.get(1));
-                        String id = thisCloth.get(0);
-                        if(thisCloth.get(2).equals("0")) {
-                            gridList.add(new StyleImageGrid(imgUri, id, Integer.parseInt(thisCloth.get(2))));
-                            j++;
-                        }
-                        i++;
-                    }
-                }
-
-
-
-
-                mAdapter = new ClothGridAdapter<StyleImageGrid>(gridList, R.layout.grid_cloth_text) {
-                    @Override
-                    public void bindView(ViewHolder holder, StyleImageGrid obj) {
-                        holder.setImageResource(R.id.grid_text_img, obj.getStyleImage());
-                    }
-                };
-
-                grid_style.setAdapter(mAdapter);
-
-                //grid item listener
-                grid_style.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        StyleImageGrid c = (StyleImageGrid) mAdapter.getItem(position);
-                    }
-                });
-
-
-            }
-        });
     }
 
     @Override
@@ -640,5 +862,64 @@ public class HomeFragment extends Fragment {
 
     public void refresh() {
         setDeclutterGrid();
+    }
+
+    public void refreshMy() {
+
+        dbHelper.getAll(new DBHelper.GetAllCallback() {
+
+            @Override
+            public void getAll(ArrayList<ArrayList<String>> data) {
+
+                clothList = data;
+                gridListMy.clear();
+
+                if(clothList.size() > 3) {
+                    //add grid items
+                    for(int i = clothList.size()-1; i > clothList.size()-4; i--) {
+                        ArrayList<String> thisCloth = clothList.get(i);
+
+                        Uri imgUri = Uri.parse((String)thisCloth.get(1));
+
+                        gridListMy.add(new ClothImageGrid(imgUri, thisCloth.get(0), thisCloth.get(2), thisCloth.get(3)));
+                    }
+                } else {
+                    for(int i = clothList.size()-1; i > 0; i--) {
+                        ArrayList<String> thisCloth = clothList.get(i);
+
+                        Uri imgUri = Uri.parse((String)thisCloth.get(1));
+
+                        gridListMy.add(new ClothImageGrid(imgUri, thisCloth.get(0), thisCloth.get(2), thisCloth.get(3)));
+                    }
+                }
+
+
+
+                //add grid adapter
+                mAdapterMy = new ClothGridAdapter<ClothImageGrid>(gridListMy, R.layout.grid_cloth_text) {
+                    @Override
+                    public void bindView(ViewHolder holder, ClothImageGrid obj) {
+                        holder.setImageResource(R.id.grid_text_img, obj.getClothImageGrid());
+                    }
+                };
+
+                grid_my.setAdapter(mAdapterMy);
+
+                //grid item listener
+                grid_my.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        ClothImageGrid c = (ClothImageGrid) mAdapterMy.getItem(position);
+
+                        detail_id = Integer.parseInt(c.getClothGridID());
+
+                        Intent intent = new Intent(getActivity(), ClothDetailActivity.class);
+                        startActivity(intent);
+
+                    }
+                });
+
+            }
+        });
     }
 }

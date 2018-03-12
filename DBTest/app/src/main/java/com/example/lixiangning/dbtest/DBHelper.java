@@ -47,7 +47,8 @@ public class DBHelper {
 //        ip = "192.168.7.23"; //home
 //        ip = "192.168.29.107";
         port = 3306;
-        dbName = "myCloset";
+//        dbName = "myCloset"; //Phone
+        dbName = "myClosetHome"; //Emulator
         url = "jdbc:mysql://" + ip + ":" + port + "/" + dbName;
         user = "root";
         password = "xn1230o.";
@@ -968,12 +969,12 @@ public class DBHelper {
                             long checkDayCount = 0;
                             long addDayCount = 0;
                             long thinkDayCount = 0;
-                            String checkDate = rs.getString(5);
+                            String checkDate = rs.getString(6);
                             if(!checkDate.equals("")) {
                                 checkDayCount = getDayCount(checkDate);
                             }
 
-                            String addDate = rs.getString(6);
+                            String addDate = rs.getString(5);
                             if(!addDate.equals("")) {
                                 addDayCount = getDayCount(addDate);
                             }
@@ -984,8 +985,8 @@ public class DBHelper {
                             }
 
 
-                            if((checkDate.equals(addDate) && addDayCount > 30) || (!checkDate.equals(addDate) && thinkDate.equals("") && checkDayCount > 365) || (!thinkDate.equals("") && thinkDayCount > 30)) {
-                                Log.i(TAG, "cloth: " + id + ", " + img + ", " + category + "," + color);
+                            if((checkDate.equals(addDate) && addDayCount > 365 && thinkDate.equals("")) || (!checkDate.equals(addDate) && thinkDate.equals("") && checkDayCount > 365) || (!thinkDate.equals("") && thinkDayCount > 30)) {
+                                Log.i(TAG, "cloth: " + id + ", " + checkDate);
                                 temp.add(id);
                                 temp.add(img);
                                 temp.add(category);

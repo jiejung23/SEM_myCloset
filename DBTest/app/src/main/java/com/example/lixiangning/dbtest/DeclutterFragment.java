@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,9 +38,12 @@ public class DeclutterFragment extends Fragment {
     GridView grid_declutter;
     Uri imgUri;
     private ArrayList<ArrayList<String>> clothList;
-    Button btn_keep;
-    Button btn_delete;
-    Button btn_think;
+    ImageButton btn_keep;
+    ImageButton btn_delete;
+    ImageButton btn_think;
+    TextView text_btn_keep;
+    TextView text_btn_delete;
+    TextView text_btn_think;
     TextView noti;
     DBHelper helper;
     ImageView imageView;
@@ -101,20 +105,35 @@ public class DeclutterFragment extends Fragment {
                         btn_delete = holder.getItemView().findViewById(R.id.btn_delete);
                         btn_think = holder.getItemView().findViewById(R.id.btn_think);
 
+                        text_btn_keep = holder.getItemView().findViewById(R.id.text_btn_keep);
+                        text_btn_delete = holder.getItemView().findViewById(R.id.text_btn_delete);
+                        text_btn_think = holder.getItemView().findViewById(R.id.text_btn_think);
+
+                        holder.setText(R.id.text_de_id, obj.getDeclutterID());
+
                         btn_keep.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                                 Date curDate = new Date(System.currentTimeMillis());
                                 String currentDate = sdf.format(curDate);
-                                String sql = "update clothes set checkDate='"+ currentDate + "' where clothID=" + obj.getDeclutterID();
+                                TextView de_id = holder.getItemView().findViewById(R.id.text_de_id);
+
+                                Log.i("Declutter Update ID----", de_id.getText().toString());
+
+                                String sql = "update clothes set checkDate='"+ currentDate + "' where clothID=" + de_id.getText();
+
                                 dbHelper.update(sql, new DBHelper.UpdateCallback() {
                                     @Override
                                     public void onFinished() {
 
-                                        Button btn_keep = holder.getItemView().findViewById(R.id.btn_keep);
-                                        Button btn_delete = holder.getItemView().findViewById(R.id.btn_delete);
-                                        Button btn_think = holder.getItemView().findViewById(R.id.btn_think);
+                                        ImageButton btn_keep = holder.getItemView().findViewById(R.id.btn_keep);
+                                        ImageButton btn_delete = holder.getItemView().findViewById(R.id.btn_delete);
+                                        ImageButton btn_think = holder.getItemView().findViewById(R.id.btn_think);
+
+                                        TextView text_btn_keep = holder.getItemView().findViewById(R.id.text_btn_keep);
+                                        TextView text_btn_delete = holder.getItemView().findViewById(R.id.text_btn_delete);
+                                        TextView text_btn_think = holder.getItemView().findViewById(R.id.text_btn_think);
 
                                         TextView noti = holder.getItemView().findViewById(R.id.text_noti);
                                         noti.setText("You kept it! Love this cloth!");
@@ -126,18 +145,72 @@ public class DeclutterFragment extends Fragment {
                                         btn_delete.setClickable(false);
                                         btn_think.setClickable(false);
 
-                                        btn_keep.setBackgroundColor(Color.parseColor("#e0e0e0"));
-                                        btn_delete.setBackgroundColor(Color.parseColor("#e0e0e0"));
-                                        btn_think.setBackgroundColor(Color.parseColor("#e0e0e0"));
+                                        btn_keep.setImageResource(R.drawable.ic_favorite_pink_24dp);
+                                        btn_delete.setImageResource(R.drawable.ic_delete_border_gray_24dp);
+                                        btn_think.setImageResource(R.drawable.ic_access_alarm_gray_18dp);
 
-                                        btn_keep.setTextColor(Color.parseColor("#9e9e9e"));
-                                        btn_delete.setTextColor(Color.parseColor("#9e9e9e"));
-                                        btn_think.setTextColor(Color.parseColor("#9e9e9e"));
+                                        text_btn_keep.setTextColor(Color.parseColor("#FF4081"));
+                                        text_btn_delete.setTextColor(Color.parseColor("#9e9e9e"));
+                                        text_btn_think.setTextColor(Color.parseColor("#9e9e9e"));
                                     }
                                 });
 
                             }
                         });
+                        text_btn_keep.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                                Date curDate = new Date(System.currentTimeMillis());
+                                String currentDate = sdf.format(curDate);
+                                TextView de_id = holder.getItemView().findViewById(R.id.text_de_id);
+                                String sql = "update clothes set checkDate='"+ currentDate + "' where clothID=" + de_id.getText();
+
+                                dbHelper.update(sql, new DBHelper.UpdateCallback() {
+                                    @Override
+                                    public void onFinished() {
+
+                                        ImageButton btn_keep = holder.getItemView().findViewById(R.id.btn_keep);
+                                        ImageButton btn_delete = holder.getItemView().findViewById(R.id.btn_delete);
+                                        ImageButton btn_think = holder.getItemView().findViewById(R.id.btn_think);
+
+                                        TextView text_btn_keep = holder.getItemView().findViewById(R.id.text_btn_keep);
+                                        TextView text_btn_delete = holder.getItemView().findViewById(R.id.text_btn_delete);
+                                        TextView text_btn_think = holder.getItemView().findViewById(R.id.text_btn_think);
+
+                                        TextView noti = holder.getItemView().findViewById(R.id.text_noti);
+                                        noti.setText("You kept it! Love this cloth!");
+                                        btn_keep.setEnabled(false);
+                                        btn_delete.setEnabled(false);
+                                        btn_think.setEnabled(false);
+
+                                        btn_keep.setClickable(false);
+                                        btn_delete.setClickable(false);
+                                        btn_think.setClickable(false);
+
+                                        btn_keep.setImageResource(R.drawable.ic_favorite_pink_24dp);
+                                        btn_delete.setImageResource(R.drawable.ic_delete_border_gray_24dp);
+                                        btn_think.setImageResource(R.drawable.ic_access_alarm_gray_18dp);
+
+                                        text_btn_keep.setTextColor(Color.parseColor("#FF4081"));
+                                        text_btn_delete.setTextColor(Color.parseColor("#9e9e9e"));
+                                        text_btn_think.setTextColor(Color.parseColor("#9e9e9e"));
+
+
+//                                        btn_keep.setBackgroundColor(Color.parseColor("#e0e0e0"));
+//                                        btn_delete.setBackgroundColor(Color.parseColor("#e0e0e0"));
+//                                        btn_think.setBackgroundColor(Color.parseColor("#e0e0e0"));
+//
+//                                        btn_keep.setTextColor(Color.parseColor("#9e9e9e"));
+//                                        btn_delete.setTextColor(Color.parseColor("#9e9e9e"));
+//                                        btn_think.setTextColor(Color.parseColor("#9e9e9e"));
+                                    }
+                                });
+
+                            }
+                        });
+
+
 
                         btn_think.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -145,13 +218,18 @@ public class DeclutterFragment extends Fragment {
                                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                                 Date curDate = new Date(System.currentTimeMillis());
                                 String currentDate = sdf.format(curDate);
-                                String sql = "update clothes set thinkDate='"+ currentDate + "' where clothID=" + obj.getDeclutterID();
+                                TextView de_id = holder.getItemView().findViewById(R.id.text_de_id);
+                                String sql = "update clothes set thinkDate='"+ currentDate + "' where clothID=" + de_id.getText();
                                 dbHelper.update(sql, new DBHelper.UpdateCallback() {
                                     @Override
                                     public void onFinished() {
-                                        Button btn_keep = holder.getItemView().findViewById(R.id.btn_keep);
-                                        Button btn_delete = holder.getItemView().findViewById(R.id.btn_delete);
-                                        Button btn_think = holder.getItemView().findViewById(R.id.btn_think);
+                                        ImageButton btn_keep = holder.getItemView().findViewById(R.id.btn_keep);
+                                        ImageButton btn_delete = holder.getItemView().findViewById(R.id.btn_delete);
+                                        ImageButton btn_think = holder.getItemView().findViewById(R.id.btn_think);
+
+                                        TextView text_btn_keep = holder.getItemView().findViewById(R.id.text_btn_keep);
+                                        TextView text_btn_delete = holder.getItemView().findViewById(R.id.text_btn_delete);
+                                        TextView text_btn_think = holder.getItemView().findViewById(R.id.text_btn_think);
 
                                         TextView noti = holder.getItemView().findViewById(R.id.text_noti);
 
@@ -164,13 +242,78 @@ public class DeclutterFragment extends Fragment {
                                         btn_delete.setClickable(false);
                                         btn_think.setClickable(false);
 
-                                        btn_keep.setBackgroundColor(Color.parseColor("#e0e0e0"));
-                                        btn_delete.setBackgroundColor(Color.parseColor("#e0e0e0"));
-                                        btn_think.setBackgroundColor(Color.parseColor("#e0e0e0"));
+                                        btn_keep.setImageResource(R.drawable.ic_favorite_pink_24dp);
+                                        btn_delete.setImageResource(R.drawable.ic_delete_border_gray_24dp);
+                                        btn_think.setImageResource(R.drawable.ic_access_alarm_gray_18dp);
 
-                                        btn_keep.setTextColor(Color.parseColor("#9e9e9e"));
-                                        btn_delete.setTextColor(Color.parseColor("#9e9e9e"));
-                                        btn_think.setTextColor(Color.parseColor("#9e9e9e"));
+                                        text_btn_keep.setTextColor(Color.parseColor("#FF4081"));
+                                        text_btn_delete.setTextColor(Color.parseColor("#9e9e9e"));
+                                        text_btn_think.setTextColor(Color.parseColor("#9e9e9e"));
+
+                                        btn_keep.setImageResource(R.drawable.ic_favorite_border_gray_24dp);
+                                        btn_delete.setImageResource(R.drawable.ic_delete_border_gray_24dp);
+                                        btn_think.setImageResource(R.drawable.ic_access_alarm_pink_18dp);
+
+                                        text_btn_keep.setTextColor(Color.parseColor("#9e9e9e"));
+                                        text_btn_delete.setTextColor(Color.parseColor("#9e9e9e"));
+                                        text_btn_think.setTextColor(Color.parseColor("#FF4081"));
+
+//                                        btn_keep.setBackgroundColor(Color.parseColor("#e0e0e0"));
+//                                        btn_delete.setBackgroundColor(Color.parseColor("#e0e0e0"));
+//                                        btn_think.setBackgroundColor(Color.parseColor("#e0e0e0"));
+//
+//                                        btn_keep.setTextColor(Color.parseColor("#9e9e9e"));
+//                                        btn_delete.setTextColor(Color.parseColor("#9e9e9e"));
+//                                        btn_think.setTextColor(Color.parseColor("#9e9e9e"));
+                                    }
+                                });
+                            }
+                        });
+                        text_btn_think.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                                Date curDate = new Date(System.currentTimeMillis());
+                                String currentDate = sdf.format(curDate);
+                                TextView de_id = holder.getItemView().findViewById(R.id.text_de_id);
+                                String sql = "update clothes set thinkDate='"+ currentDate + "' where clothID=" + de_id.getText();
+                                dbHelper.update(sql, new DBHelper.UpdateCallback() {
+                                    @Override
+                                    public void onFinished() {
+                                        ImageButton btn_keep = holder.getItemView().findViewById(R.id.btn_keep);
+                                        ImageButton btn_delete = holder.getItemView().findViewById(R.id.btn_delete);
+                                        ImageButton btn_think = holder.getItemView().findViewById(R.id.btn_think);
+
+                                        TextView text_btn_keep = holder.getItemView().findViewById(R.id.text_btn_keep);
+                                        TextView text_btn_delete = holder.getItemView().findViewById(R.id.text_btn_delete);
+                                        TextView text_btn_think = holder.getItemView().findViewById(R.id.text_btn_think);
+
+                                        TextView noti = holder.getItemView().findViewById(R.id.text_noti);
+
+                                        noti.setText("You'll be reminded in 30 days ;)");
+                                        btn_keep.setEnabled(false);
+                                        btn_delete.setEnabled(false);
+                                        btn_think.setEnabled(false);
+
+                                        btn_keep.setClickable(false);
+                                        btn_delete.setClickable(false);
+                                        btn_think.setClickable(false);
+
+                                        btn_keep.setImageResource(R.drawable.ic_favorite_border_gray_24dp);
+                                        btn_delete.setImageResource(R.drawable.ic_delete_border_gray_24dp);
+                                        btn_think.setImageResource(R.drawable.ic_access_alarm_pink_18dp);
+
+                                        text_btn_keep.setTextColor(Color.parseColor("#9e9e9e"));
+                                        text_btn_delete.setTextColor(Color.parseColor("#9e9e9e"));
+                                        text_btn_think.setTextColor(Color.parseColor("#FF4081"));
+
+//                                        btn_keep.setBackgroundColor(Color.parseColor("#e0e0e0"));
+//                                        btn_delete.setBackgroundColor(Color.parseColor("#e0e0e0"));
+//                                        btn_think.setBackgroundColor(Color.parseColor("#e0e0e0"));
+//
+//                                        btn_keep.setTextColor(Color.parseColor("#9e9e9e"));
+//                                        btn_delete.setTextColor(Color.parseColor("#9e9e9e"));
+//                                        btn_think.setTextColor(Color.parseColor("#9e9e9e"));
                                     }
                                 });
                             }
@@ -180,18 +323,33 @@ public class DeclutterFragment extends Fragment {
                         btn_delete.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                HomeFragment.instance.setDeclutterID(Integer.parseInt(obj.getDeclutterID()));
+                                TextView de_id = holder.getItemView().findViewById(R.id.text_de_id);
+
+                                HomeFragment.instance.setDeclutterID(Integer.parseInt(de_id.getText().toString()));
+
+                                Intent intent = new Intent(getActivity(), DeclutterDetailActivity.class);
+                                startActivity(intent);
+                            }
+                        });
+                        text_btn_delete.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                TextView de_id = holder.getItemView().findViewById(R.id.text_de_id);
+
+                                HomeFragment.instance.setDeclutterID(Integer.parseInt(de_id.getText().toString()));
 
                                 Intent intent = new Intent(getActivity(), DeclutterDetailActivity.class);
                                 startActivity(intent);
                             }
                         });
 
+
                         imageView = holder.getItemView().findViewById(R.id.img_home_de);
                         imageView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                clothId = Integer.parseInt(obj.getDeclutterID());
+                                TextView de_id = holder.getItemView().findViewById(R.id.text_de_id);
+                                clothId = Integer.parseInt(de_id.getText().toString());
                                 HomeFragment.instance.setDetailID(clothId);
 
                                 Intent intent = new Intent(getActivity(), ClothDetailActivity.class);
@@ -332,12 +490,12 @@ public class DeclutterFragment extends Fragment {
 
     //This needs further review
     public void refresh() {
+        gridList.clear();
+
         dbHelper.getAllDeclutter(new DBHelper.GetAllDeclutterCallback() {
             @Override
             public void getAllDeclutter(ArrayList<ArrayList<String>> data) {
                 Log.i("------Declutter------", "Refresh Declutter Page.");
-
-                gridList.clear();
 
                 dbHelper.getAllDeclutter(new DBHelper.GetAllDeclutterCallback() {
 
@@ -371,19 +529,31 @@ public class DeclutterFragment extends Fragment {
                                 btn_delete = holder.getItemView().findViewById(R.id.btn_delete);
                                 btn_think = holder.getItemView().findViewById(R.id.btn_think);
 
+                                text_btn_keep = holder.getItemView().findViewById(R.id.text_btn_keep);
+                                text_btn_delete = holder.getItemView().findViewById(R.id.text_btn_delete);
+                                text_btn_think = holder.getItemView().findViewById(R.id.text_btn_think);
+
+                                holder.setText(R.id.text_de_id, obj.getDeclutterID());
+
                                 btn_keep.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
                                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                                         Date curDate = new Date(System.currentTimeMillis());
                                         String currentDate = sdf.format(curDate);
-                                        String sql = "update clothes set checkDate='"+ currentDate + "' where clothID=" + obj.getDeclutterID();
+
+                                        TextView de_id = holder.getItemView().findViewById(R.id.text_de_id);
+                                        String sql = "update clothes set checkDate='"+ currentDate + "' where clothID=" + de_id.getText();
                                         dbHelper.update(sql, new DBHelper.UpdateCallback() {
                                             @Override
                                             public void onFinished() {
-                                                Button btn_keep = holder.getItemView().findViewById(R.id.btn_keep);
-                                                Button btn_delete = holder.getItemView().findViewById(R.id.btn_delete);
-                                                Button btn_think = holder.getItemView().findViewById(R.id.btn_think);
+                                                ImageButton btn_keep = holder.getItemView().findViewById(R.id.btn_keep);
+                                                ImageButton btn_delete = holder.getItemView().findViewById(R.id.btn_delete);
+                                                ImageButton btn_think = holder.getItemView().findViewById(R.id.btn_think);
+
+                                                TextView text_btn_keep = holder.getItemView().findViewById(R.id.text_btn_keep);
+                                                TextView text_btn_delete = holder.getItemView().findViewById(R.id.text_btn_delete);
+                                                TextView text_btn_think = holder.getItemView().findViewById(R.id.text_btn_think);
 
                                                 TextView noti = holder.getItemView().findViewById(R.id.text_noti);
                                                 noti.setText("You kept it! Love this cloth!");
@@ -391,18 +561,82 @@ public class DeclutterFragment extends Fragment {
                                                 btn_delete.setEnabled(false);
                                                 btn_think.setEnabled(false);
 
-                                                btn_keep.setBackgroundColor(Color.parseColor("#e0e0e0"));
-                                                btn_delete.setBackgroundColor(Color.parseColor("#e0e0e0"));
-                                                btn_think.setBackgroundColor(Color.parseColor("#e0e0e0"));
+                                                btn_keep.setClickable(false);
+                                                btn_delete.setClickable(false);
+                                                btn_think.setClickable(false);
 
-                                                btn_keep.setTextColor(Color.parseColor("#9e9e9e"));
-                                                btn_delete.setTextColor(Color.parseColor("#9e9e9e"));
-                                                btn_think.setTextColor(Color.parseColor("#9e9e9e"));
+                                                btn_keep.setImageResource(R.drawable.ic_favorite_pink_24dp);
+                                                btn_delete.setImageResource(R.drawable.ic_delete_border_gray_24dp);
+                                                btn_think.setImageResource(R.drawable.ic_access_alarm_gray_18dp);
+
+                                                text_btn_keep.setTextColor(Color.parseColor("#FF4081"));
+                                                text_btn_delete.setTextColor(Color.parseColor("#9e9e9e"));
+                                                text_btn_think.setTextColor(Color.parseColor("#9e9e9e"));
+
+//                                                btn_keep.setBackgroundColor(Color.parseColor("#e0e0e0"));
+//                                                btn_delete.setBackgroundColor(Color.parseColor("#e0e0e0"));
+//                                                btn_think.setBackgroundColor(Color.parseColor("#e0e0e0"));
+//
+//                                                btn_keep.setTextColor(Color.parseColor("#9e9e9e"));
+//                                                btn_delete.setTextColor(Color.parseColor("#9e9e9e"));
+//                                                btn_think.setTextColor(Color.parseColor("#9e9e9e"));
                                             }
                                         });
 
                                     }
                                 });
+                                text_btn_keep.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                                        Date curDate = new Date(System.currentTimeMillis());
+                                        String currentDate = sdf.format(curDate);
+
+                                        TextView de_id = holder.getItemView().findViewById(R.id.text_de_id);
+                                        String sql = "update clothes set checkDate='"+ currentDate + "' where clothID=" + de_id.getText();
+                                        dbHelper.update(sql, new DBHelper.UpdateCallback() {
+                                            @Override
+                                            public void onFinished() {
+                                                ImageButton btn_keep = holder.getItemView().findViewById(R.id.btn_keep);
+                                                ImageButton btn_delete = holder.getItemView().findViewById(R.id.btn_delete);
+                                                ImageButton btn_think = holder.getItemView().findViewById(R.id.btn_think);
+
+                                                TextView text_btn_keep = holder.getItemView().findViewById(R.id.text_btn_keep);
+                                                TextView text_btn_delete = holder.getItemView().findViewById(R.id.text_btn_delete);
+                                                TextView text_btn_think = holder.getItemView().findViewById(R.id.text_btn_think);
+
+                                                TextView noti = holder.getItemView().findViewById(R.id.text_noti);
+                                                noti.setText("You kept it! Love this cloth!");
+                                                btn_keep.setEnabled(false);
+                                                btn_delete.setEnabled(false);
+                                                btn_think.setEnabled(false);
+
+                                                btn_keep.setClickable(false);
+                                                btn_delete.setClickable(false);
+                                                btn_think.setClickable(false);
+
+                                                btn_keep.setImageResource(R.drawable.ic_favorite_pink_24dp);
+                                                btn_delete.setImageResource(R.drawable.ic_delete_border_gray_24dp);
+                                                btn_think.setImageResource(R.drawable.ic_access_alarm_gray_18dp);
+
+                                                text_btn_keep.setTextColor(Color.parseColor("#FF4081"));
+                                                text_btn_delete.setTextColor(Color.parseColor("#9e9e9e"));
+                                                text_btn_think.setTextColor(Color.parseColor("#9e9e9e"));
+
+//                                                btn_keep.setBackgroundColor(Color.parseColor("#e0e0e0"));
+//                                                btn_delete.setBackgroundColor(Color.parseColor("#e0e0e0"));
+//                                                btn_think.setBackgroundColor(Color.parseColor("#e0e0e0"));
+//
+//                                                btn_keep.setTextColor(Color.parseColor("#9e9e9e"));
+//                                                btn_delete.setTextColor(Color.parseColor("#9e9e9e"));
+//                                                btn_think.setTextColor(Color.parseColor("#9e9e9e"));
+                                            }
+                                        });
+
+                                    }
+                                });
+
+
 
                                 btn_think.setOnClickListener(new View.OnClickListener() {
                                     @Override
@@ -410,13 +644,19 @@ public class DeclutterFragment extends Fragment {
                                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                                         Date curDate = new Date(System.currentTimeMillis());
                                         String currentDate = sdf.format(curDate);
-                                        String sql = "update clothes set thinkDate='"+ currentDate + "' where clothID=" + obj.getDeclutterID();
+
+                                        TextView de_id = holder.getItemView().findViewById(R.id.text_de_id);
+                                        String sql = "update clothes set thinkDate='"+ currentDate + "' where clothID=" + de_id.getText();
                                         dbHelper.update(sql, new DBHelper.UpdateCallback() {
                                             @Override
                                             public void onFinished() {
-                                                Button btn_keep = holder.getItemView().findViewById(R.id.btn_keep);
-                                                Button btn_delete = holder.getItemView().findViewById(R.id.btn_delete);
-                                                Button btn_think = holder.getItemView().findViewById(R.id.btn_think);
+                                                ImageButton btn_keep = holder.getItemView().findViewById(R.id.btn_keep);
+                                                ImageButton btn_delete = holder.getItemView().findViewById(R.id.btn_delete);
+                                                ImageButton btn_think = holder.getItemView().findViewById(R.id.btn_think);
+
+                                                TextView text_btn_keep = holder.getItemView().findViewById(R.id.text_btn_keep);
+                                                TextView text_btn_delete = holder.getItemView().findViewById(R.id.text_btn_delete);
+                                                TextView text_btn_think = holder.getItemView().findViewById(R.id.text_btn_think);
 
                                                 TextView noti = holder.getItemView().findViewById(R.id.text_noti);
                                                 noti.setText("You'll be reminded in 30 days ;)");
@@ -424,34 +664,115 @@ public class DeclutterFragment extends Fragment {
                                                 btn_delete.setEnabled(false);
                                                 btn_think.setEnabled(false);
 
-                                                btn_keep.setBackgroundColor(Color.parseColor("#e0e0e0"));
-                                                btn_delete.setBackgroundColor(Color.parseColor("#e0e0e0"));
-                                                btn_think.setBackgroundColor(Color.parseColor("#e0e0e0"));
+                                                btn_keep.setClickable(false);
+                                                btn_delete.setClickable(false);
+                                                btn_think.setClickable(false);
 
-                                                btn_keep.setTextColor(Color.parseColor("#9e9e9e"));
-                                                btn_delete.setTextColor(Color.parseColor("#9e9e9e"));
-                                                btn_think.setTextColor(Color.parseColor("#9e9e9e"));
+                                                btn_keep.setImageResource(R.drawable.ic_favorite_border_gray_24dp);
+                                                btn_delete.setImageResource(R.drawable.ic_delete_border_gray_24dp);
+                                                btn_think.setImageResource(R.drawable.ic_access_alarm_pink_18dp);
+
+                                                text_btn_keep.setTextColor(Color.parseColor("#9e9e9e"));
+                                                text_btn_delete.setTextColor(Color.parseColor("#9e9e9e"));
+                                                text_btn_think.setTextColor(Color.parseColor("#FF4081"));
+
+//                                                btn_keep.setBackgroundColor(Color.parseColor("#e0e0e0"));
+//                                                btn_delete.setBackgroundColor(Color.parseColor("#e0e0e0"));
+//                                                btn_think.setBackgroundColor(Color.parseColor("#e0e0e0"));
+//
+//                                                btn_keep.setTextColor(Color.parseColor("#9e9e9e"));
+//                                                btn_delete.setTextColor(Color.parseColor("#9e9e9e"));
+//                                                btn_think.setTextColor(Color.parseColor("#9e9e9e"));
+                                            }
+                                        });
+                                    }
+                                });
+                                text_btn_think.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                                        Date curDate = new Date(System.currentTimeMillis());
+                                        String currentDate = sdf.format(curDate);
+
+                                        TextView de_id = holder.getItemView().findViewById(R.id.text_de_id);
+                                        String sql = "update clothes set thinkDate='"+ currentDate + "' where clothID=" + de_id.getText();
+                                        dbHelper.update(sql, new DBHelper.UpdateCallback() {
+                                            @Override
+                                            public void onFinished() {
+                                                ImageButton btn_keep = holder.getItemView().findViewById(R.id.btn_keep);
+                                                ImageButton btn_delete = holder.getItemView().findViewById(R.id.btn_delete);
+                                                ImageButton btn_think = holder.getItemView().findViewById(R.id.btn_think);
+
+                                                TextView text_btn_keep = holder.getItemView().findViewById(R.id.text_btn_keep);
+                                                TextView text_btn_delete = holder.getItemView().findViewById(R.id.text_btn_delete);
+                                                TextView text_btn_think = holder.getItemView().findViewById(R.id.text_btn_think);
+
+                                                TextView noti = holder.getItemView().findViewById(R.id.text_noti);
+                                                noti.setText("You'll be reminded in 30 days ;)");
+                                                btn_keep.setEnabled(false);
+                                                btn_delete.setEnabled(false);
+                                                btn_think.setEnabled(false);
+
+                                                btn_keep.setClickable(false);
+                                                btn_delete.setClickable(false);
+                                                btn_think.setClickable(false);
+
+                                                btn_keep.setImageResource(R.drawable.ic_favorite_border_gray_24dp);
+                                                btn_delete.setImageResource(R.drawable.ic_delete_border_gray_24dp);
+                                                btn_think.setImageResource(R.drawable.ic_access_alarm_pink_18dp);
+
+                                                text_btn_keep.setTextColor(Color.parseColor("#9e9e9e"));
+                                                text_btn_delete.setTextColor(Color.parseColor("#9e9e9e"));
+                                                text_btn_think.setTextColor(Color.parseColor("#FF4081"));
+
+//                                                btn_keep.setBackgroundColor(Color.parseColor("#e0e0e0"));
+//                                                btn_delete.setBackgroundColor(Color.parseColor("#e0e0e0"));
+//                                                btn_think.setBackgroundColor(Color.parseColor("#e0e0e0"));
+//
+//                                                btn_keep.setTextColor(Color.parseColor("#9e9e9e"));
+//                                                btn_delete.setTextColor(Color.parseColor("#9e9e9e"));
+//                                                btn_think.setTextColor(Color.parseColor("#9e9e9e"));
                                             }
                                         });
                                     }
                                 });
 
 
+
+
                                 btn_delete.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        HomeFragment.instance.setDeclutterID(Integer.parseInt(obj.getDeclutterID()));
+
+                                        TextView de_id = holder.getItemView().findViewById(R.id.text_de_id);
+
+                                        HomeFragment.instance.setDeclutterID(Integer.parseInt(de_id.getText().toString()));
+
+                                        Intent intent = new Intent(getActivity(), DeclutterDetailActivity.class);
+                                        startActivity(intent);
+                                    }
+                                });
+                                text_btn_delete.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+
+                                        TextView de_id = holder.getItemView().findViewById(R.id.text_de_id);
+
+                                        HomeFragment.instance.setDeclutterID(Integer.parseInt(de_id.getText().toString()));
 
                                         Intent intent = new Intent(getActivity(), DeclutterDetailActivity.class);
                                         startActivity(intent);
                                     }
                                 });
 
+
                                 imageView = holder.getItemView().findViewById(R.id.img_home_de);
                                 imageView.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        clothId = Integer.parseInt(obj.getDeclutterID());
+
+                                        TextView de_id = holder.getItemView().findViewById(R.id.text_de_id);
+                                        clothId = Integer.parseInt(de_id.getText().toString());
                                         HomeFragment.instance.setDetailID(clothId);
 
                                         Intent intent = new Intent(getActivity(), ClothDetailActivity.class);

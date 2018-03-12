@@ -287,6 +287,13 @@ public class ClothDetailActivity extends AppCompatActivity {
                         imgCamera.setImageURI(imgUri);
 
                         colorTags.setText(clothColor);
+
+                        Log.i("---Detail R---", rValue+"");
+                        Log.i("---Detail G---", gValue+"");
+                        Log.i("---Detail B---", bValue+"");
+
+                        Log.i("---Detail Color---", clothColor);
+
                         text_tag.setText(clothTags);
 
                         textAddDate.setText("You added this cloth on " + clothAddDate);
@@ -349,9 +356,14 @@ public class ClothDetailActivity extends AppCompatActivity {
                                     public void onFinished() {
 
                                         //refresh clothes grid list
-                                        ClothesListActivity.instance.refresh();
+                                        if(ClothesListActivity.instance != null) {
+                                            ClothesListActivity.instance.refresh();
+                                        }
 
-                                        ClosetFragment.instance.refresh();
+                                        if(ClosetFragment.instance != null) {
+                                            ClosetFragment.instance.refresh();
+                                        }
+
 
                                         Toast.makeText(ClothDetailActivity.this, "Update clothes successfully.", Toast.LENGTH_SHORT).show();
 

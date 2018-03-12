@@ -146,7 +146,7 @@ public class ClothesListActivity extends AppCompatActivity {
                     clothList = data;
 
                     //add grid items
-                    for(int i = 0; i < clothList.size(); i++) {
+                    for(int i = clothList.size() - 1; i >= 0; i--) {
                         ArrayList<String> thisCloth = clothList.get(i);
 
                         Uri imgUri = Uri.parse((String)thisCloth.get(1));
@@ -203,7 +203,7 @@ public class ClothesListActivity extends AppCompatActivity {
                     clothList2 = data;
 
                     //add grid items
-                    for(int i = 0; i < clothList2.size(); i++) {
+                    for(int i = clothList2.size() - 1; i >=0 ; i--) {
                         ArrayList<String> thisCloth = clothList2.get(i);
                         Uri imgUri = Uri.parse((String)thisCloth.get(1));
                         gridList2.add(new ClothImageGrid(imgUri, thisCloth.get(0), thisCloth.get(2), thisCloth.get(3)));
@@ -259,7 +259,7 @@ public class ClothesListActivity extends AppCompatActivity {
 
 //                Log.e("test", "clothList list size: " + clothList.size());
 
-                    for(int i = 0; i < clothList.size(); i++) {
+                    for(int i = clothList.size() - 1; i >= 0 ; i--) {
                         ArrayList<String> thisCloth = clothList.get(i);
                         Uri imgUri = Uri.parse((String)thisCloth.get(1));
                         gridList.add(new ClothImageGrid(imgUri, thisCloth.get(0), thisCloth.get(2), thisCloth.get(3)));
@@ -277,7 +277,7 @@ public class ClothesListActivity extends AppCompatActivity {
                     clothList2 = data;
                     gridList2.clear();
 
-                    for(int i = 0; i < clothList2.size(); i++) {
+                    for(int i = clothList2.size() - 1; i >= 0 ; i--) {
                         ArrayList<String> thisCloth = clothList2.get(i);
                         Uri imgUri = Uri.parse((String)thisCloth.get(1));
                         gridList2.add(new ClothImageGrid(imgUri, thisCloth.get(0), thisCloth.get(2), thisCloth.get(3)));
