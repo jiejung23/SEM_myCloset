@@ -20,7 +20,7 @@ MySQL Download: https://dev.mysql.com/downloads/mysql/<br>
 MySQL Workbench Download: https://dev.mysql.com/downloads/workbench/
 <br>
 
-### Database Instruction
+### Database Setup Instruction
 Database Name: myCloset<br>
 Table Name: clothes
 <br>
